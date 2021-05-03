@@ -51,7 +51,10 @@
       "!**/vendor/**",
       "!**/public/**",
       "!src/index.jsx",
-      "!src/reportWebVitals.js"
+      "!src/reportWebVitals.js",
+      "!src/api/index.js",
+      "!src/index.jsx", 
+      "!src/App.jsx"
     ],
     "coverageThreshold": {
       "global": {
