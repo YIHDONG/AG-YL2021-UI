@@ -54,12 +54,12 @@ function App() {
           type="button"
           onClick={() => getCoursesList()}
         >
-          <button type="button" onClick={() => setShowModal(true)}> Open Modal </button>
-          <Modal showModal={showModal} closeModal={() => setShowModal(false)}>
-            Some feedback
-          </Modal>
           Get Courses
         </button>
+        <button type="button" onClick={() => setShowModal(true)}> Open Modal </button>
+        <Modal showModal={showModal} closeModal={() => setShowModal(false)}>
+          Some feedback
+        </Modal>
         <p>{JSON.stringify(courses)}</p>
       </header>
     </div>
