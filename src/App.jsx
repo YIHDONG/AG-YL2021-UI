@@ -1,28 +1,10 @@
+/* eslint-disable max-len */
+/* eslint-disable react/jsx-indent */
 import React, { useState } from 'react';
-// import styled from 'styled-components';
 import api from './api';
 import logo from './logo.svg';
 import './App.css';
 import Modal from './components/Modal';
-// import { GlobalStyle } from './globalStyles';
-
-// const Container = styled.div`
-// display: flex;
-// justify-content: center;
-// align-items: center;
-// height: 100vh;
-// `;
-
-// const Button = styled.button`
-// min-width: 100px;
-// padding: 16px 32px;
-// border-radius: 4px;
-// border: none;
-// background: #141414;
-// color: #fff;
-// font-size: 24px;
-// cursor: pointer;
-// `;
 
 function App() {
   const [courses, setCoursesList] = useState('No courses yet!');
@@ -58,7 +40,7 @@ function App() {
         </button>
         <button type="button" onClick={() => setShowModal(true)}> Open Modal </button>
         <Modal showModal={showModal} closeModal={() => setShowModal(false)}>
-          Some feedback
+          Looks like you’ve selected the incorrect nodes, each node has a label, select only the nodes labled 1 and 5
         </Modal>
         <p>{JSON.stringify(courses)}</p>
       </header>
