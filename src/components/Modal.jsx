@@ -1,13 +1,17 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable global-require */
-/* eslint-disable react/prop-types */
-/* eslint-disable import/prefer-default-export */
+/*
+A modal component (actually a function) created by Matt in May, 2021.
+The user can either create a correct or incorrect modal based on the answer of the user.
+A correct modal has its own styles and an img of encouragement.
+An incorrect modal also has its own styles and have some feedback passed from its parent.
+*/
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import success from './success.png';
 
+/* **************************Styles using styled-components******************************** */
 const Background = styled.div`
   width: 100%;
   height: 100%;
@@ -153,6 +157,7 @@ const CloseModalButtonIncorrect = styled(MdClose)`
   }
 `;
 
+/* **************************Function that  returns a modal******************************* */
 export default function Modal({
   isCorrect, showModal, children, closeModal,
 }) {
@@ -201,3 +206,9 @@ export default function Modal({
     </>
   );
 }
+Modal.propTypes = {
+  isCorrect: PropTypes.bool.isRequired,
+  showModal: PropTypes.bool.isRequired,
+  children: PropTypes.string.isRequired,
+  closeModal: PropTypes.func.isRequired,
+};

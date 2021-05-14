@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable react/jsx-indent */
 import React, { useState } from 'react';
 import api from './api';
 import logo from './logo.svg';
@@ -52,7 +50,8 @@ function App() {
         <button type="button" onClick={() => openCorrectModal()}> Open Correct Modal </button>
         <button type="button" onClick={() => openIncorrectModal()}> Open Incorrect Modal </button>
         <Modal isCorrect={isCorrect} showModal={showModal} closeModal={() => setShowModal(false)}>
-           Looks like you’ve selected the incorrect nodes, each node has a label, select only the nodes labled 1 and 5
+          Looks like you’ve selected the incorrect nodes,
+          each node has a label, select only the nodes labled 1 and 5
         </Modal>
         <p>{JSON.stringify(courses)}</p>
       </header>
