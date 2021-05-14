@@ -10,6 +10,7 @@ function App() {
   const [courses, setCoursesList] = useState('No courses yet!');
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
 
   const getCoursesList = () => {
     setLoading(true);
@@ -18,6 +19,16 @@ function App() {
         setCoursesList(res);
         setLoading(false);
       });
+  };
+
+  const openCorrectModal = () => {
+    setIsCorrect(true);
+    setShowModal(true);
+  };
+
+  const openIncorrectModal = () => {
+    setIsCorrect(false);
+    setShowModal(true);
   };
 
   return (
@@ -38,9 +49,10 @@ function App() {
         >
           Get Courses
         </button>
-        <button type="button" onClick={() => setShowModal(true)}> Open Modal </button>
-        <Modal showModal={showModal} closeModal={() => setShowModal(false)}>
-          Looks like you’ve selected the incorrect nodes, each node has a label, select only the nodes labled 1 and 5
+        <button type="button" onClick={() => openCorrectModal()}> Open Correct Modal </button>
+        <button type="button" onClick={() => openIncorrectModal()}> Open Incorrect Modal </button>
+        <Modal isCorrect={isCorrect} showModal={showModal} closeModal={() => setShowModal(false)}>
+           Looks like you’ve selected the incorrect nodes, each node has a label, select only the nodes labled 1 and 5
         </Modal>
         <p>{JSON.stringify(courses)}</p>
       </header>

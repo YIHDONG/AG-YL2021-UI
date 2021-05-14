@@ -153,9 +153,10 @@ const CloseModalButtonIncorrect = styled(MdClose)`
   }
 `;
 
-export default function Modal({ showModal, children, closeModal }) {
+export default function Modal({
+  isCorrect, showModal, children, closeModal,
+}) {
   const modalRef = useRef();
-
   const animation = useSpring({
     config: {
       duration: 250,
@@ -164,24 +165,39 @@ export default function Modal({ showModal, children, closeModal }) {
     transform: showModal ? 'translateY(0%)' : 'translateY(-100%)',
   });
 
-  return (
-    <>
-      {showModal ? (
+  if (!showModal) { return null; }
+  if (isCorrect) {
+    return (
+      <>
         <Background ref={modalRef}>
           <animated.div style={animation}>
             <ModalWrapper showModal={showModal}>
-              <HeaderWrapperIncorrect>
+              <HeaderWrapperCorrect>
                 <ModalHeader>Correct, well done!</ModalHeader>
-              </HeaderWrapperIncorrect>
-              <ModalContent>
-                {children}
-              </ModalContent>
-              {/* <SuccessImg src={success} alt="SuccessImg" /> */}
-              <CloseModalButtonIncorrect onClick={closeModal} />
+              </HeaderWrapperCorrect>
+              <SuccessImg src={success} alt="SuccessImg" />
+              <CloseModalButtonCorrect onClick={closeModal} />
             </ModalWrapper>
           </animated.div>
         </Background>
-      ) : null}
+      </>
+    );
+  }
+  return (
+    <>
+      <Background ref={modalRef}>
+        <animated.div style={animation}>
+          <ModalWrapper showModal={showModal}>
+            <HeaderWrapperIncorrect>
+              <ModalHeader> Not quite right... </ModalHeader>
+            </HeaderWrapperIncorrect>
+            <ModalContent>
+              {children}
+            </ModalContent>
+            <CloseModalButtonIncorrect onClick={closeModal} />
+          </ModalWrapper>
+        </animated.div>
+      </Background>
     </>
   );
 }
