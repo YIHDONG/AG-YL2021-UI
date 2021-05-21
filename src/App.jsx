@@ -37,7 +37,7 @@ function App() {
         </button>
         <p>{JSON.stringify(courses)}</p>
       </header>
-      <Heading submit={false} result={false} />
+      <Heading submit={0} result={0} nextPage={null} prePage={null} />
     </div>
   );
 }
