@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
-import success from './success.png';
+import success from './resources/success.png';
 
 /* **************************Styles using styled-components******************************** */
 const Background = styled.div`
