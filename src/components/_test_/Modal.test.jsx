@@ -19,12 +19,12 @@ it('renders without crashing', () => {
 it('renders text correctly', () => {
   const { getByTestId } = render(
     <Modal
-      isCorrect
+      isCorrect={false}
       showModal
       closeModal={() => undefined}
     >
       Test text
     </Modal>,
   );
-  expect(getByTestId('modal')).toHaveTextContent('Test text');
+  expect(getByTestId('modal-incorrect')).toHaveTextContent('Test text');
 });

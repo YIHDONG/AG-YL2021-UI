@@ -174,7 +174,7 @@ export default function Modal({
   if (isCorrect) {
     return (
       <>
-        <Background data-testid="modal" ref={modalRef}>
+        <Background data-testid="modal-correct" ref={modalRef}>
           <animated.div style={animation}>
             <ModalWrapper showModal={showModal}>
               <HeaderWrapperCorrect>
@@ -193,7 +193,7 @@ export default function Modal({
   }
   return (
     <>
-      <Background ref={modalRef}>
+      <Background data-testid="modal-incorrect" ref={modalRef}>
         <animated.div style={animation}>
           <ModalWrapper showModal={showModal}>
             <HeaderWrapperIncorrect>
