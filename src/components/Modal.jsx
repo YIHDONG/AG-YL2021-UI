@@ -174,12 +174,15 @@ export default function Modal({
   if (isCorrect) {
     return (
       <>
-        <Background ref={modalRef}>
+        <Background data-testid="modal" ref={modalRef}>
           <animated.div style={animation}>
             <ModalWrapper showModal={showModal}>
               <HeaderWrapperCorrect>
                 <ModalHeader>Correct, well done!</ModalHeader>
               </HeaderWrapperCorrect>
+              <ModalContent display="none">
+                {children}
+              </ModalContent>
               <SuccessImg src={success} alt="SuccessImg" />
               <CloseModalButtonCorrect onClick={closeModal} />
             </ModalWrapper>
@@ -209,6 +212,9 @@ export default function Modal({
 Modal.propTypes = {
   isCorrect: PropTypes.bool.isRequired,
   showModal: PropTypes.bool.isRequired,
-  children: PropTypes.string.isRequired,
+  children: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
+};
+Modal.defaultProps = {
+  children: '',
 };
