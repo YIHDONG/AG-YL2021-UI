@@ -1,4 +1,4 @@
-import React, { useState as useStateMock } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { render } from '@testing-library/react';
 import Modal from '../Modal';
