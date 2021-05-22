@@ -1,0 +1,9 @@
+.CourseNavigation {
+  width: 80px;
+  height: 800px;
+  background:white;
+  border: 6px solid black;
+  box-shadow: 4px 4px 0px black;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
