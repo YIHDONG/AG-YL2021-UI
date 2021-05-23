@@ -4,6 +4,7 @@
   background:white;
   border: 6px solid #B9B9B9;
   box-sizing: border-box;
+  z-index: 2;
 }
 
 .CourseIconActive {

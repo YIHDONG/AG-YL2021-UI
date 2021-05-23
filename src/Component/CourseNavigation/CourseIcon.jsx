@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import NavigationBar from './NavigationBar';
 import classes from './CourseIcon.module.css';
 
 const CourseIcon = ({
@@ -34,7 +35,11 @@ const CourseIcon = ({
     c.push(classes.CourseIconActive);
   }
 
-  return <div className={c.join(' ')} onKeyUp={() => onClick(pageId)} onClick={() => onClick(pageId)} role="button" tabIndex="0"> </div>;
+  return (
+    <div className={c.join(' ')} onKeyUp={() => onClick(pageId)} onClick={() => onClick(pageId)} role="button" tabIndex="0">
+      {NavigationBar}
+    </div>
+  );
 };
 
 CourseIcon.propTypes = {

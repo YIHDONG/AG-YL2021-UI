@@ -1,0 +1,10 @@
+.NavigationBar {
+    position: absolute;
+    width: 10px;
+    height: 300px;
+    left: 30px;
+    top: 50px;
+    background: #B9B9B9;
+    z-index: 1;
+}
+  
