@@ -1,0 +1,57 @@
+.Heading{
+  position: absolute;
+  width: 580px;
+  height: 70px;
+  left: 430px;
+  top: 42px;
+ }
+ 
+ .Rectangle{
+  position: absolute;
+  width: 580px;
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  border: 4px solid #000000;
+  box-sizing: border-box;
+  box-shadow: 2px 4px 0px #000000;
+  border-radius: 35px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  text-align: center;
+  color:#2B1953;
+  align-items: center;
+ }
+ 
+ .VectorForward{
+  position: absolute;
+  background-color: transparent;
+  transform: rotate(-180deg);
+  left: 83.59%;
+  right: 3.45%;
+  top: 28.57%;
+  bottom: 27.14%;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid transparent;
+  border-right: 20px solid #2596FF;
+  color:rgba(0, 0, 0, 0);
+ }
+ 
+ .VectorBack{
+  position: absolute;
+  background-color: transparent;
+  transform: rotate(0deg);
+  left: 3.45%;
+  right: 92.59%;
+  top: 28.57%;
+  bottom: 27.14%;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid transparent;
+  border-right: 20px solid #2596FF;
+  color:rgba(0, 0, 0, 0);
+ }

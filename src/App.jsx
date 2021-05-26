@@ -1,76 +1,13 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 import api from './api';
-import './App.css';
+import classes from './App.module.css';
 import Heading from './Component/Heading';
-
-const LearningPageText = styled.p`
-/* body */
-font-family: Lato;
-font-style: normal;
-font-weight: 500;
-font-size: 18px;
-line-height: 22px;
-text-align: center;
-
-/* text */
-color: #2B1953;
-`;
-
-const LearningPageImg = styled.img`
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px 0 0 10px;
-  background: #FFFFFF;
-  width: 200 px;
-  height: 200 px;
-  max-height: 400px;
-  max-width: 400px;
-`;
-
-const AnimationVideo = styled.iframe`
-  position: relative;
-  /* overflow: hidden;
-  padding-top: 56.25%; */
-`;
-
-// const sectionNumber = 1;
-
-function sectionRendering(section) {
-  if (section.type === 'image') {
-    return (
-      <LearningPageImg src={section.content} alt="logo" />
-    );
-  }
-  if (section.type === 'text') {
-    return (
-      <LearningPageText>{section.content}</LearningPageText>
-    );
-  }
-  if (section.type === 'animation') {
-    return (
-      <div>
-        <AnimationVideo
-          src={section.content}
-          title="Youtube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        />
-      </div>
-    );
-  }
-  return null;
-}
+import LearnPage from './Component/LearnPage';
 
 function App() {
-  const [page, setPage] = useState('No page is loaded yet!');
-  const [loading, setLoading] = useState(false);
-  const [sections, getSections] = useState([]);
-
-  const [currentPage, setCurrentPage] = useState(null);
-  const [userHistory, setUserHistory] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState({});
+  const [userHistory, setUserHistory] = useState({});
   const [course, setCourse] = useState(null);
 
   const goToPage = (id) => {
@@ -78,53 +15,64 @@ function App() {
     setCurrentPage(nextPage);
   };
 
-  const getCoursesList = async () => {
-    setLoading(true);
-    try {
-      const courses = await api.getAllCourses();
-      const course = await api.getCourse(courses[0].id);
+  useEffect(() => {
+    const fetchCourse = async () => {
+      setLoading(true);
+      try {
+        const courses = await api.getAllCourses();
+        const courseFetched = await api.getCourse(courses[0].id);
 
-      const pages = await Promise.all(course.pages.map((p) => api.getPage(p.id)));
+        let pages = await Promise.all(courseFetched.pages.map((p) => api.getPage(p.id)));
+        pages = pages.map((p) => {
+          const idData = courseFetched.pages.find((pg) => pg.id === p.id);
+          return { ...p, ...idData };
+        });
 
-      setCourse({ course, pages });
-      goToPage(course.defaultPage);
-      setLoading(false);
-    } catch (e) {
-      console.log('big woops!');
-    }
-  };
+        setCourse({
+          courseFetched,
+          pages,
+        });
+
+        setUserHistory(pages.reduce((acc, c) => {
+          acc[c.id] = {};
+          return acc;
+        }, {}));
+        const pg = pages.find((p) => p.id === courseFetched.firstPage);
+        setCurrentPage(pg);
+      } catch (e) {
+        console.log('big woops!');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCourse();
+  }, []);
 
   // const sectionList = page.sections;
 
-  return (
+  let pageJsx;
+  if (currentPage.type === 'learn') {
+    pageJsx = (<LearnPage sections={currentPage.sections} />);
+  }
+
+  return (!loading
+  && (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit
-          {' '}
-          <code>src/App.js</code>
-          {' '}
-          and save to reload.
-        </p>
-        <button
-          disabled={loading}
-          type="button"
-          onClick={() => getCoursesList()}
-        >
-          Get Courses
-        </button>
-        <p>{JSON.stringify(courses)}</p>
-      </header>
-      <Heading
-        status={userHistory[currentPageId].status}
-        nextPageId={currentPage.nextPageId}
-        previousPageId={currentPage.previousPageId}
-        onGoToPage={goToPage}
-        pageTitle={currentPage.title}
-      />
+      <div className={classes.Heading}>
+        <Heading
+          status={currentPage.id && userHistory[currentPage.id]
+            && userHistory[currentPage.id].status}
+          nextPageId={currentPage.next}
+          previousPageId={currentPage.previous}
+          onGoToPage={goToPage}
+          pageTitle={currentPage.title}
+        />
+      </div>
+      <div className={classes.Page}>
+        {pageJsx}
+      </div>
     </div>
-  );
+  ));
 }
 
 export default App;
