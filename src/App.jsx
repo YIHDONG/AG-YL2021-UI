@@ -3,15 +3,17 @@ import api from './api';
 import classes from './App.module.css';
 import Heading from './Component/Heading';
 import LearnPage from './Component/LearnPage';
+import CourseNavigation from './Component/CourseNavigation';
 
 function App() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState({});
-  const [userHistory, setUserHistory] = useState({});
   const [course, setCourse] = useState(null);
 
   const goToPage = (id) => {
     const nextPage = course.pages.find((p) => p.id === id);
+    nextPage.seen = true;
+    setCourse(course);
     setCurrentPage(nextPage);
   };
 
@@ -25,7 +27,7 @@ function App() {
         let pages = await Promise.all(courseFetched.pages.map((p) => api.getPage(p.id)));
         pages = pages.map((p) => {
           const idData = courseFetched.pages.find((pg) => pg.id === p.id);
-          return { ...p, ...idData };
+          return { ...p, ...idData, status: 'default' };
         });
 
         setCourse({
@@ -33,11 +35,8 @@ function App() {
           pages,
         });
 
-        setUserHistory(pages.reduce((acc, c) => {
-          acc[c.id] = {};
-          return acc;
-        }, {}));
         const pg = pages.find((p) => p.id === courseFetched.firstPage);
+        pg.seen = true;
         setCurrentPage(pg);
       } catch (e) {
         console.log('big woops!');
@@ -60,12 +59,18 @@ function App() {
     <div className="App">
       <div className={classes.Heading}>
         <Heading
-          status={currentPage.id && userHistory[currentPage.id]
-            && userHistory[currentPage.id].status}
+          status={currentPage.status}
           nextPageId={currentPage.next}
           previousPageId={currentPage.previous}
           onGoToPage={goToPage}
           pageTitle={currentPage.title}
+        />
+      </div>
+      <div>
+        <CourseNavigation
+          pages={course.pages}
+          currentPageId={currentPage.id}
+          onGoToPage={goToPage}
         />
       </div>
       <div className={classes.Page}>

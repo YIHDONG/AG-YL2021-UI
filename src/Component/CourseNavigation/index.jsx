@@ -6,11 +6,11 @@ import classes from './index.module.css';
 const CourseNavigation = ({ pages, onGoToPage, currentPageId }) => {
   const pageIcons = [...pages].map((p) => (
     <CourseIcon
-      pageId={p.pageId}
+      pageId={p.id}
       type={p.type}
       status={p.status}
       seen={p.seen}
-      active={p.pageId === currentPageId}
+      active={p.id === currentPageId}
       onClick={onGoToPage}
     />
   ));

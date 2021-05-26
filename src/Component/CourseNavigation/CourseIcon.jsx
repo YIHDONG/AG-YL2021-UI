@@ -37,7 +37,7 @@ const CourseIcon = ({
 
   return (
     <div className={c.join(' ')} onKeyUp={() => onClick(pageId)} onClick={() => onClick(pageId)} role="button" tabIndex="0">
-      {NavigationBar}
+      <NavigationBar />
     </div>
   );
 };

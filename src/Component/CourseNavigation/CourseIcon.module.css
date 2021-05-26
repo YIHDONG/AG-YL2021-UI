@@ -5,6 +5,7 @@
   border: 6px solid #B9B9B9;
   box-sizing: border-box;
   z-index: 2;
+  margin: 10px auto; 
 }
 
 .CourseIconActive {
