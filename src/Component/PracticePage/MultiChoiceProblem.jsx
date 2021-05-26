@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import classes from './MultiChoiceProblem.module.css';
 
 import CourseIcon from '../CourseNavigation/CourseIcon';
 
@@ -20,13 +21,13 @@ const MultiChoiceProblem = ({ options, onSubmissionDataChange }) => {
   };
 
   return (
-    <div className="container">
+    <div className={`container ${classes.Choices}`}>
       {options.map(({ id, content }) => (
         <div className="row align-items-center">
           <div className="col-1">
             <CourseIcon pageId={id} active={submissionData[id].active} type="practice" onClick={handleSelect} />
           </div>
-          <div className="col-11 align-items-right">
+          <div className={`col-11 ${classes.Question}`}>
             {content}
           </div>
         </div>

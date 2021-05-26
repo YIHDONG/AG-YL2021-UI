@@ -1,0 +1,12 @@
+.Question {
+  text-align: left;
+  font-family: Lato;
+  color:#2B1953;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.Choices {
+  display: block;
+  margin: 70px 40px;
+}
