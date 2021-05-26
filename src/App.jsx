@@ -23,6 +23,7 @@ function App() {
       try {
         const courses = await api.getAllCourses();
         const courseFetched = await api.getCourse(courses[0].id);
+        console.log(courses[0].id);
 
         let pages = await Promise.all(courseFetched.pages.map((p) => api.getPage(p.id)));
         pages = pages.map((p) => {
@@ -39,7 +40,7 @@ function App() {
         pg.seen = true;
         setCurrentPage(pg);
       } catch (e) {
-        console.log('big woops!');
+        // console.log('big woops!');
       } finally {
         setLoading(false);
       }
