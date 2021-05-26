@@ -3,6 +3,7 @@ import api from './api';
 import classes from './App.module.css';
 import Heading from './Component/Heading';
 import LearnPage from './Component/LearnPage';
+import PracticePage from './Component/PracticePage';
 import CourseNavigation from './Component/CourseNavigation';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           return { ...p, ...idData, status: 'default' };
         });
 
+        debugger;
         setCourse({
           courseFetched,
           pages,
@@ -47,14 +49,14 @@ function App() {
     fetchCourse();
   }, []);
 
-  // const sectionList = page.sections;
-
   let pageJsx;
   if (currentPage.type === 'learn') {
     pageJsx = (<LearnPage sections={currentPage.sections} />);
+  } else if (currentPage.type === 'practice') {
+    pageJsx = (<PracticePage sections={currentPage.sections} />);
   }
 
-  return (!loading
+  return (!loading && course
   && (
     <div className="App">
       <div className={classes.Heading}>

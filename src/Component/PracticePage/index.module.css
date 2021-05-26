@@ -1,0 +1,77 @@
+.ProblemPage {
+  text-align: center;
+  display: flex;
+  margin-top: 100px;
+  margin-left: 100px;
+  height: 600px;
+}
+
+.LeftContent {
+  width: 50%;
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+
+.Left1 {
+  width: 24%;
+  height: 100%;
+  background: #999;
+}
+
+.RightContent {
+  width: 30%;
+  margin-left: 10px;
+}
+
+.Top1 {
+  height: 300px;
+  background: #09F;
+  margin: 0 auto;
+  position: relative;
+}
+
+.Top1::before{
+  content: '';
+  width: 0;
+  height: 0;
+  border: 16px solid;
+  position: absolute;
+  top: 20px;
+  left: -32px;
+  border-color:  transparent #09F transparent transparent;
+}
+
+.Top1 img {
+  width: 30px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+.Top2 img{
+  width: 60px;
+}
+
+.Top2 {
+  height: 300px;
+  border: 1px solid #eee;
+}
+
+.Top2 .btns {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: auto;
+    margin-top: 30px;
+}
+
+.run-btn {
+  position: relative;
+}
+
+.run-btn img {
+  position: absolute;
+  right: 40px;
+  top: 20px;
+}
+
