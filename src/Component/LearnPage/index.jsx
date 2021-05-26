@@ -9,7 +9,7 @@ font-style: normal;
 font-weight: 500;
 font-size: 18px;
 line-height: 22px;
-text-align: center;
+text-align: left;
 
 /* text */
 color: #2B1953;
@@ -64,7 +64,7 @@ function LearnComponent({ sections }) {
   };
 
   return (
-    <div className="App">
+    <div>
       {sections.map((section) => sectionRendering(section))}
     </div>
   );

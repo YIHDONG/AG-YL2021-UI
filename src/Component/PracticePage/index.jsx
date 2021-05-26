@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import api from '../../api';
-import helpLogo from '../../assets/images/questionmark.png';
 import classes from './index.module.css';
 import MultiChoiceProblem from './MultiChoiceProblem';
 
@@ -30,10 +29,6 @@ const PracticePage = ({
     setSubmissionData(d);
   };
 
-  const showHint = () => {
-    setHintVisible(true);
-  };
-
   let problemJsx;
   switch (type) {
     case 'multichoice':
@@ -57,18 +52,19 @@ const PracticePage = ({
         {problemJsx}
       </div>
       <div className={classes.RightContent}>
-        <div className={classes.Top1}>
+        <div className={classes.PromptBox}>
           <div className="arrow">
-            <em />
-            <span />
-            <img src={helpLogo} alt="helpLogo" />
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M30 55C43.8071 55 55 43.8071 55 30C55 16.1929 43.8071 5 30 5C16.1929 5 5 16.1929 5 30C5 43.8071 16.1929 55 30 55Z" stroke="white" strokeWidth="5" />
+              <path d="M25 21.21C26.25 18.735 27.5 17.5 30 17.5C33.115 17.5 35 19.9725 35 22.445C35 24.9175 33.75 26.1525 30 28.6275V32.5M30 41.25V42.5" stroke="white" strokeWidth="5" strokeLinecap="round" />
+            </svg>
           </div>
           <div>
             {question}
           </div>
         </div>
-        <div className="top-2">
-          <button type="button" className={classes.HintButton} onClick={showHint}>
+        <div className={classes.ButtonPanel}>
+          <button type="button" className={classes.HintButton} onClick={() => setHintVisible(true)}>
             Hint
           </button>
           <button type="button" className={classes.SubmitButton} onClick={submit}>

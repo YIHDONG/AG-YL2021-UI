@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import api from './api';
-import classes from './App.module.css';
 import Heading from './Component/Heading';
 import LearnPage from './Component/LearnPage';
 import PracticePage from './Component/PracticePage';
@@ -31,7 +30,6 @@ function App() {
           return { ...p, ...idData, status: 'default' };
         });
 
-        debugger;
         setCourse({
           courseFetched,
           pages,
@@ -53,30 +51,43 @@ function App() {
   if (currentPage.type === 'learn') {
     pageJsx = (<LearnPage sections={currentPage.sections} />);
   } else if (currentPage.type === 'practice') {
-    pageJsx = (<PracticePage sections={currentPage.sections} />);
+    pageJsx = (
+      <PracticePage
+        type={currentPage.problem.type}
+        question={currentPage.problem.question}
+        data={currentPage.problem.data}
+        hints={currentPage.problem.hint || []}
+      />
+    );
   }
 
   return (!loading && course
   && (
     <div className="App">
-      <div className={classes.Heading}>
-        <Heading
-          status={currentPage.status}
-          nextPageId={currentPage.next}
-          previousPageId={currentPage.previous}
-          onGoToPage={goToPage}
-          pageTitle={currentPage.title}
-        />
-      </div>
-      <div>
-        <CourseNavigation
-          pages={course.pages}
-          currentPageId={currentPage.id}
-          onGoToPage={goToPage}
-        />
-      </div>
-      <div className={classes.Page}>
-        {pageJsx}
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <Heading
+              status={currentPage.status}
+              nextPageId={currentPage.next}
+              previousPageId={currentPage.previous}
+              onGoToPage={goToPage}
+              pageTitle={currentPage.title}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-1">
+            <CourseNavigation
+              pages={course.pages}
+              currentPageId={currentPage.id}
+              onGoToPage={goToPage}
+            />
+          </div>
+          <div className="col-11">
+            {pageJsx}
+          </div>
+        </div>
       </div>
     </div>
   ));

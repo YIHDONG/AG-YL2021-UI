@@ -16,15 +16,19 @@ const MultiChoiceProblem = ({ options, onSubmissionDataChange }) => {
     nextSubData[id].active = !nextSubData[id].active;
     setSubmissionData(nextSubData);
     const ids = Object.keys(nextSubData).filter((i) => nextSubData[i].active);
-    onSubmissionDataChange({ ids });
+    onSubmissionDataChange({ type: 'multichoice', data: { ids } });
   };
 
   return (
-    <div>
+    <div className="container">
       {options.map(({ id, content }) => (
-        <div>
-          <CourseIcon pageId={id} active={submissionData[id].active} type="practice" onClick={handleSelect} />
-          <p>{content}</p>
+        <div className="row align-items-center">
+          <div className="col-1">
+            <CourseIcon pageId={id} active={submissionData[id].active} type="practice" onClick={handleSelect} />
+          </div>
+          <div className="col-11 align-items-right">
+            {content}
+          </div>
         </div>
       ))}
     </div>
