@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React, { useState } from 'react';
 import api from './api';
 import logo from './logo.svg';
@@ -8,13 +9,30 @@ function App() {
   const [courses, setCoursesList] = useState('No courses yet!');
   const [loading, setLoading] = useState(false);
 
-  const getCoursesList = () => {
+  const [currentPage, setCurrentPage] = useState(null);
+  const [userHistory, setUserHistory] = useState(null);
+  const [course, setCourse] = useState(null);
+
+  const goToPage = (id) => {
+    const nextPage = course.pages.find((p) => p.id === id);
+    setCurrentPage(nextPage);
+  };
+
+  const getCoursesList = async () => {
     setLoading(true);
-    api.getAllCourses()
-      .then((res) => {
-        setCoursesList(res);
-        setLoading(false);
-      });
+    try {
+      const courses = await api.getAllCourses();
+      const course = await api.getCourse(courses[0].id);
+
+      const pages = await Promise.all(course.pages.map((p) => api.getPage(p.id)));
+
+      setCourse({ course, pages });
+      goToPage(course.defaultPage);
+      setLoading(false);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('big woops!');
+    }
   };
 
   return (
@@ -37,7 +55,13 @@ function App() {
         </button>
         <p>{JSON.stringify(courses)}</p>
       </header>
-      <Heading submit={0} result={0} nextPage={null} prePage={null} />
+      <Heading
+        status={userHistory[currentPage].status}
+        nextPageId={currentPage.nextPageId}
+        previousPageId={currentPage.previousPageId}
+        onGoToPage={goToPage}
+        pageTitle={currentPage.title}
+      />
     </div>
   );
 }
