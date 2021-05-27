@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import api from '../../api';
+import { api } from '../../api';
 import classes from './index.module.css';
 import MultiChoiceProblem from './MultiChoiceProblem';
+import Modal from '../Modal';
 
 const PracticePage = ({
-  type, question, data, hints,
+  type, question, data, hints, pageId,
 }) => {
   const [submissionData, setSubmissionData] = useState({});
+  const [showFeedback, setShowFeedback] = useState(false);
   const [result, setResult] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [hintVisible, setHintVisible] = useState(false);
@@ -16,8 +18,10 @@ const PracticePage = ({
   const submit = async () => {
     try {
       setSubmitting(true);
-      const submission = await api.createPageSubmission(submissionData);
+      const body = { submission: submissionData };
+      const submission = await api.createPageSubmission(pageId, body);
       setResult(submission);
+      setShowFeedback(true);
     } catch (e) {
       console.log('woops');
     } finally {
@@ -45,9 +49,6 @@ const PracticePage = ({
 
   return (
     <div className={classes.ProblemPage}>
-      {hintVisible && (<div>{JSON.stringify(hints)}</div>)}
-      {submitting && (<div>Im submitting</div>)}
-      {result && (<div>{JSON.stringify(result)}</div>)}
       <div className={classes.LeftContent}>
         {problemJsx}
       </div>
@@ -59,7 +60,7 @@ const PracticePage = ({
               <path d="M25 21.21C26.25 18.735 27.5 17.5 30 17.5C33.115 17.5 35 19.9725 35 22.445C35 24.9175 33.75 26.1525 30 28.6275V32.5M30 41.25V42.5" stroke="white" strokeWidth="5" strokeLinecap="round" />
             </svg>
           </div>
-          <div>
+          <div className={classes.Question}>
             {question}
           </div>
         </div>
@@ -67,11 +68,22 @@ const PracticePage = ({
           <button type="button" className={classes.HintButton} onClick={() => setHintVisible(true)}>
             Hint
           </button>
-          <button type="button" className={classes.SubmitButton} onClick={submit}>
+          <button disabled={submitting} type="button" className={classes.SubmitButton} onClick={submit}>
             Submit
           </button>
         </div>
       </div>
+      <Modal showModal={hintVisible} title="Hint" closeModal={() => setHintVisible(false)}>
+        {hints[0]}
+      </Modal>
+      <Modal
+        showModal={showFeedback}
+        status={result && result.status === 'pass' ? 'correct' : 'incorrect'}
+        title={result && result.status === 'pass' ? 'Correct, nice work!' : 'Not quite right...'}
+        closeModal={() => setShowFeedback(false)}
+      >
+        {hints[0]}
+      </Modal>
     </div>
   );
 };
@@ -90,6 +102,7 @@ PracticePage.propTypes = {
     }),
   ]).isRequired,
   hints: PropTypes.arrayOf(PropTypes.string).isRequired,
+  pageId: PropTypes.string.isRequired,
 };
 
 export default PracticePage;

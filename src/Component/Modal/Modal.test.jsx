@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { render } from '@testing-library/react';
-import Modal from '../Modal';
+import Modal from '.';
 import '@testing-library/jest-dom/extend-expect';
 
 it('renders without crashing', () => {

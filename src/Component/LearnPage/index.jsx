@@ -2,35 +2,41 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const LearningPageText = styled.p`
-/* body */
-font-family: Lato;
-font-style: normal;
-font-weight: 500;
-font-size: 18px;
-line-height: 22px;
-text-align: left;
+import { host } from '../../api';
 
-/* text */
-color: #2B1953;
+const LearningPage = styled.div`
+  max-width: 800px;
+  display: block;
+  margin: auto
+`;
+
+const LearningPageSection = styled.div`
+  margin: 40px auto;
+`;
+
+const LearningPageText = styled.p`
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: left;
+
+  color: #2B1953;
 `;
 
 const LearningPageImg = styled.img`
-  position: relative;
   justify-content: center;
   align-items: center;
   border-radius: 10px 0 0 10px;
   background: #FFFFFF;
-  width: 200 px;
-  height: 200 px;
-  max-height: 400px;
-  max-width: 400px;
+  max-width: 600px;
+  display: block;
+  margin: 6px auto;
 `;
 
 const AnimationVideo = styled.iframe`
   position: relative;
-  /* overflow: hidden;
-  padding-top: 56.25%; */
 `;
 
 // const sectionNumber = 1;
@@ -39,17 +45,21 @@ function LearnComponent({ sections }) {
   const sectionRendering = (section) => {
     if (section.type === 'image') {
       return (
-        <LearningPageImg src={section.content} alt="logo" />
+        <LearningPageSection>
+          <LearningPageImg src={`${host}/${section.content}`} alt="logo" />
+        </LearningPageSection>
       );
     }
     if (section.type === 'text') {
       return (
-        <LearningPageText>{section.content}</LearningPageText>
+        <LearningPageSection>
+          <LearningPageText>{section.content}</LearningPageText>
+        </LearningPageSection>
       );
     }
     if (section.type === 'animation') {
       return (
-        <div>
+        <LearningPageSection>
           <AnimationVideo
             src={section.content}
             title="Youtube video player"
@@ -57,16 +67,16 @@ function LearnComponent({ sections }) {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
           />
-        </div>
+        </LearningPageSection>
       );
     }
     throw new Error('invalid section type!');
   };
 
   return (
-    <div>
+    <LearningPage>
       {sections.map((section) => sectionRendering(section))}
-    </div>
+    </LearningPage>
   );
 }
 

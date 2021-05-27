@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from './api';
+import { api } from './api';
 import Heading from './Component/Heading';
 import LearnPage from './Component/LearnPage';
 import PracticePage from './Component/PracticePage';
@@ -58,6 +58,7 @@ function App() {
         question={currentPage.problem.question}
         data={currentPage.problem.data}
         hints={currentPage.problem.hint || []}
+        pageId={currentPage.id}
       />
     );
   }
@@ -67,7 +68,8 @@ function App() {
     <div className="App">
       <div className="container">
         <div className="row">
-          <div className="col-12">
+          <div className="col-1" />
+          <div className="col-11">
             <Heading
               status={currentPage.status}
               nextPageId={currentPage.next}

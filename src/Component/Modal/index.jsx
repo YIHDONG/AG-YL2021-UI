@@ -13,14 +13,16 @@ import success from './resources/success.png';
 
 /* **************************Styles using styled-components******************************** */
 const Background = styled.div`
-  width: 100%;
-  height: 100%;
-  /* background: rgba(0, 0, 0, 0.8); */
+  height: 100vh;
+  width: 100vw;
   background:rgba(37, 150, 255, 0.5);
   position: fixed;
+  top: 0px;
+  left: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 `;
 
 const ModalWrapper = styled.div`
@@ -30,56 +32,63 @@ const ModalWrapper = styled.div`
   position: relative;
 
   background: #FFFFFF;
-/* outline-strong */
-  border: 2px solid #000000;
+  border: 4px solid #000000;
   box-sizing: border-box;
-  /* drop-shadow-graphic */
-  border-radius: 10px;
+  border-radius: 8px;
 `;
 
 const HeaderWrapperCorrect = styled.div`
   position: relative;
-  height: 30px;
+  height: 34px;
 
   display: flex;
   justify-content: left;
   align-items: center;
 
-  /* correct-strong */
   background: #00D315;
-  /* outline-strong */
-  border-bottom: 1.8px solid black;
-  border-radius: 8px 8px 0px 0px;
+  border-bottom: 4px solid black;
+  border-radius: 4px 4px 0px 0px;
+  padding: 5px;
 `;
 
 const HeaderWrapperIncorrect = styled.div`
   position: relative;
-  height: 30px;
+  height: 34px;
 
   display: flex;
   justify-content: left;
   align-items: center;
 
-  /* correct-strong */
   background: #FF4D00;
-  /* outline-strong */
-  border-bottom: 1.8px solid black;
-  border-radius: 8px 8px 0px 0px;
+  border-bottom: 4px solid black;
+  border-radius: 4px 4px 0px 0px;
+  padding: 5px;
+`;
+
+const HeaderWrapperDefault = styled.div`
+  position: relative;
+  height: 34px;
+
+  display: flex;
+  justify-content: left;
+  align-items: center;
+
+  background: #2596FF;
+  border-bottom: 4px solid black;
+  border-radius: 4px 4px 0px 0px;
+  padding: 5px;
 `;
 
 const ModalHeader = styled.h1`
-  /* position */
   margin-left: 5px;
   text-align: center;
 
-  /* font */
   font-family: Lato;
   font-style: normal;
   font-weight: bold;
   font-size: 18px;
   line-height: 22px;
 
-  /* white */
   color: #FFFFFF;
 `;
 
@@ -91,14 +100,12 @@ const ModalContent = styled.div`
   margin-left: 10px;
   margin-right: 10px;
   
-  /* body */
   font-family: Lato;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 22px;
 
-  /* text */
   color: #2B1953;
 `;
 
@@ -130,8 +137,8 @@ const CloseModalButtonCorrect = styled(MdClose)`
 
   &:hover {
     color: #00D315;
-  background: #AAFFB2;
-  border: 1.4px solid #00D315;
+    background: #AAFFB2;
+    border: 1.4px solid #00D315;
   }
 `;
 
@@ -152,14 +159,36 @@ const CloseModalButtonIncorrect = styled(MdClose)`
 
   &:hover {
     color: #FF4D00;
-  background: #FFBEA2;
-  border: 1.4px solid #FF4D00;
+    background: #FFBEA2;
+    border: 1.4px solid #FF4D00;
+  }
+`;
+
+const CloseModalButtonDefault = styled(MdClose)`
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  z-index: 10;
+
+  color: #B3DAFF;
+  background: #2596FF;
+  border: 1.4px solid #B3DAFF;
+  box-sizing: border-box;
+  border-radius: 3px;
+
+  &:hover {
+    color:  #2596FF;
+    background: #B3DAFF;
+    border: 1.4px solid #2596FF;
   }
 `;
 
 /* **************************Function that  returns a modal******************************* */
 export default function Modal({
-  isCorrect, showModal, children, closeModal,
+  title, status, showModal, children, closeModal,
 }) {
   const modalRef = useRef();
   const animation = useSpring({
@@ -170,47 +199,61 @@ export default function Modal({
     transform: showModal ? 'translateY(0%)' : 'translateY(-100%)',
   });
 
-  if (!showModal) { return null; }
-  if (isCorrect) {
-    return (
+  let modalJsx;
+  if (status === 'incorrect') {
+    modalJsx = (
       <>
-        <Background data-testid="modal-correct" ref={modalRef}>
-          <animated.div style={animation}>
-            <ModalWrapper showModal={showModal}>
-              <HeaderWrapperCorrect>
-                <ModalHeader>Correct, well done!</ModalHeader>
-              </HeaderWrapperCorrect>
-              <ModalContent display="none">
-                {children}
-              </ModalContent>
-              <SuccessImg src={success} alt="SuccessImg" />
-              <CloseModalButtonCorrect onClick={closeModal} />
-            </ModalWrapper>
-          </animated.div>
-        </Background>
+        <HeaderWrapperIncorrect>
+          <ModalHeader>{title}</ModalHeader>
+        </HeaderWrapperIncorrect>
+        <ModalContent>
+          {children}
+        </ModalContent>
+        <CloseModalButtonIncorrect onClick={closeModal} />
+      </>
+    );
+  } else if (status === 'correct') {
+    modalJsx = (
+      <>
+        <HeaderWrapperCorrect>
+          <ModalHeader>{title}</ModalHeader>
+        </HeaderWrapperCorrect>
+        <ModalContent display="none">
+          {children}
+        </ModalContent>
+        <SuccessImg src={success} alt="SuccessImg" />
+        <CloseModalButtonCorrect onClick={closeModal} />
+      </>
+    );
+  } else {
+    modalJsx = (
+      <>
+        <HeaderWrapperDefault>
+          <ModalHeader>{title}</ModalHeader>
+        </HeaderWrapperDefault>
+        <ModalContent display="none">
+          {children}
+        </ModalContent>
+        <CloseModalButtonDefault onClick={closeModal} />
       </>
     );
   }
-  return (
-    <>
-      <Background data-testid="modal-incorrect" ref={modalRef}>
+
+  return (showModal
+    && (
+      <Background data-testid="modal-correct" ref={modalRef} onClick={closeModal}>
         <animated.div style={animation}>
           <ModalWrapper showModal={showModal}>
-            <HeaderWrapperIncorrect>
-              <ModalHeader> Not quite right... </ModalHeader>
-            </HeaderWrapperIncorrect>
-            <ModalContent>
-              {children}
-            </ModalContent>
-            <CloseModalButtonIncorrect onClick={closeModal} />
+            {modalJsx}
           </ModalWrapper>
         </animated.div>
       </Background>
-    </>
+    )
   );
 }
 Modal.propTypes = {
-  isCorrect: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
   showModal: PropTypes.bool.isRequired,
   children: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
