@@ -57,7 +57,7 @@ function App() {
         type={currentPage.problem.type}
         question={currentPage.problem.question}
         data={currentPage.problem.data}
-        hints={currentPage.problem.hint || []}
+        hints={currentPage.problem.hints || []}
         pageId={currentPage.id}
       />
     );
