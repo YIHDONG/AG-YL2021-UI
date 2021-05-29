@@ -23,7 +23,6 @@ function App() {
       try {
         const courses = await api.getAllCourses();
         const courseFetched = await api.getCourse(courses[0].id);
-        console.log(courses[0].id);
 
         let pages = await Promise.all(courseFetched.pages.map((p) => api.getPage(p.id)));
         pages = pages.map((p) => {
@@ -52,6 +51,8 @@ function App() {
   if (currentPage.type === 'learn') {
     pageJsx = (<LearnPage sections={currentPage.sections} />);
   } else if (currentPage.type === 'practice') {
+    // eslint-disable-next-line no-debugger
+    debugger;
     pageJsx = (
       <PracticePage
         type={currentPage.problem.type}
