@@ -51,8 +51,6 @@ function App() {
   if (currentPage.type === 'learn') {
     pageJsx = (<LearnPage sections={currentPage.sections} />);
   } else if (currentPage.type === 'practice') {
-    // eslint-disable-next-line no-debugger
-    debugger;
     pageJsx = (
       <PracticePage
         type={currentPage.problem.type}
