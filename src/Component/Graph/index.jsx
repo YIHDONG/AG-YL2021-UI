@@ -50,16 +50,25 @@ const Graph = ({
       const dx = toX - fromX;
       const dy = toY - fromY;
       const theta = Math.atan2(dy, dx);
-
       const mag = Math.sqrt(dx * dx + dy * dy) / 2;
+
+      // find the deflection of edge path
       const thetaPrime = Math.atan2(NODE_RADIUS, mag);
       const magPrime = Math.sqrt(NODE_RADIUS * NODE_RADIUS + mag * mag);
 
       const midX = fromX + magPrime * Math.cos(theta + thetaPrime);
       const midY = fromY + magPrime * Math.sin(theta + thetaPrime);
 
+      // find position for annotation
+      const labelOffset = NODE_RADIUS * 2;
+      const thetaPrimeOffset = Math.atan2(labelOffset, mag);
+      const magPrimeOffset = Math.sqrt(labelOffset * labelOffset + mag * mag);
+
+      const labelX = fromX + magPrimeOffset * Math.cos(theta + thetaPrimeOffset);
+      const labelY = fromY + magPrimeOffset * Math.sin(theta + thetaPrimeOffset);
+
       return ({
-        fromX, fromY, midX, midY, toX, toY, theta,
+        fromX, fromY, midX, midY, toX, toY, labelX, labelY, theta,
       });
     };
 
@@ -71,9 +80,10 @@ const Graph = ({
         .y((d) => d.y)
         .curve(d3.curveBasis);
 
+      const edgesConverted = edges.map((e) => ({ ...e, ...getPos(e.from, e.to) }));
       // add edges
       svg.selectAll('path')
-        .data(edges.map((e) => ({ ...e, ...getPos(e.from, e.to) })))
+        .data(edgesConverted)
         .enter()
         .append('path')
         .attr('d', (d) => lineGenerator([{ x: d.fromX, y: d.fromY }, { x: d.midX, y: d.midY }, { x: d.toX, y: d.toY }]))
@@ -104,16 +114,32 @@ const Graph = ({
         .exit()
         .remove();
 
-      // add node labels
+      const labels = [
+        ...edgesConverted.map((d) => ({
+          text: `(${d.from}, ${d.to})`,
+          x: d.labelX,
+          y: d.labelY,
+          fill: '#7efd6a',
+        })),
+        ...nodes.map((d) => ({
+          text: d.id,
+          x: d.x,
+          y: d.y,
+          fill: '#FFFFFF',
+        })),
+      ];
+
+      // add labels
       svg.selectAll('text')
-        .data(nodes)
+        .data(labels)
         .enter()
         .append('text')
         .attr('dx', (d) => d.x)
         .attr('dy', (d) => d.y + 6)
         .attr('font-size', 18)
         .attr('text-anchor', 'middle')
-        .text((d) => d.id)
+        .style('fill', (d) => d.fill)
+        .text((d) => d.text)
         .exit()
         .remove();
     }
