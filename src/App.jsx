@@ -4,6 +4,7 @@ import Heading from './Component/Heading';
 import LearnPage from './Component/LearnPage';
 import PracticePage from './Component/PracticePage';
 import CourseNavigation from './Component/CourseNavigation';
+import Graph from './Component/Graph';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -62,6 +63,67 @@ function App() {
     );
   }
 
+  const nodes = [
+    {
+      id: 'a',
+      x: 200,
+      y: 200,
+      selected: false,
+    },
+    {
+      id: 'b',
+      x: 200,
+      y: 100,
+      selected: false,
+    },
+    {
+      id: 'c',
+      x: 200,
+      y: 300,
+      selected: false,
+    },
+    {
+      id: 'd',
+      x: 100,
+      y: 200,
+      selected: false,
+    },
+    {
+      id: 'e',
+      x: 300,
+      y: 200,
+      selected: false,
+    },
+  ];
+
+  const edges = [
+    {
+      from: 'a',
+      to: 'b',
+      selected: false,
+    },
+    {
+      from: 'a',
+      to: 'c',
+      selected: false,
+    },
+    {
+      from: 'a',
+      to: 'd',
+      selected: false,
+    },
+    {
+      from: 'a',
+      to: 'e',
+      selected: false,
+    },
+    {
+      from: 'e',
+      to: 'a',
+      selected: false,
+    },
+  ];
+
   return (!loading && course
   && (
     <div className="App">
@@ -89,6 +151,13 @@ function App() {
           <div className="col-11">
             {pageJsx}
           </div>
+          <Graph
+            width={400}
+            height={400}
+            nodes={nodes}
+            edges={edges}
+            onClicked={(d) => console.log(d)}
+          />
         </div>
       </div>
     </div>

@@ -29,7 +29,7 @@ const Background = styled.div`
   position: fixed;
 `;
 
-const ModalWrapper = styled.div`;
+const ModalWrapper = styled.div`
   min-width: 330px;
   max-width: 600px;
   min-height: 140px;
