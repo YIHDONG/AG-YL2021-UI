@@ -31,18 +31,14 @@ const GraphStyle = styled.svg`
   path:hover {
     stroke: #1ABA00;
   }
-
-  polyline {
-    fill: #1ABA00;
-    user-select: none;
-    pointer-events: none;
-  }
 `;
 
 const Graph = ({
   width, height, nodes, edges, onNodeClicked, onEdgeClicked,
 }) => {
   const graph = useRef(null);
+  // const [nodeSelections, setNodeSelections] = useState([]);
+  // const [edgeSelections, setEdgeSelections] = useState([]);
 
   useEffect(() => {
     const getNode = (id) => nodes.find((n) => n.id === id);
@@ -91,26 +87,12 @@ const Graph = ({
         .enter()
         .append('path')
         .attr('d', (d) => lineGenerator([{ x: d.fromX, y: d.fromY }, { x: d.midX, y: d.midY }, { x: d.toX, y: d.toY }]))
+        .attr('marker-mid', 'url(#graphDirMarker)')
         .style('stroke', (d) => {
           if (d.selected) return '#1ABA00';
           return undefined;
         })
         .on('click', (event, d) => onEdgeClicked(d))
-        .exit()
-        .remove();
-
-      // add edges arrows
-      svg.selectAll('polyline')
-        .data(edgesConverted)
-        .enter()
-        .append('polyline')
-        .attr('points', '0,0 10,5 0,10 1,5')
-        .attr('fill', (d) => {
-          if (d.selected) return '#1ABA00';
-          return undefined;
-        })
-        .on('click', (event, d) => onEdgeClicked(d))
-        .attr('transform', (d) => `rotate(${(180 * d.theta) / Math.PI} ${d.midX} ${d.midY}) translate(${d.midX - 5} ${d.midY - 5})`)
         .exit()
         .remove();
 
@@ -126,7 +108,7 @@ const Graph = ({
           if (d.selected) return '#C900CD';
           return undefined;
         })
-        .on('click', (d) => onNodeClicked(d))
+        .on('click', (event, d) => onNodeClicked(d))
         .exit()
         .remove();
 
@@ -183,7 +165,7 @@ const Graph = ({
           markerWidth="4"
           markerHeight="3"
         >
-          <polyline points="0,0 10,5 0,10 1,5" fill="#7efd6a" />
+          <polyline points="0,0 10,5 0,10 1,5" fill="#1ABA00" />
         </marker>
       </defs>
     </GraphStyle>
