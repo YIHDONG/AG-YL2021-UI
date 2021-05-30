@@ -156,7 +156,8 @@ function App() {
             height={400}
             nodes={nodes}
             edges={edges}
-            onClicked={(d) => console.log(d)}
+            onNodeClicked={(d) => console.log(d)}
+            onEdgeClicked={(d) => console.log(d)}
           />
         </div>
       </div>

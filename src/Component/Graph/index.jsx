@@ -31,14 +31,18 @@ const GraphStyle = styled.svg`
   path:hover {
     stroke: #1ABA00;
   }
+
+  polyline {
+    fill: #1ABA00;
+    user-select: none;
+    pointer-events: none;
+  }
 `;
 
 const Graph = ({
-  width, height, nodes, edges, onClicked,
+  width, height, nodes, edges, onNodeClicked, onEdgeClicked,
 }) => {
   const graph = useRef(null);
-  // const [nodeSelections, setNodeSelections] = useState([]);
-  // const [edgeSelections, setEdgeSelections] = useState([]);
 
   useEffect(() => {
     const getNode = (id) => nodes.find((n) => n.id === id);
@@ -78,7 +82,7 @@ const Graph = ({
       const lineGenerator = d3.line()
         .x((d) => d.x)
         .y((d) => d.y)
-        .curve(d3.curveBasis);
+        .curve(d3.curveCardinal);
 
       const edgesConverted = edges.map((e) => ({ ...e, ...getPos(e.from, e.to) }));
       // add edges
@@ -87,14 +91,26 @@ const Graph = ({
         .enter()
         .append('path')
         .attr('d', (d) => lineGenerator([{ x: d.fromX, y: d.fromY }, { x: d.midX, y: d.midY }, { x: d.toX, y: d.toY }]))
-        .attr('marker-mid', 'url(#graphDirMarker)')
         .style('stroke', (d) => {
           if (d.selected) return '#1ABA00';
           return undefined;
         })
-        .on('click', (d) => onClicked('edge', d))
-        .append('path')
-        .attr('d', 'M0,-5L10,0L0,5')
+        .on('click', (event, d) => onEdgeClicked(d))
+        .exit()
+        .remove();
+
+      // add edges arrows
+      svg.selectAll('polyline')
+        .data(edgesConverted)
+        .enter()
+        .append('polyline')
+        .attr('points', '0,0 10,5 0,10 1,5')
+        .attr('fill', (d) => {
+          if (d.selected) return '#1ABA00';
+          return undefined;
+        })
+        .on('click', (event, d) => onEdgeClicked(d))
+        .attr('transform', (d) => `rotate(${(180 * d.theta) / Math.PI} ${d.midX} ${d.midY}) translate(${d.midX - 5} ${d.midY - 5})`)
         .exit()
         .remove();
 
@@ -110,7 +126,7 @@ const Graph = ({
           if (d.selected) return '#C900CD';
           return undefined;
         })
-        .on('click', (d) => onClicked('node', d))
+        .on('click', (d) => onNodeClicked(d))
         .exit()
         .remove();
 
@@ -119,7 +135,7 @@ const Graph = ({
           text: `(${d.from}, ${d.to})`,
           x: d.labelX,
           y: d.labelY,
-          fill: '#7efd6a',
+          fill: '#1ABA00',
         })),
         ...nodes.map((d) => ({
           text: d.id,
@@ -150,7 +166,8 @@ const Graph = ({
     nodes,
     width,
     height,
-    onClicked,
+    onNodeClicked,
+    onEdgeClicked,
   ]);
 
   return (
@@ -187,7 +204,8 @@ Graph.propTypes = {
     to: PropTypes.string.isRequired,
     selected: PropTypes.bool.isRequired,
   })).isRequired,
-  onClicked: PropTypes.func.isRequired,
+  onNodeClicked: PropTypes.func.isRequired,
+  onEdgeClicked: PropTypes.func.isRequired,
 };
 
 export default Graph;
