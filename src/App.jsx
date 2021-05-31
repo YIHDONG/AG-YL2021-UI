@@ -5,6 +5,7 @@ import LearnPage from './Component/LearnPage';
 import PracticePage from './Component/PracticePage';
 import CourseNavigation from './Component/CourseNavigation';
 import Graph from './Component/Graph';
+import GraphCreator from './Component/GraphCreator';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -158,6 +159,12 @@ function App() {
             edges={edges}
             onNodeClicked={(d) => console.log(d)}
             onEdgeClicked={(d) => console.log(d)}
+            onCanvasClicked={(d) => console.log(d)}
+          />
+          <GraphCreator
+            width={400}
+            height={400}
+            onGraphChanged={(g) => console.log(g)}
           />
         </div>
       </div>
