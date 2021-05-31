@@ -12,3 +12,7 @@
   text-align: center;
   color:#2B1953;
 }
+
+.Heading path {
+  cursor: pointer;
+}

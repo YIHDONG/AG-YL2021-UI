@@ -1,6 +1,37 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Graph from '../Graph';
+
+const Editor = styled.div`
+  margin: 20px;
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+`;
+
+const Instructions = styled.li`
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 16px;
+  text-align: left;
+  color: #2B1953;
+  margin: 4px;
+  max-width: 400px;
+  text-align: justify;
+`;
+
+const Node = styled.strong`
+  color: #C900CD;
+`;
+
+const Edge = styled.strong`
+  color: #1ABA00;
+`;
 
 const GraphCreator = ({ width, height, onGraphChanged }) => {
   const [nodes, setNodes] = useState([]);
@@ -115,15 +146,62 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
   };
 
   return (
-    <Graph
-      nodes={nodes}
-      edges={edges}
-      width={width}
-      height={height}
-      onEdgeClicked={edgeClicked}
-      onNodeClicked={nodeClicked}
-      onCanvasClicked={canvasClicked}
-    />
+    <Editor>
+      <Graph
+        nodes={nodes}
+        edges={edges}
+        width={width}
+        height={height}
+        onEdgeClicked={edgeClicked}
+        onNodeClicked={nodeClicked}
+        onCanvasClicked={canvasClicked}
+      />
+      <ul>
+        <Instructions>
+          To add a
+          {' '}
+          <Node>node</Node>
+          :
+          {' '}
+          press and hold
+          {' '}
+          <em>n</em>
+          {' '}
+          and click on the space above
+        </Instructions>
+        <Instructions>
+          To add an
+          {' '}
+          <Edge>edge</Edge>
+          :
+          {' '}
+          select a
+          {' '}
+          <Node>node</Node>
+          , press and hold
+          {' '}
+          <em>e</em>
+          {' '}
+          and then select a second
+          {' '}
+          <Node>node</Node>
+        </Instructions>
+        <Instructions>
+          To remove a
+          {' '}
+          <Node>node</Node>
+          {' '}
+          or
+          {' '}
+          <Edge>edge</Edge>
+          :
+          {' '}
+          select the element and press
+          {' '}
+          <em>d</em>
+        </Instructions>
+      </ul>
+    </Editor>
   );
 };
 

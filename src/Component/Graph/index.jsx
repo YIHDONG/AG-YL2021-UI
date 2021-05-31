@@ -114,6 +114,7 @@ const Graph = ({
           if (d.selected) return '#1ABA00';
           return undefined;
         })
+        .lower()
         .on('click', (event, d) => onEdgeClicked(d));
 
       // add nodes
