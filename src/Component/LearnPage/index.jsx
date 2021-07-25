@@ -7,7 +7,7 @@ import { host } from '../../api';
 const LearningPage = styled.div`
   max-width: 800px;
   display: block;
-  margin: auto
+  margin: auto;
 `;
 
 const LearningPageSection = styled.div`
@@ -39,35 +39,22 @@ const AnimationVideo = styled.iframe`
   position: relative;
 `;
 
-// const sectionNumber = 1;
-
-function LearnComponent({ sections }) {
+const LearnComponent = ({ sections }) => {
   const sectionRendering = (section) => {
     if (section.type === 'image') {
-      return (
-        <LearningPageSection>
-          <LearningPageImg src={`${host}/${section.content}`} alt="logo" />
-        </LearningPageSection>
-      );
+      return <LearningPageImg src={`${host}/${section.content}`} alt="logo" />;
     }
     if (section.type === 'text') {
-      return (
-        <LearningPageSection>
-          <LearningPageText>{section.content}</LearningPageText>
-        </LearningPageSection>
-      );
+      return <LearningPageText>{section.content}</LearningPageText>;
     }
     if (section.type === 'animation') {
       return (
-        <LearningPageSection>
-          <AnimationVideo
-            src={section.content}
-            title="Youtube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          />
-        </LearningPageSection>
+        <AnimationVideo
+          src={section.content}
+          title="Youtube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        />
       );
     }
     throw new Error('invalid section type!');
@@ -75,10 +62,16 @@ function LearnComponent({ sections }) {
 
   return (
     <LearningPage>
-      {sections.map((section) => sectionRendering(section))}
+      {sections.map((section, idx) => (
+        // this disabled because the sections are static and wont change
+        // eslint-disable-next-line react/no-array-index-key
+        <LearningPageSection key={idx}>
+          {sectionRendering(section)}
+        </LearningPageSection>
+      ))}
     </LearningPage>
   );
-}
+};
 
 LearnComponent.propTypes = {
   sections: PropTypes.arrayOf(PropTypes.shape({
