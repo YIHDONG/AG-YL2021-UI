@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useState, useRef,
+} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import GraphComponent from '../Graph';
@@ -39,7 +41,7 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
 
   const [addNode, setAddNode] = useState(false);
   const [addEdge, setAddEdge] = useState(false);
-  const [renameNode, setRenameNode] = useState(false);
+  const renameNodeRef = useRef(null);
   const [nodeIdToRename, setNodeIdToRename] = useState(null);
   const [created, setCreated] = useState(0);
   const [lastNodeSelected, setLastNodeSelected] = useState(null);
@@ -54,19 +56,22 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
     if (e.keyCode === 78) {
       setAddNode(true);
     }
-
-    // r key
-    if (e.keyCode === 82) {
-      setRenameNode(true);
-    }
   };
 
   const handleKeyUp = useCallback((e) => {
+    // ignore if input is active
+    if (nodeIdToRename) {
+      return;
+    }
+
     const newGraph = graph.copy();
     // d key
     if (e.keyCode === 68) {
       newGraph.edges.filter((i) => i.selected).forEach((i) => newGraph.removeEdge(i.id));
       newGraph.nodes.filter((i) => i.selected).forEach((i) => newGraph.removeNode(i.id));
+      if (lastNodeSelected && lastNodeSelected.selected) {
+        setLastNodeSelected(null);
+      }
     }
 
     // e key
@@ -81,11 +86,14 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
 
     // r key
     if (e.keyCode === 82) {
-      setRenameNode(false);
+      if (lastNodeSelected) {
+        setNodeIdToRename(lastNodeSelected.id);
+        renameNodeRef.current.focus();
+      }
     }
 
     setGraph(newGraph);
-  }, [graph]);
+  }, [graph, lastNodeSelected, nodeIdToRename]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -116,11 +124,7 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
 
   const nodeClicked = (n) => {
     const newGraph = graph.copy();
-    if (renameNode) {
-      setNodeIdToRename(n.id);
-    } else {
-      setNodeIdToRename(null);
-    }
+    setNodeIdToRename(null);
 
     if (addEdge && lastNodeSelected) {
       // if the edge does not yet exist create it
@@ -184,6 +188,7 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
 
   const nodeNamer = nodeIdToRename && (
     <input
+      ref={renameNodeRef}
       type="text"
       onChange={changeNodeName}
       value={graph.getNodeById(nodeIdToRename).name}
