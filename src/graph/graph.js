@@ -59,6 +59,24 @@ class Graph {
     }, this);
   }
 
+  removeNode(nodeId) {
+    makeAndApplyEvent({
+      type: 'removeNode',
+      data: {
+        nodeId,
+      },
+    }, this);
+  }
+
+  removeEdge(edgeId) {
+    makeAndApplyEvent({
+      type: 'removeEdge',
+      data: {
+        edgeId,
+      },
+    }, this);
+  }
+
   visitNode(nodeId) {
     const event = eventFactory.make({
       type: 'visitNode',

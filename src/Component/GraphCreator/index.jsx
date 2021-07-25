@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Graph from '../Graph';
+import GraphComponent from '../Graph';
+import Graph from '../../graph/graph';
 
 const Editor = styled.div`
   margin: 20px;
@@ -34,8 +35,7 @@ const Edge = styled.strong`
 `;
 
 const GraphCreator = ({ width, height, onGraphChanged }) => {
-  const [nodes, setNodes] = useState([]);
-  const [edges, setEdges] = useState([]);
+  const [graph, setGraph] = useState(new Graph());
 
   const [addNode, setAddNode] = useState(false);
   const [addEdge, setAddEdge] = useState(false);
@@ -55,15 +55,15 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
   const handleKeyUp = useCallback((e) => {
     // d key
     if (e.keyCode === 68) {
-      const selectedNodes = nodes.filter((i) => i.selected);
-      setEdges(edges.filter((i) => {
+      const selectedNodes = graph.nodes.filter((i) => i.selected);
+      graph.edges = graph.edges.filter((i) => {
         // remove edges associated with deleted node
         if (selectedNodes.find((n) => n.id === i.fromNodeId || n.id === i.toNodeId)) {
           return false;
         }
         return !i.selected;
-      }));
-      setNodes(nodes.filter((i) => !i.selected));
+      });
+      graph.nodes = nodes.(nodes.filter((i) => !i.selected));
     }
     // e key
     if (e.keyCode === 69) {
@@ -153,7 +153,7 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
 
   return (
     <Editor>
-      <Graph
+      <GraphComponent
         nodes={nodes}
         edges={edges}
         width={width}
