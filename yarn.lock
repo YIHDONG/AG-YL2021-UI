@@ -2601,10 +2601,10 @@ ajv@^8.0.1:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-algorithms_api@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/algorithms_api/-/algorithms_api-1.0.3.tgz#59366e6ac73f3e8172478910c929494f9daf1ea7"
-  integrity sha512-AKiSZYaEQRMGfrTmFZM8ZCT31qAai01xF18xGzHChaDopdqW0wP3cK7U6kX2C9X0YFqt3sq0JLTysyaUeXW8Yw==
+algorithms_api@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/algorithms_api/-/algorithms_api-2.0.0.tgz#6cf97b0be10d0e1b945032ddf4e28ac78a9ddbe9"
+  integrity sha512-3JGkr07Z7JUMoUmqbytx6T50wrzXd3TQ/jbIc4xRNwJJC+jV1eQPSON5Dh14z9f86YChLH5wKiNKByeT1lTomw==
   dependencies:
     "@babel/cli" "^7.0.0"
     superagent "^5.3.0"

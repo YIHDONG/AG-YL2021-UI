@@ -67,61 +67,66 @@ function App() {
   const nodes = [
     {
       id: 'a',
+      name: 'a',
       x: 200,
       y: 200,
-      selected: false,
     },
     {
       id: 'b',
+      name: 'b',
       x: 200,
       y: 100,
-      selected: false,
     },
     {
       id: 'c',
+      name: 'c',
       x: 200,
       y: 300,
-      selected: false,
     },
     {
       id: 'd',
+      name: 'd',
       x: 100,
       y: 200,
-      selected: false,
     },
     {
       id: 'e',
+      name: 'e',
       x: 300,
       y: 200,
-      selected: false,
     },
   ];
 
   const edges = [
     {
-      from: 'a',
-      to: 'b',
-      selected: false,
+      id: '1',
+      name: '(a, b)',
+      fromNodeId: 'a',
+      toNodeId: 'b',
     },
     {
-      from: 'a',
-      to: 'c',
-      selected: false,
+      id: '2',
+      name: '(a, c)',
+      fromNodeId: 'a',
+      toNodeId: 'c',
     },
     {
-      from: 'a',
-      to: 'd',
-      selected: false,
+      id: '3',
+      name: '(a, d)',
+      fromNodeId: 'a',
+      toNodeId: 'd',
     },
     {
-      from: 'a',
-      to: 'e',
-      selected: false,
+      id: '4',
+      name: '(a, e)',
+      fromNodeId: 'a',
+      toNodeId: 'e',
     },
     {
-      from: 'e',
-      to: 'a',
-      selected: false,
+      id: '5',
+      name: '(a, e)',
+      fromNodeId: 'e',
+      toNodeId: 'a',
     },
   ];
 

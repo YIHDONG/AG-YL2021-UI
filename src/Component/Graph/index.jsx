@@ -103,10 +103,10 @@ const Graph = ({
         .y((d) => d.y)
         .curve(d3.curveCardinal);
 
-      const edgesConverted = edges.map((e) => ({ ...e, ...getPos(e.from, e.to) }));
+      const edgesConverted = edges.map((e) => ({ ...e, ...getPos(e.fromNodeId, e.toNodeId) }));
       // add edges
       g.selectAll('path')
-        .data(edgesConverted, (d) => `(${d.from}, ${d.to})`)
+        .data(edgesConverted, (d) => d.id)
         .join('path')
         .attr('d', (d) => lineGenerator([{ x: d.fromX, y: d.fromY }, { x: d.midX, y: d.midY }, { x: d.toX, y: d.toY }]))
         .attr('marker-mid', 'url(#graphDirMarker)')
@@ -132,13 +132,13 @@ const Graph = ({
 
       const labels = [
         ...edgesConverted.map((d) => ({
-          text: `(${d.from}, ${d.to})`,
+          text: d.name,
           x: d.labelX,
           y: d.labelY,
           fill: '#1ABA00',
         })),
         ...nodes.map((d) => ({
-          text: d.id,
+          text: d.name,
           x: d.x,
           y: d.y,
           fill: '#FFFFFF',
@@ -196,14 +196,17 @@ Graph.propTypes = {
   height: PropTypes.number.isRequired,
   nodes: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
+    name: PropTypes.string,
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
-    selected: PropTypes.bool.isRequired,
+    selected: PropTypes.bool,
   })).isRequired,
   edges: PropTypes.arrayOf(PropTypes.shape({
-    from: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
-    selected: PropTypes.bool.isRequired,
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    fromNodeId: PropTypes.string.isRequired,
+    toNodeId: PropTypes.string.isRequired,
+    selected: PropTypes.bool,
   })).isRequired,
   onNodeClicked: PropTypes.func.isRequired,
   onEdgeClicked: PropTypes.func.isRequired,

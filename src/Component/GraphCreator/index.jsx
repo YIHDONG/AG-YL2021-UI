@@ -58,7 +58,7 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
       const selectedNodes = nodes.filter((i) => i.selected);
       setEdges(edges.filter((i) => {
         // remove edges associated with deleted node
-        if (selectedNodes.find((n) => n.id === i.from || n.id === i.to)) {
+        if (selectedNodes.find((n) => n.id === i.fromNodeId || n.id === i.toNodeId)) {
           return false;
         }
         return !i.selected;
@@ -86,7 +86,7 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
 
   const edgeClicked = (e) => {
     setEdges(edges.map((i) => {
-      if (i.to === e.to && i.from === e.from) {
+      if (i.toNodeId === e.toNodeId && i.fromNodeId === e.fromNodeId) {
         return { ...i, selected: true };
       }
       return { ...i, selected: false };
@@ -101,7 +101,13 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
       // if the edge does not yet exist create it
       if (n.id !== lastNodeSelected.id
         && !edges.find((e) => e.from === lastNodeSelected.id && e.to === n.id)) {
-        const newEdges = [...edges, { from: lastNodeSelected.id, to: n.id, selected: false }];
+        const newEdges = [...edges, {
+          id: `(${lastNodeSelected.id}, ${n.id})`,
+          name: `(${lastNodeSelected.name}, ${n.name})`,
+          fromNodeId: lastNodeSelected.id,
+          toNodeId: n.id,
+          selected: false,
+        }];
         setEdges(newEdges);
         onGraphChanged({ nodes, edges: newEdges });
       }
@@ -121,7 +127,7 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
   const canvasClicked = (n) => {
     if (addNode) {
       const newNode = {
-        id: `${created}`, x: n.svgX, y: n.svgY, selected: false,
+        id: `${created}`, name: `${created}`, x: n.svgX, y: n.svgY, selected: false,
       };
       const newNodes = [
         ...nodes,

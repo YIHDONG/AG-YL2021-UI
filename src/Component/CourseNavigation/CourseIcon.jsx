@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NavigationBar from './NavigationBar';
 import classes from './CourseIcon.module.css';
 
 const CourseIcon = ({
@@ -36,9 +35,8 @@ const CourseIcon = ({
   }
 
   return (
-    <div className={c.join(' ')} onKeyUp={() => onClick(pageId)} onClick={() => onClick(pageId)} role="button" tabIndex="0">
-      <NavigationBar />
-    </div>
+    // eslint-disable-next-line jsx-a11y/control-has-associated-label
+    <div className={c.join(' ')} onKeyUp={() => onClick(pageId)} onClick={() => onClick(pageId)} role="button" tabIndex="0" />
   );
 };
 

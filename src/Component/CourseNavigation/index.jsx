@@ -6,6 +6,7 @@ import classes from './index.module.css';
 const CourseNavigation = ({ pages, onGoToPage, currentPageId }) => {
   const pageIcons = [...pages].map((p) => (
     <CourseIcon
+      key={p.id}
       pageId={p.id}
       type={p.type}
       status={p.status}
@@ -25,7 +26,7 @@ const CourseNavigation = ({ pages, onGoToPage, currentPageId }) => {
 CourseNavigation.propTypes = {
   currentPageId: PropTypes.string.isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({
-    pageId: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     status: PropTypes.string,
     seen: PropTypes.bool,
