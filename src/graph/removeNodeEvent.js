@@ -11,7 +11,7 @@ class RemoveNodeEvent extends Event {
     graph.getNodeById(this.data.nodeId);
 
     graph.edges
-      .filter((e) => e.toNodeId === this.data.nodeId || e.fromNodeId === this.data.nodeId)
+      .filter((e) => e.toNode.id === this.data.nodeId || e.fromNode.id === this.data.nodeId)
       .forEach((e) => graph.removeEdge(e.id));
 
     // eslint-disable-next-line no-param-reassign

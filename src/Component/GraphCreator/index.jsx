@@ -53,17 +53,11 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
   };
 
   const handleKeyUp = useCallback((e) => {
+    const newGraph = graph.copy();
     // d key
     if (e.keyCode === 68) {
-      const selectedNodes = graph.nodes.filter((i) => i.selected);
-      graph.edges = graph.edges.filter((i) => {
-        // remove edges associated with deleted node
-        if (selectedNodes.find((n) => n.id === i.fromNodeId || n.id === i.toNodeId)) {
-          return false;
-        }
-        return !i.selected;
-      });
-      graph.nodes = nodes.(nodes.filter((i) => !i.selected));
+      newGraph.edges.filter((i) => i.selected).forEach((i) => newGraph.removeEdge(i.id));
+      newGraph.nodes.filter((i) => i.selected).forEach((i) => newGraph.removeNode(i.id));
     }
     // e key
     if (e.keyCode === 69) {
@@ -72,7 +66,9 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
     } else if (e.keyCode === 78) {
       setAddNode(false);
     }
-  }, [nodes, edges]);
+
+    setGraph(newGraph);
+  }, [graph]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -85,77 +81,77 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
   }, [handleKeyUp]);
 
   const edgeClicked = (e) => {
-    setEdges(edges.map((i) => {
-      if (i.toNodeId === e.toNodeId && i.fromNodeId === e.fromNodeId) {
-        return { ...i, selected: true };
-      }
-      return { ...i, selected: false };
-    }));
+    const newGraph = graph.copy();
+    newGraph.edges.forEach((i) => {
+      // eslint-disable-next-line no-param-reassign
+      i.selected = i.id === e.id;
+    });
+
+    newGraph.nodes.forEach((i) => {
+      // eslint-disable-next-line no-param-reassign
+      i.selected = false;
+    });
 
     setLastNodeSelected(null);
-    setNodes(nodes.map((i) => ({ ...i, selected: false })));
+    setGraph(newGraph);
   };
 
   const nodeClicked = (n) => {
+    const newGraph = graph.copy();
     if (addEdge && lastNodeSelected) {
       // if the edge does not yet exist create it
       if (n.id !== lastNodeSelected.id
-        && !edges.find((e) => e.from === lastNodeSelected.id && e.to === n.id)) {
-        const newEdges = [...edges, {
-          id: `(${lastNodeSelected.id}, ${n.id})`,
-          name: `(${lastNodeSelected.name}, ${n.name})`,
-          fromNodeId: lastNodeSelected.id,
-          toNodeId: n.id,
-          selected: false,
-        }];
-        setEdges(newEdges);
-        onGraphChanged({ nodes, edges: newEdges });
+        && !newGraph.hasEdge(lastNodeSelected.id, n.id)) {
+        newGraph.addEdge(lastNodeSelected.id, n.id, `(${lastNodeSelected.name}, ${n.name})`, 1);
+        onGraphChanged({ graph: newGraph });
       }
     } else {
-      setEdges(edges.map((i) => ({ ...i, selected: false })));
+      newGraph.edges.forEach((i) => {
+        // eslint-disable-next-line no-param-reassign
+        i.selected = false;
+      });
     }
 
     setLastNodeSelected(n);
-    setNodes(nodes.map((i) => {
-      if (i.id === n.id) {
-        return { ...i, selected: true };
-      }
-      return { ...i, selected: false };
-    }));
+    newGraph.nodes.forEach((i) => {
+      // eslint-disable-next-line no-param-reassign
+      i.selected = i.id === n.id;
+    });
+    setGraph(newGraph);
   };
 
   const canvasClicked = (n) => {
+    const newGraph = graph.copy();
     if (addNode) {
-      const newNode = {
-        id: `${created}`, name: `${created}`, x: n.svgX, y: n.svgY, selected: false,
-      };
-      const newNodes = [
-        ...nodes,
-        newNode,
-      ];
-
+      newGraph.addNode(`${created}`, n.svgX, n.svgY);
+      const newNode = newGraph.nodes[newGraph.nodes.length - 1];
       setCreated(created + 1);
-      setNodes(newNodes.map((i) => {
-        if (i.id === newNode.id) {
-          return { ...i, selected: true };
-        }
-        return { ...i, selected: false };
-      }));
+      newGraph.nodes.forEach((i) => {
+        // eslint-disable-next-line no-param-reassign
+        i.selected = i.id === newNode.id;
+      });
       setLastNodeSelected(newNode);
-      onGraphChanged({ nodes: newNodes, edges });
+      onGraphChanged({ graph: newGraph });
     } else {
       setLastNodeSelected(null);
-      setNodes(nodes.map((i) => ({ ...i, selected: false })));
+      newGraph.nodes.forEach((i) => {
+        // eslint-disable-next-line no-param-reassign
+        i.selected = false;
+      });
     }
 
-    setEdges(edges.map((i) => ({ ...i, selected: false })));
+    newGraph.edges.forEach((i) => {
+      // eslint-disable-next-line no-param-reassign
+      i.selected = false;
+    });
+    setGraph(newGraph);
   };
 
   return (
     <Editor>
       <GraphComponent
-        nodes={nodes}
-        edges={edges}
+        nodes={graph.nodes}
+        edges={graph.edges.map((e) => ({ ...e, fromNodeId: e.fromNode.id, toNodeId: e.toNode.id }))}
         width={width}
         height={height}
         onEdgeClicked={edgeClicked}

@@ -98,15 +98,29 @@ class Graph {
   }
 
   getEdgeById(edgeId) {
-    const edge = this.edges.find((n) => n.id === edgeId);
+    const edge = this.edges.find((e) => e.id === edgeId);
     if (!edge) throw new Error(`edge with id ${edgeId} not found`);
     return edge;
+  }
+
+  hasEdge(fromNodeId, toNodeId) {
+    return this.edges
+      .filter((e) => e.fromNode.id === fromNodeId && e.toNode.id === toNodeId).length > 0;
   }
 
   getNodeById(nodeId) {
     const node = this.nodes.find((n) => n.id === nodeId);
     if (!node) throw new Error(`node with id ${nodeId} not found`);
     return node;
+  }
+
+  copy() {
+    const graph = new Graph();
+    graph.edges = [...this.edges];
+    graph.nodes = [...this.nodes];
+    graph.events = [...this.events];
+    graph.subscriptions = { ...this.subscriptions };
+    return graph;
   }
 }
 
