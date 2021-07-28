@@ -4,8 +4,6 @@ import Heading from './Component/Heading';
 import LearnPage from './Component/LearnPage';
 import PracticePage from './Component/PracticePage';
 import CourseNavigation from './Component/CourseNavigation';
-import Graph from './Component/Graph';
-import GraphCreator from './Component/GraphCreator';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -64,72 +62,6 @@ function App() {
     );
   }
 
-  const nodes = [
-    {
-      id: 'a',
-      name: 'a',
-      x: 200,
-      y: 200,
-    },
-    {
-      id: 'b',
-      name: 'b',
-      x: 200,
-      y: 100,
-    },
-    {
-      id: 'c',
-      name: 'c',
-      x: 200,
-      y: 300,
-    },
-    {
-      id: 'd',
-      name: 'd',
-      x: 100,
-      y: 200,
-    },
-    {
-      id: 'e',
-      name: 'e',
-      x: 300,
-      y: 200,
-    },
-  ];
-
-  const edges = [
-    {
-      id: '1',
-      name: '(a, b)',
-      fromNodeId: 'a',
-      toNodeId: 'b',
-    },
-    {
-      id: '2',
-      name: '(a, c)',
-      fromNodeId: 'a',
-      toNodeId: 'c',
-    },
-    {
-      id: '3',
-      name: '(a, d)',
-      fromNodeId: 'a',
-      toNodeId: 'd',
-    },
-    {
-      id: '4',
-      name: '(a, e)',
-      fromNodeId: 'a',
-      toNodeId: 'e',
-    },
-    {
-      id: '5',
-      name: '(a, e)',
-      fromNodeId: 'e',
-      toNodeId: 'a',
-    },
-  ];
-
   return (!loading && course
   && (
     <div className="App">
@@ -157,20 +89,6 @@ function App() {
           <div className="col-11">
             {pageJsx}
           </div>
-          <Graph
-            width={400}
-            height={400}
-            nodes={nodes}
-            edges={edges}
-            onNodeClicked={(d) => console.log(d)}
-            onEdgeClicked={(d) => console.log(d)}
-            onCanvasClicked={(d) => console.log(d)}
-          />
-          <GraphCreator
-            width={400}
-            height={400}
-            onGraphChanged={(g) => console.log(g)}
-          />
         </div>
       </div>
     </div>

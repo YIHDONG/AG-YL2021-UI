@@ -5,6 +5,7 @@ import { api } from '../../api';
 import classes from './index.module.css';
 import MultiChoiceProblem from './MultiChoiceProblem';
 import Modal from '../Modal';
+import GraphCreatorProblem from './GraphCreatorProblem';
 
 const PracticePage = ({
   type, question, data, hints, pageId,
@@ -43,8 +44,16 @@ const PracticePage = ({
         />
       );
       break;
+    case 'graphCreator':
+      problemJsx = (
+        <GraphCreatorProblem
+          onSubmissionDataChange={onSubmissionChange}
+          options={data.options}
+        />
+      );
+      break;
     default:
-      throw new Error('no component type for problem type');
+      throw new Error(`no component for problem type ${type}`);
   }
 
   return (
@@ -82,7 +91,7 @@ const PracticePage = ({
         title={result && result.status === 'pass' ? 'Correct, nice work!' : 'Not quite right...'}
         closeModal={() => setShowFeedback(false)}
       >
-        {hints[0]}
+        {result.feedback}
       </Modal>
     </div>
   );
@@ -91,16 +100,8 @@ const PracticePage = ({
 PracticePage.propTypes = {
   type: PropTypes.string.isRequired,
   question: PropTypes.string.isRequired,
-  data: PropTypes.oneOf([
-    PropTypes.shape({
-      options: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string.isRequired,
-          content: PropTypes.string.isRequired,
-        }),
-      ).isRequired,
-    }),
-  ]).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.any.isRequired,
   hints: PropTypes.arrayOf(PropTypes.string).isRequired,
   pageId: PropTypes.string.isRequired,
 };

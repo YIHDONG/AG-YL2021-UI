@@ -23,7 +23,7 @@ const MultiChoiceProblem = ({ options, onSubmissionDataChange }) => {
   return (
     <div className={`container ${classes.Choices}`}>
       {options.map(({ id, content }) => (
-        <div className="row align-items-center">
+        <div key={id} className="row align-items-center">
           <div className="col-1">
             <CourseIcon pageId={id} active={submissionData[id].active} type="practice" onClick={handleSelect} />
           </div>
@@ -37,10 +37,10 @@ const MultiChoiceProblem = ({ options, onSubmissionDataChange }) => {
 };
 
 MultiChoiceProblem.propTypes = {
-  options: PropTypes.arrayOf({
+  options: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-  }).isRequired,
+  })).isRequired,
   onSubmissionDataChange: PropTypes.func.isRequired,
 };
 

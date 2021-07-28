@@ -230,11 +230,12 @@ export default function Modal({
 }
 Modal.propTypes = {
   title: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
+  status: PropTypes.string,
   showModal: PropTypes.bool.isRequired,
   children: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
 };
 Modal.defaultProps = {
   children: '',
+  status: 'default',
 };
