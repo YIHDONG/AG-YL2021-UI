@@ -17,6 +17,21 @@ function App() {
     setCurrentPage(nextPage);
   };
 
+  const setPageStatus = ({ status, pageId }) => {
+    const newPages = course.pages.map((p) => {
+      const newP = { ...p };
+      if (newP.id === pageId) {
+        newP.status = status;
+      }
+
+      if (newP.id === currentPage.id) {
+        setCurrentPage(newP);
+      }
+      return newP;
+    });
+    setCourse({ ...course, pages: newPages });
+  };
+
   useEffect(() => {
     const fetchCourse = async () => {
       setLoading(true);
@@ -58,6 +73,7 @@ function App() {
         data={currentPage.problem.data}
         hints={currentPage.problem.hints || []}
         pageId={currentPage.id}
+        onResults={setPageStatus}
       />
     );
   }

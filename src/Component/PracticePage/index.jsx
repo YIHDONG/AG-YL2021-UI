@@ -9,7 +9,7 @@ import GraphCreatorProblem from './GraphCreatorProblem';
 import GraphSelectorProblem from './GraphSelectorProblem';
 
 const PracticePage = ({
-  type, question, data, hints, pageId,
+  type, question, data, hints, pageId, onResults,
 }) => {
   const [canSubmit, setCanSubmit] = useState(false);
   const [submissionData, setSubmissionData] = useState({});
@@ -25,6 +25,7 @@ const PracticePage = ({
       const submission = await api.createPageSubmission(pageId, body);
       setResult(submission);
       setShowFeedback(true);
+      onResults({ status: (submission.status === 'pass' ? 'correct' : 'incorrect'), pageId });
     } catch (e) {
       console.log('woops');
     } finally {
@@ -118,6 +119,7 @@ PracticePage.propTypes = {
   data: PropTypes.any.isRequired,
   hints: PropTypes.arrayOf(PropTypes.string).isRequired,
   pageId: PropTypes.string.isRequired,
+  onResults: PropTypes.func.isRequired,
 };
 
 export default PracticePage;
