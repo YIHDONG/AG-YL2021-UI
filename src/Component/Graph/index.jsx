@@ -7,41 +7,43 @@ const NODE_RADIUS = 20;
 
 const GraphStyle = styled.svg`
 
-  background:white;
-  border: 6px solid black;
-  box-shadow: 4px 4px 0px black;
-  border-radius: 10px;
+background:white;
+border: 6px solid black;
+box-shadow: 4px 4px 0px black;
+border-radius: 10px;
 
-  circle {
-    fill: #fd7aff;
-    cursor: pointer;
-  }
+/* circle:hover {
+  fill: #C900CD;
+} */
 
-  circle:hover {
-    fill: #C900CD;
-  }
+text {
+  font-family: 'Lato', sans-serif;
+  fill: #FFFFFF;
+  user-select: none;
+  pointer-events: none;
+}
 
-  text {
-    font-family: 'Lato', sans-serif;
-    fill: #FFFFFF;
-    user-select: none;
-    pointer-events: none;
-  }
+path {
+  fill: none;
+  stroke-width: 6;
+}
 
-  path {
-    stroke: #7efd6a;
-    fill: none;
-    stroke-width: 4;
-    cursor: pointer;
-  }
-
-  path:hover {
-    stroke: #1ABA00;
-  }
+/* path:hover {
+  stroke: #1ABA00;
+} */
 `;
 
 const Graph = ({
-  width, height, nodes, edges, onNodeClicked, onEdgeClicked, onCanvasClicked,
+  width,
+  height,
+  nodes,
+  edges,
+  onNodeClicked,
+  onEdgeClicked,
+  onCanvasClicked,
+  edgeColor,
+  nodeColor,
+  selectable,
 }) => {
   const graph = useRef(null);
   const [g, setG] = useState(null);
@@ -110,10 +112,8 @@ const Graph = ({
         .join('path')
         .attr('d', (d) => lineGenerator([{ x: d.fromX, y: d.fromY }, { x: d.midX, y: d.midY }, { x: d.toX, y: d.toY }]))
         .attr('marker-mid', 'url(#graphDirMarker)')
-        .style('stroke', (d) => {
-          if (d.selected) return '#1ABA00';
-          return undefined;
-        })
+        .style('stroke', (d) => edgeColor(d).primary)
+        .style('cursor', selectable ? 'pointer' : 'auto')
         .lower()
         .on('click', (event, d) => onEdgeClicked(d));
 
@@ -124,24 +124,24 @@ const Graph = ({
         .attr('cx', (d) => d.x)
         .attr('cy', (d) => d.y)
         .attr('r', NODE_RADIUS)
-        .style('fill', (d) => {
-          if (d.selected) return '#C900CD';
-          return undefined;
-        })
+        .style('fill', (d) => nodeColor(d).primary)
+        .style('cursor', selectable ? 'pointer' : 'auto')
         .on('click', (event, d) => onNodeClicked(d));
 
       const labels = [
         ...edgesConverted.map((d) => ({
+          type: 'edge',
+          data: d,
           text: d.name,
           x: d.labelX,
           y: d.labelY,
-          fill: '#1ABA00',
         })),
         ...nodes.map((d) => ({
           text: d.name,
+          type: 'node',
+          data: d,
           x: d.x,
           y: d.y,
-          fill: '#FFFFFF',
         })),
       ];
 
@@ -153,7 +153,12 @@ const Graph = ({
         .attr('dy', (d) => d.y + 6)
         .attr('font-size', 18)
         .attr('text-anchor', 'middle')
-        .style('fill', (d) => d.fill)
+        .style('fill', (d) => {
+          if (d.type === 'edge') {
+            return edgeColor(d.data).secondary;
+          }
+          return nodeColor(d.data).secondary;
+        })
         .text((d) => d.text);
     }
   },
@@ -165,6 +170,9 @@ const Graph = ({
     height,
     onNodeClicked,
     onEdgeClicked,
+    selectable,
+    edgeColor,
+    nodeColor,
     g,
   ]);
 
@@ -211,6 +219,13 @@ Graph.propTypes = {
   onNodeClicked: PropTypes.func.isRequired,
   onEdgeClicked: PropTypes.func.isRequired,
   onCanvasClicked: PropTypes.func.isRequired,
+  edgeColor: PropTypes.func.isRequired,
+  nodeColor: PropTypes.func.isRequired,
+  selectable: PropTypes.bool,
+};
+
+Graph.defaultProps = {
+  selectable: false,
 };
 
 export default Graph;

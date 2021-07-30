@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Graph from '../Graph';
+import constants from '../../constants';
 
 const GraphSelectorProblem = ({
   width, height, nodes, edges, onSubmissionDataChange,
@@ -47,6 +48,15 @@ const GraphSelectorProblem = ({
       onCanvasClicked={() => {}}
       onNodeClicked={handleNodeClicked}
       onEdgeClicked={handleEdgeClicked}
+      selectable
+      edgeColor={(d) => ({
+        primary: (d.selected ? constants.color.graphAccentBlue : constants.color.edgeGreen),
+        secondary: constants.color.edgeAccentGreen,
+      })}
+      nodeColor={(d) => ({
+        primary: (d.selected ? constants.color.graphAccentBlue : constants.color.nodePink),
+        secondary: '#FFFFFF',
+      })}
     />
   );
 };

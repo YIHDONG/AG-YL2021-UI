@@ -56,6 +56,14 @@ const SectionComponent = ({ type, content }) => {
           onNodeClicked={() => {}}
           onEdgeClicked={() => {}}
           onCanvasClicked={() => {}}
+          edgeColor={() => ({
+            primary: constants.color.edgeGreen,
+            secondary: constants.color.edgeAccentGreen,
+          })}
+          nodeColor={() => ({
+            primary: constants.color.nodePink,
+            secondary: '#FFFFFF',
+          })}
         />
       );
     case 'graphAnimation':

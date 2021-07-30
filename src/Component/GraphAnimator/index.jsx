@@ -4,6 +4,7 @@ import GraphComponent from '../Graph';
 import Graph from '../../graph/graph';
 import Node from '../../graph/node';
 import Edge from '../../graph/edge';
+import constants from '../../constants';
 
 const GraphAnimatorComponent = ({ initialGraph, events }) => {
   const buildInitialGraph = (graphData) => {
@@ -66,6 +67,15 @@ const GraphAnimatorComponent = ({ initialGraph, events }) => {
         onCanvasClicked={() => {}}
         onEdgeClicked={() => {}}
         onNodeClicked={() => {}}
+        edgeColor={(d) => ({
+          primary: d.traversed ? constants.color.graphAccentBlue : constants.color.edgeGreen,
+          secondary: (d.traversed ? constants.color.graphAccentBlue
+            : constants.color.edgeAccentGreen),
+        })}
+        nodeColor={(d) => ({
+          primary: d.visited ? constants.color.graphAccentBlue : constants.color.nodePink,
+          secondary: '#FFFFFF',
+        })}
       />
     </div>
   );

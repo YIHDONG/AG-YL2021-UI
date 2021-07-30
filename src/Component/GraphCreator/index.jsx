@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import GraphComponent from '../Graph';
 import Graph from '../../graph/graph';
+import constants from '../../constants';
 
 const Editor = styled.div`
   margin: 20px;
@@ -205,6 +206,15 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
         onEdgeClicked={edgeClicked}
         onNodeClicked={nodeClicked}
         onCanvasClicked={canvasClicked}
+        selectable
+        edgeColor={(d) => ({
+          primary: d.selected ? constants.color.edgeAccentGreen : constants.color.edgeGreen,
+          secondary: constants.color.edgeAccentGreen,
+        })}
+        nodeColor={(d) => ({
+          primary: d.selected ? constants.color.nodeAccentPink : constants.color.nodePink,
+          secondary: '#FFFFFF',
+        })}
       />
       {nodeNamer}
       <ul>
