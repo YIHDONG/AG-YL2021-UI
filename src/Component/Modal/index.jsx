@@ -10,6 +10,8 @@ import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 
+import constants from '../../constants';
+
 /* **************************Styles using styled-components******************************** */
 const ModalContainer = styled.div`
   height: 100vh;
@@ -25,7 +27,6 @@ const ModalContainer = styled.div`
 const Background = styled.div`
   height: 100vh;
   width: 100vw;
-  background:rgba(37, 150, 255, 0.5);
   position: fixed;
 `;
 
@@ -50,18 +51,18 @@ const HeaderWrapperDefault = styled.div`
   justify-content: left;
   align-items: center;
 
-  background: #2596FF;
+  background: ${constants.color.defaultAccentBlue};
   border-bottom: 4px solid black;
   border-radius: 4px 4px 0px 0px;
   padding: 5px;
 `;
 
 const HeaderWrapperCorrect = styled(HeaderWrapperDefault)`
-  background: #00D315;
+  background: ${constants.color.correctAccentGreen};
 `;
 
 const HeaderWrapperIncorrect = styled(HeaderWrapperDefault)`
-  background: #FF4D00;
+  background: ${constants.color.incorrectAccentRed};
 `;
 
 const ModalHeader = styled.h1`
@@ -85,7 +86,7 @@ const ModalContent = styled.div`
   
   font-size: 16px;
 
-  color: #2B1953;
+  color: ${constants.color.textBasic};
 `;
 
 const SuccessImg = styled.div`
@@ -108,40 +109,40 @@ const CloseModalButtonDefault = styled(MdClose)`
   height: 20px;
   z-index: 10;
 
-  color: #B3DAFF;
-  background: #2596FF;
-  border: 1.4px solid #B3DAFF;
+  color: ${constants.color.defaultBlue};
+  background: ${constants.color.defaultAccentBlue};
+  border: 1.4px solid ${constants.color.defaultBlue};
   box-sizing: border-box;
   border-radius: 3px;
 
   &:hover {
-    color:  #2596FF;
-    background: #B3DAFF;
-    border: 1.4px solid #2596FF;
+    color:  ${constants.color.defaultAccentBlue};
+    background: ${constants.color.defaultBlue};
+    border: 1.4px solid ${constants.color.defaultAccentBlue};
   }
 `;
 
 const CloseModalButtonCorrect = styled(CloseModalButtonDefault)`
-  color: #AAFFB2;
-  background: #00D315;
-  border-color: #AAFFB2;
+  color: ${constants.color.correctGreen};
+  background: ${constants.color.correctAccentGreen};
+  border-color: ${constants.color.correctGreen};
 
   &:hover {
-    color: #00D315;
-    background: #AAFFB2;
-    border-color: #00D315;
+    color: ${constants.color.correctAccentGreen};
+    background: ${constants.color.correctGreen};
+    border-color: ${constants.color.correctAccentGreen};
   }
 `;
 
 const CloseModalButtonIncorrect = styled(CloseModalButtonDefault)`
-  color: #FFBEA2;
-  background: #FF4D00;
-  border-color: #FFBEA2;
+  color: ${constants.color.incorrectRed};
+  background: ${constants.color.incorrectAccentRed};
+  border-color: ${constants.color.incorrectRed};
 
   &:hover {
-    color: #FF4D00;
-    background: #FFBEA2;
-    border-color: #FF4D00;
+    color: ${constants.color.incorrectAccentRed};
+    background: ${constants.color.incorrectRed};
+    border-color: ${constants.color.incorrectAccentRed};
   }
 `;
 

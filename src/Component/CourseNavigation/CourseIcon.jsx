@@ -1,43 +1,61 @@
 import React from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import classes from './CourseIcon.module.css';
+
+import constants from '../../constants';
 
 const CourseIcon = ({
   pageId, type, status, seen, active, onClick,
 }) => {
-  const c = [classes.CourseIcon];
-  if (type === 'learn') {
-    c.push(classes.LearnIcon);
-  } else {
-    c.push(classes.PracticeIcon);
-  }
-
-  if (seen) {
-    if (active) {
+  const getColor = () => {
+    if (seen) {
       switch (status) {
-        case 'incorrect': c.push(classes.IncorrectActive);
-          break;
-        case 'correct': c.push(classes.CorrectActive);
-          break;
-        default: c.push(classes.DefaultActive);
+        case 'incorrect':
+          return ({
+            background: (active ? constants.color.incorrectRed : '#FFFFFF'),
+            border: (active ? constants.color.incorrectAccentRed : constants.color.incorrectRed),
+          });
+        case 'correct':
+          return ({
+            background: (active ? constants.color.correctGreen : '#FFFFFF'),
+            border: (active ? constants.color.correctAccentGreen : constants.color.correctGreen),
+          });
+        default:
+          return ({
+            background: (active ? constants.color.defaultBlue : '#FFFFFF'),
+            border: (active ? constants.color.defaultAccentBlue : constants.color.defaultBlue),
+          });
       }
     } else {
-      switch (status) {
-        case 'incorrect': c.push(classes.Incorrect);
-          break;
-        case 'correct': c.push(classes.Correct);
-          break;
-        default: c.push(classes.Default);
-      }
+      return ({
+        background: (active ? constants.color.grey : '#FFFFFF'),
+        border: (active ? constants.color.greyAccent : constants.color.grey),
+      });
     }
-  } else if (active) {
-    c.push(classes.CourseIconActive);
-  }
+  };
 
-  return (
-    // eslint-disable-next-line jsx-a11y/control-has-associated-label
-    <div className={c.join(' ')} onKeyUp={() => onClick(pageId)} onClick={() => onClick(pageId)} role="button" tabIndex="0" />
-  );
+  const BaseIcon = styled.div`
+  width: 20px;
+  height: 20px;
+  background-color: ${getColor().background};
+  border: 6px solid ${getColor().border};
+  box-sizing: border-box;
+  z-index: 2;
+  margin: 10px auto; 
+  `;
+
+  const LearnIcon = styled(BaseIcon)`
+    border-radius: 10px;
+  `;
+
+  const PracticeIcon = styled(BaseIcon)`
+    border-radius: 4px;
+  `;
+
+  if (type === 'learn') {
+    return <LearnIcon onKeyUp={() => onClick(pageId)} onClick={() => onClick(pageId)} role="button" tabIndex="0" />;
+  }
+  return <PracticeIcon onKeyUp={() => onClick(pageId)} onClick={() => onClick(pageId)} role="button" tabIndex="0" />;
 };
 
 CourseIcon.propTypes = {

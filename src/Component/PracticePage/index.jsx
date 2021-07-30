@@ -6,10 +6,12 @@ import classes from './index.module.css';
 import MultiChoiceProblem from './MultiChoiceProblem';
 import Modal from '../Modal';
 import GraphCreatorProblem from './GraphCreatorProblem';
+import GraphSelectorProblem from './GraphSelectorProblem';
 
 const PracticePage = ({
   type, question, data, hints, pageId,
 }) => {
+  const [canSubmit, setCanSubmit] = useState(false);
   const [submissionData, setSubmissionData] = useState({});
   const [showFeedback, setShowFeedback] = useState(false);
   const [result, setResult] = useState({});
@@ -32,6 +34,7 @@ const PracticePage = ({
 
   const onSubmissionChange = (d) => {
     setSubmissionData(d);
+    setCanSubmit(true);
   };
 
   let problemJsx;
@@ -49,6 +52,17 @@ const PracticePage = ({
         <GraphCreatorProblem
           onSubmissionDataChange={onSubmissionChange}
           options={data.options}
+        />
+      );
+      break;
+    case 'graphSelector':
+      problemJsx = (
+        <GraphSelectorProblem
+          onSubmissionDataChange={onSubmissionChange}
+          width={data.width}
+          height={data.height}
+          nodes={data.nodes}
+          edges={data.edges}
         />
       );
       break;
@@ -77,7 +91,7 @@ const PracticePage = ({
           <button type="button" className={classes.HintButton} onClick={() => setHintVisible(true)}>
             Hint
           </button>
-          <button disabled={submitting} type="button" className={classes.SubmitButton} onClick={submit}>
+          <button disabled={!canSubmit || submitting} type="button" className={classes.SubmitButton} onClick={submit}>
             Submit
           </button>
         </div>

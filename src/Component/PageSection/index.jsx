@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { host } from '../../api';
 import GraphCreator from '../GraphCreator';
 import Graph from '../Graph';
+import GraphAnimatorComponent from '../GraphAnimator';
+import constants from '../../constants';
 
 const SectionText = styled.p`
   font-family: Lato;
@@ -14,14 +16,14 @@ const SectionText = styled.p`
   line-height: 22px;
   text-align: left;
 
-  color: #2B1953;
+  color: ${constants.color.textBasic};
 `;
 
 const SectionImg = styled.img`
   justify-content: center;
   align-items: center;
   border-radius: 10px 0 0 10px;
-  background: #FFFFFF;
+  background: #ffffff;
   max-width: 600px;
   display: block;
   margin: 6px auto;
@@ -37,7 +39,11 @@ const SectionComponent = ({ type, content }) => {
       return (
         <div>
           <SectionText>{content}</SectionText>
-          <GraphCreator width={400} height={400} onGraphChanged={() => {}} />
+          <GraphCreator
+            width={400}
+            height={400}
+            onGraphChanged={() => {}}
+          />
         </div>
       );
     case 'graph':
@@ -47,9 +53,16 @@ const SectionComponent = ({ type, content }) => {
           height={content.height}
           nodes={content.nodes}
           edges={content.edges}
-          onNodeClicked={(d) => console.log(d)}
-          onEdgeClicked={(d) => console.log(d)}
-          onCanvasClicked={(d) => console.log(d)}
+          onNodeClicked={() => {}}
+          onEdgeClicked={() => {}}
+          onCanvasClicked={() => {}}
+        />
+      );
+    case 'graphAnimation':
+      return (
+        <GraphAnimatorComponent
+          initialGraph={content.initialGraph}
+          events={content.events}
         />
       );
     default:
