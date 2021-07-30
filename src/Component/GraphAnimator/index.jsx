@@ -51,7 +51,7 @@ const GraphAnimatorComponent = ({ initialGraph, events }) => {
     const interval = setInterval(() => {
       if (!animationPlaying) return;
       setFrameIdx((f) => (f + 1) % frames.length);
-    }, 2000);
+    }, 900);
     return () => clearInterval(interval);
   }, [frameIdx, frames, animationPlaying]);
 

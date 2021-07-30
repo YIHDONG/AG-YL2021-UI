@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
 import styled from 'styled-components';
 import * as d3 from 'd3';
+import { v4 as uuidv4 } from 'uuid';
 
 const NODE_RADIUS = 20;
 
@@ -12,13 +13,8 @@ border: 6px solid black;
 box-shadow: 4px 4px 0px black;
 border-radius: 10px;
 
-/* circle:hover {
-  fill: #C900CD;
-} */
-
 text {
   font-family: 'Lato', sans-serif;
-  fill: #FFFFFF;
   user-select: none;
   pointer-events: none;
 }
@@ -26,12 +22,7 @@ text {
 path {
   fill: none;
   stroke-width: 6;
-}
-
-/* path:hover {
-  stroke: #1ABA00;
-} */
-`;
+}`;
 
 const Graph = ({
   width,
@@ -47,6 +38,7 @@ const Graph = ({
 }) => {
   const graph = useRef(null);
   const [g, setG] = useState(null);
+  const [graphId] = useState(uuidv4());
 
   const handleCanvasClicked = (e) => {
     const pt = graph.current.createSVGPoint();
@@ -111,7 +103,7 @@ const Graph = ({
         .data(edgesConverted, (d) => d.id)
         .join('path')
         .attr('d', (d) => lineGenerator([{ x: d.fromX, y: d.fromY }, { x: d.midX, y: d.midY }, { x: d.toX, y: d.toY }]))
-        .attr('marker-mid', 'url(#graphDirMarker)')
+        .attr('marker-mid', (d) => `url(#graphDirMarker-${graphId}-${d.id})`)
         .style('stroke', (d) => edgeColor(d).primary)
         .style('cursor', selectable ? 'pointer' : 'auto')
         .lower()
@@ -174,6 +166,7 @@ const Graph = ({
     edgeColor,
     nodeColor,
     g,
+    graphId,
   ]);
 
   return (
@@ -181,18 +174,21 @@ const Graph = ({
       <GraphStyle ref={graph} width={width} height={height}>
         <rect onClick={handleCanvasClicked} width={width} height={height} fill="#F1F1F1F1" />
         <defs>
-          <marker
-            id="graphDirMarker"
-            viewBox="0 0 10 10"
-            refX="1"
-            refY="5"
-            markerUnits="strokeWidth"
-            orient="auto"
-            markerWidth="4"
-            markerHeight="3"
-          >
-            <polyline points="0,0 10,5 0,10 1,5" fill="#1ABA00" />
-          </marker>
+          {edges.map((e) => (
+            <marker
+              id={`graphDirMarker-${graphId}-${e.id}`}
+              viewBox="0 0 10 10"
+              refX="1"
+              refY="5"
+              markerUnits="strokeWidth"
+              orient="auto"
+              markerWidth="4"
+              markerHeight="3"
+            >
+              <polyline points="0,0 10,5 0,10 1,5" fill={edgeColor(e).secondary} />
+            </marker>
+          ))}
+
         </defs>
       </GraphStyle>
     </div>
