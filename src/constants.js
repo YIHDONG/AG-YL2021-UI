@@ -14,6 +14,10 @@ const incorrectAccentRed = '#FF4D00';
 const grey = '#B9B9B9';
 const greyAccent = '#818181';
 const textBasic = '#2B1953';
+const buttonQuietPurple = '#A394FF';
+const buttonQuietAccentPurple = '#563AFF';
+const buttonLoudRed = '#FF9D9D';
+const buttonLoudAccentRed = '#FF4141';
 
 const constants = {
   color: {
@@ -33,6 +37,10 @@ const constants = {
     grey,
     greyAccent,
     textBasic,
+    buttonQuietPurple,
+    buttonQuietAccentPurple,
+    buttonLoudRed,
+    buttonLoudAccentRed,
   },
 };
 

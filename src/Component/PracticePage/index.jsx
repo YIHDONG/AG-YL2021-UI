@@ -7,6 +7,8 @@ import MultiChoiceProblem from './MultiChoiceProblem';
 import Modal from '../Modal';
 import GraphCreatorProblem from './GraphCreatorProblem';
 import GraphSelectorProblem from './GraphSelectorProblem';
+import ButtonLoud from '../Buttons/ButtonLoud';
+import ButtonQuiet from '../Buttons/ButtonQuiet';
 
 const PracticePage = ({
   type, question, data, hints, pageId, onResults,
@@ -89,12 +91,12 @@ const PracticePage = ({
           </div>
         </div>
         <div className={classes.ButtonPanel}>
-          <button type="button" className={classes.HintButton} onClick={() => setHintVisible(true)}>
+          <ButtonQuiet onClick={() => setHintVisible(true)}>
             Hint
-          </button>
-          <button disabled={!canSubmit || submitting} type="button" className={classes.SubmitButton} onClick={submit}>
+          </ButtonQuiet>
+          <ButtonLoud disabled={!canSubmit || submitting} onClick={submit}>
             Submit
-          </button>
+          </ButtonLoud>
         </div>
       </div>
       <Modal showModal={hintVisible} title="Hint" closeModal={() => setHintVisible(false)}>
