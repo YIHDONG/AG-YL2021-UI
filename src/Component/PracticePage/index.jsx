@@ -9,6 +9,7 @@ import GraphCreatorProblem from './GraphCreatorProblem';
 import GraphSelectorProblem from './GraphSelectorProblem';
 import ButtonLoud from '../Buttons/ButtonLoud';
 import ButtonQuiet from '../Buttons/ButtonQuiet';
+import BlocklyProblem from './BlocklyProblem';
 
 const PracticePage = ({
   type, question, data, hints, pageId, onResults,
@@ -66,6 +67,13 @@ const PracticePage = ({
           height={data.height}
           nodes={data.nodes}
           edges={data.edges}
+        />
+      );
+      break;
+    case 'graphBlocklyCode':
+      problemJsx = (
+        <BlocklyProblem
+          onSubmissionDataChange={onSubmissionChange}
         />
       );
       break;

@@ -4,6 +4,7 @@ import Heading from './Component/Heading';
 import LearnPage from './Component/LearnPage';
 import PracticePage from './Component/PracticePage';
 import CourseNavigation from './Component/CourseNavigation';
+import BlocklyProblem from './Component/PracticePage/BlocklyProblem';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -107,6 +108,7 @@ function App() {
           </div>
         </div>
       </div>
+      <BlocklyProblem onSubmissionDataChange={() => {}} />
     </div>
   ));
 }
