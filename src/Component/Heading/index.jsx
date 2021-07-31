@@ -5,6 +5,31 @@ import styled from 'styled-components';
 
 import constants from '../../constants';
 
+const Heading = styled.div`
+  margin: 40px auto 60px auto;
+  width: 700px;
+  height: 70px;
+  border: 4px solid #000000;
+  box-sizing: border-box;
+  box-shadow: 2px 4px 0px #000000;
+  border-radius: 35px;
+  font-family: Lato;
+  font-weight: bold;
+  font-size: 36px;
+  text-align: center;
+  background-color: ${({ color }) => color};
+  color: ${constants.color.textBasic};
+
+  path {
+    cursor: pointer;
+    fill: ${constants.color.defaultAccentBlue};
+  }
+
+  path:hover {
+    fill: ${constants.color.textBasic};
+  }
+`;
+
 const HeadingComponent = ({
   status, pageTitle, onGoToPage, nextPageId, previousPageId,
 }) => {
@@ -19,33 +44,8 @@ const HeadingComponent = ({
     }
   };
 
-  const Heading = styled.div`
-    margin: 40px auto 60px auto;
-    width: 700px;
-    height: 70px;
-    border: 4px solid #000000;
-    box-sizing: border-box;
-    box-shadow: 2px 4px 0px #000000;
-    border-radius: 35px;
-    font-family: Lato;
-    font-weight: bold;
-    font-size: 36px;
-    text-align: center;
-    background-color: ${color()};
-    color: ${constants.color.textBasic};
-
-    path {
-      cursor: pointer;
-      fill: ${constants.color.defaultAccentBlue};
-    }
-
-    path:hover {
-      fill: ${constants.color.textBasic};
-    }
-  `;
-
   return (
-    <Heading>
+    <Heading color={color()}>
       <div className="container">
         <div className="row align-items-center">
           <div className="col-1">

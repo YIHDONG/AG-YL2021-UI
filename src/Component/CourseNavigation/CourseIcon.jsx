@@ -4,6 +4,24 @@ import PropTypes from 'prop-types';
 
 import constants from '../../constants';
 
+const BaseIcon = styled.div`
+width: 20px;
+height: 20px;
+background-color: ${({ background }) => background};
+border: 6px solid ${({ border }) => border};
+box-sizing: border-box;
+z-index: 2;
+margin: 10px auto; 
+`;
+
+const LearnIcon = styled(BaseIcon)`
+  border-radius: 10px;
+`;
+
+const PracticeIcon = styled(BaseIcon)`
+  border-radius: 4px;
+`;
+
 const CourseIcon = ({
   pageId, type, status, seen, active, onClick,
 }) => {
@@ -34,28 +52,30 @@ const CourseIcon = ({
     }
   };
 
-  const BaseIcon = styled.div`
-  width: 20px;
-  height: 20px;
-  background-color: ${getColor().background};
-  border: 6px solid ${getColor().border};
-  box-sizing: border-box;
-  z-index: 2;
-  margin: 10px auto; 
-  `;
-
-  const LearnIcon = styled(BaseIcon)`
-    border-radius: 10px;
-  `;
-
-  const PracticeIcon = styled(BaseIcon)`
-    border-radius: 4px;
-  `;
+  const { background, border } = getColor();
 
   if (type === 'learn') {
-    return <LearnIcon onKeyUp={() => onClick(pageId)} onClick={() => onClick(pageId)} role="button" tabIndex="0" />;
+    return (
+      <LearnIcon
+        onKeyUp={() => onClick(pageId)}
+        onClick={() => onClick(pageId)}
+        role="button"
+        tabIndex="0"
+        background={background}
+        border={border}
+      />
+    );
   }
-  return <PracticeIcon onKeyUp={() => onClick(pageId)} onClick={() => onClick(pageId)} role="button" tabIndex="0" />;
+  return (
+    <PracticeIcon
+      onKeyUp={() => onClick(pageId)}
+      onClick={() => onClick(pageId)}
+      role="button"
+      tabIndex="0"
+      background={background}
+      border={border}
+    />
+  );
 };
 
 CourseIcon.propTypes = {

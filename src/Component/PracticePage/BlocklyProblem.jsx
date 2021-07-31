@@ -47,7 +47,6 @@ const BlocklyProblem = ({ onSubmissionDataChange }) => {
         ref={workspaceRef}
         readOnly={false}
         trashcan
-        media="media/"
         move={{
           scrollbars: true,
           drag: true,
