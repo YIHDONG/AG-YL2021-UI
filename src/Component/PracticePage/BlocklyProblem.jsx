@@ -25,6 +25,7 @@ const BlocklyProblem = ({ onSubmissionDataChange }) => {
   const workspaceRef = useRef(null);
 
   const generateCode = () => {
+    console.log(workspaceRef);
     const code = BlocklyJS.workspaceToCode(
       workspaceRef.current.workspace,
     );
@@ -33,7 +34,7 @@ const BlocklyProblem = ({ onSubmissionDataChange }) => {
 
   return (
     <Workspace>
-      <ButtonLoud onClick={generateCode} disabled={!workspaceRef.current}>Convert</ButtonLoud>
+      <ButtonLoud onClick={generateCode}>Convert</ButtonLoud>
       <BlocklyComponent
         ref={workspaceRef}
         readOnly={false}

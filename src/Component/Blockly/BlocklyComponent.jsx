@@ -12,15 +12,14 @@ const BlocklyStyle = styled.div`
 `;
 
 // eslint-disable-next-line react/prop-types
-const BlocklyComponent = ({ initialXml, children, ...rest }) => {
-  const blocklyRef = useRef(null);
+const BlocklyComponent = React.forwardRef(({ initialXml, children, ...rest }, ref) => {
   const toolboxRef = useRef(null);
   const [workspace, setWorkspace] = useState(null);
 
   useEffect(() => {
-    if (!workspace && blocklyRef.current && toolboxRef.current) {
+    if (!workspace && ref.current && toolboxRef.current) {
       setWorkspace(Blockly.inject(
-        blocklyRef.current,
+        ref.current,
         {
           toolbox: toolboxRef.current,
           ...rest,
@@ -31,16 +30,16 @@ const BlocklyComponent = ({ initialXml, children, ...rest }) => {
     if (workspace && initialXml) {
       Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), workspace);
     }
-  }, [blocklyRef, toolboxRef, workspace, initialXml, rest]);
+  }, [ref, toolboxRef, workspace, initialXml, rest]);
 
   return (
     <>
-      <BlocklyStyle ref={blocklyRef} id="blocklyDiv" />
+      <BlocklyStyle ref={ref} />
       <xml xmlns="https://developers.google.com/blockly/xml" is="blockly" style={{ display: 'none' }} ref={toolboxRef}>
         {children}
       </xml>
     </>
   );
-};
+});
 
 export default BlocklyComponent;
