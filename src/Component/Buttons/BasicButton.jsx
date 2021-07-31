@@ -15,6 +15,7 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   color: white;
+  font-weight: bold;
 
   :hover {
     color: ${({ secondary }) => secondary};

@@ -9,6 +9,14 @@ import BlocklyComponent, {
   Block, Value, Field, Shadow,
 } from '../Blockly';
 
+Blockly.Themes.Dark = Blockly.Theme.defineTheme('ag-theme', {
+  base: Blockly.Themes.Classic,
+  fontStyle: {
+    family: 'Lato, sans-serif',
+    size: 12,
+  },
+});
+
 Blockly.JavaScript.test_react_field = () => 'console.log(\'custom block\');\n';
 
 Blockly.JavaScript.test_react_date_field = (block) => `console.log(${block.getField('DATE').getText()});\n`;
@@ -25,10 +33,10 @@ const BlocklyProblem = ({ onSubmissionDataChange }) => {
   const workspaceRef = useRef(null);
 
   const generateCode = () => {
-    console.log(workspaceRef);
     const code = BlocklyJS.workspaceToCode(
       workspaceRef.current.workspace,
     );
+    console.log(code);
     onSubmissionDataChange({ code });
   };
 
