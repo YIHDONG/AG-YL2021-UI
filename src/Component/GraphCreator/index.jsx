@@ -94,7 +94,8 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
     }
 
     setGraph(newGraph);
-  }, [graph, lastNodeSelected, nodeIdToRename]);
+    onGraphChanged({ graph: newGraph });
+  }, [graph, lastNodeSelected, onGraphChanged, nodeIdToRename]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -121,6 +122,7 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
     setNodeIdToRename(null);
     setLastNodeSelected(null);
     setGraph(newGraph);
+    onGraphChanged({ graph: newGraph });
   };
 
   const nodeClicked = (n) => {
@@ -132,7 +134,6 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
       if (n.id !== lastNodeSelected.id
         && !newGraph.hasEdge(lastNodeSelected.id, n.id)) {
         newGraph.addEdge(lastNodeSelected.id, n.id, `(${lastNodeSelected.name}, ${n.name})`, 1);
-        onGraphChanged({ graph: newGraph });
       }
     } else {
       newGraph.edges.forEach((i) => {
@@ -147,6 +148,7 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
       i.selected = i.id === n.id;
     });
     setGraph(newGraph);
+    onGraphChanged({ graph: newGraph });
   };
 
   const canvasClicked = (n) => {
@@ -160,7 +162,6 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
         i.selected = i.id === newNode.id;
       });
       setLastNodeSelected(newNode);
-      onGraphChanged({ graph: newGraph });
     } else {
       setLastNodeSelected(null);
       newGraph.nodes.forEach((i) => {
@@ -174,6 +175,7 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
       i.selected = false;
     });
     setGraph(newGraph);
+    onGraphChanged({ graph: newGraph });
     setNodeIdToRename(null);
   };
 
@@ -185,6 +187,7 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
       e.name = `(${e.fromNode.name}, ${e.toNode.name})`;
     });
     setGraph(newGraph);
+    onGraphChanged({ graph: newGraph });
   };
 
   const nodeNamer = nodeIdToRename && (

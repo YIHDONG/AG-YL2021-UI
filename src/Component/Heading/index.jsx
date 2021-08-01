@@ -17,12 +17,12 @@ const Heading = styled.div`
   font-weight: bold;
   font-size: 36px;
   text-align: center;
-  background-color: ${({ color }) => color};
+  background-color: ${({ primary }) => primary};
   color: ${constants.color.textBasic};
 
   path {
     cursor: pointer;
-    fill: ${constants.color.defaultAccentBlue};
+    fill: ${({ secondary }) => secondary};
   }
 
   path:hover {
@@ -36,16 +36,27 @@ const HeadingComponent = ({
   const color = () => {
     switch (status) {
       case 'correct':
-        return constants.color.correctGreen;
+        return ({
+          primary: constants.color.correctGreen,
+          secondary: constants.color.correctAccentGreen,
+        });
       case 'incorrect':
-        return constants.color.incorrectRed;
+        return ({
+          primary: constants.color.incorrectRed,
+          secondary: constants.color.incorrectAccentRed,
+        });
       default:
-        return constants.color.defaultBlue;
+        return ({
+          primary: constants.color.defaultBlue,
+          secondary: constants.color.defaultAccentBlue,
+        });
     }
   };
 
+  const { primary, secondary } = color();
+
   return (
-    <Heading color={color()}>
+    <Heading primary={primary} secondary={secondary}>
       <div className="container">
         <div className="row align-items-center">
           <div className="col-1">
