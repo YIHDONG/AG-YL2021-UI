@@ -101,7 +101,6 @@ GraphAnimatorComponent.propTypes = {
     height: PropTypes.number.isRequired,
   }).isRequired,
   events: PropTypes.arrayOf(PropTypes.shape({
-
   })).isRequired,
 };
 
