@@ -12,6 +12,7 @@ const LearningPage = styled.div`
 
 const LearningPageSection = styled.div`
   margin: 40px auto;
+  display: block;
 `;
 
 const LearnComponent = ({ sections }) => (
@@ -29,7 +30,8 @@ const LearnComponent = ({ sections }) => (
 LearnComponent.propTypes = {
   sections: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    content: PropTypes.any.isRequired,
   })).isRequired,
 };
 

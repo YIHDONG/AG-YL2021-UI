@@ -234,10 +234,13 @@ Modal.propTypes = {
   title: PropTypes.string.isRequired,
   status: PropTypes.string,
   showModal: PropTypes.bool.isRequired,
-  children: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   closeModal: PropTypes.func.isRequired,
 };
 Modal.defaultProps = {
-  children: '',
+  children: null,
   status: 'default',
 };

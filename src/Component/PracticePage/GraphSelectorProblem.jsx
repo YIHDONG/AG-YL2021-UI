@@ -51,7 +51,7 @@ const GraphSelectorProblem = ({
       selectable
       edgeColor={(d) => ({
         primary: (d.selected ? constants.color.graphAccentBlue : constants.color.edgeGreen),
-        secondary: constants.color.edgeAccentGreen,
+        secondary: (d.selected ? constants.color.graphAccentBlue : constants.color.edgeAccentGreen),
       })}
       nodeColor={(d) => ({
         primary: (d.selected ? constants.color.graphAccentBlue : constants.color.nodePink),

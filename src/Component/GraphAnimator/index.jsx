@@ -2,33 +2,13 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import GraphComponent from '../Graph';
 import Graph from '../../graph/graph';
-import Node from '../../graph/node';
-import Edge from '../../graph/edge';
 import constants from '../../constants';
 import ButtonQuiet from '../Buttons/ButtonQuiet';
 
 const GraphAnimatorComponent = ({ initialGraph, events }) => {
-  const buildInitialGraph = (graphData) => {
+  const buildInitialGraph = ({ nodes, edges }) => {
     const g = new Graph();
-    const nodes = graphData.nodes.map((n) => {
-      const node = new Node(n.name, n.x, n.y, g);
-      node.id = n.id;
-      return node;
-    });
-    g.nodes = nodes;
-
-    const edges = graphData.edges.map((e) => {
-      const fromNode = nodes.find((n) => n.id === e.fromNodeId);
-      const toNode = nodes.find((n) => n.id === e.toNodeId);
-      const edge = new Edge(fromNode, toNode, 1, e.name);
-      edge.id = e.id;
-      edge.fromNodeId = fromNode.id;
-      edge.toNodeId = toNode.id;
-      fromNode.edges.push(edge);
-      toNode.edges.push(edge);
-      return edge;
-    });
-    g.edges = edges;
+    g.init(nodes, edges);
     return g;
   };
 
@@ -56,8 +36,46 @@ const GraphAnimatorComponent = ({ initialGraph, events }) => {
     return () => clearInterval(interval);
   }, [frameIdx, frames, animationPlaying]);
 
+  const nodeColor = (node) => {
+    let primary = constants.color.nodePink;
+    if (node.visited) {
+      primary = constants.color.graphAccentBlue;
+    }
+
+    if (node.focused) {
+      primary = constants.color.focusYellow;
+    }
+    return { primary, secondary: 'white' };
+  };
+
+  const edgeColor = (edge) => {
+    let primary = constants.color.edgeGreen;
+    let secondary = constants.color.edgeAccentGreen;
+    if (edge.traversed) {
+      primary = constants.color.graphAccentBlue;
+      secondary = constants.color.graphAccentBlue;
+    }
+
+    if (edge.focused) {
+      primary = constants.color.focusYellow;
+      secondary = constants.color.focusYellow;
+    }
+    return { primary, secondary };
+  };
+
   return (
     <div>
+      <GraphComponent
+        width={initialGraph.width}
+        height={initialGraph.height}
+        nodes={frames[frameIdx].nodes}
+        edges={frames[frameIdx].edges}
+        onCanvasClicked={() => {}}
+        onEdgeClicked={() => {}}
+        onNodeClicked={() => {}}
+        edgeColor={edgeColor}
+        nodeColor={nodeColor}
+      />
       {!animationPlaying && (
       <ButtonQuiet onClick={() => setAnimationPlaying(true)} disabled={animationPlaying}>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -73,24 +91,6 @@ const GraphAnimatorComponent = ({ initialGraph, events }) => {
         </svg>
       </ButtonQuiet>
       )}
-      <GraphComponent
-        width={initialGraph.width}
-        height={initialGraph.height}
-        nodes={frames[frameIdx].nodes}
-        edges={frames[frameIdx].edges}
-        onCanvasClicked={() => {}}
-        onEdgeClicked={() => {}}
-        onNodeClicked={() => {}}
-        edgeColor={(d) => ({
-          primary: d.traversed ? constants.color.graphAccentBlue : constants.color.edgeGreen,
-          secondary: (d.traversed ? constants.color.graphAccentBlue
-            : constants.color.edgeAccentGreen),
-        })}
-        nodeColor={(d) => ({
-          primary: d.visited ? constants.color.graphAccentBlue : constants.color.nodePink,
-          secondary: '#FFFFFF',
-        })}
-      />
     </div>
   );
 };

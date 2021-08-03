@@ -7,13 +7,31 @@ import 'blockly/blocks';
 
 Blockly.setLocale(locale);
 
-const BlocklyStyle = styled.div`
-  width: 700px;
+Blockly.Theme.defineTheme('ag-theme', {
+  base: Blockly.Themes.Classic,
+  fontStyle: {
+    family: 'Lato, sans-serif',
+    size: 12,
+  },
+});
+
+const Section = styled.section`
+  position: relative;
+  width: 100%;
+  min-width: 550px;
   height: 500px;
   border: 6px solid #000000;
-  box-sizing: border-box;
   box-shadow: 2px 4px 0px #000000;
   border-radius: 10px;
+`;
+
+const BlocklyStyle = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
 
   div {
     border-radius: 4px;
@@ -42,6 +60,8 @@ class BlocklyComponent extends React.Component {
     if (initialXml) {
       Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.workspace);
     }
+
+    Blockly.svgResize(this.workspace);
   }
 
   render() {
@@ -49,12 +69,12 @@ class BlocklyComponent extends React.Component {
     const { children } = this.props;
 
     return (
-      <>
+      <Section>
         <BlocklyStyle ref={this.blockly} />
         <xml xmlns="https://developers.google.com/blockly/xml" is="blockly" style={{ display: 'none' }} ref={this.toolbox}>
           {children}
         </xml>
-      </>
+      </Section>
     );
   }
 }

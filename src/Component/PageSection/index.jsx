@@ -29,6 +29,12 @@ const SectionImg = styled.img`
   margin: 6px auto;
 `;
 
+const SectionGraph = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const SectionComponent = ({ type, content }) => {
   switch (type) {
     case 'image':
@@ -37,41 +43,45 @@ const SectionComponent = ({ type, content }) => {
       return <SectionText>{content}</SectionText>;
     case 'graphCreator':
       return (
-        <div>
+        <SectionGraph>
           <SectionText>{content}</SectionText>
           <GraphCreator
             width={400}
             height={400}
             onGraphChanged={() => {}}
           />
-        </div>
+        </SectionGraph>
       );
     case 'graph':
       return (
-        <Graph
-          width={content.width}
-          height={content.height}
-          nodes={content.nodes}
-          edges={content.edges}
-          onNodeClicked={() => {}}
-          onEdgeClicked={() => {}}
-          onCanvasClicked={() => {}}
-          edgeColor={() => ({
-            primary: constants.color.edgeGreen,
-            secondary: constants.color.edgeAccentGreen,
-          })}
-          nodeColor={() => ({
-            primary: constants.color.nodePink,
-            secondary: '#FFFFFF',
-          })}
-        />
+        <SectionGraph>
+          <Graph
+            width={content.width}
+            height={content.height}
+            nodes={content.nodes}
+            edges={content.edges}
+            onNodeClicked={() => {}}
+            onEdgeClicked={() => {}}
+            onCanvasClicked={() => {}}
+            edgeColor={() => ({
+              primary: constants.color.edgeGreen,
+              secondary: constants.color.edgeAccentGreen,
+            })}
+            nodeColor={() => ({
+              primary: constants.color.nodePink,
+              secondary: '#FFFFFF',
+            })}
+          />
+        </SectionGraph>
       );
     case 'graphAnimation':
       return (
-        <GraphAnimatorComponent
-          initialGraph={content.initialGraph}
-          events={content.events}
-        />
+        <SectionGraph>
+          <GraphAnimatorComponent
+            initialGraph={content.initialGraph}
+            events={content.events}
+          />
+        </SectionGraph>
       );
     default:
       throw new Error(`invalid section type ${type}`);

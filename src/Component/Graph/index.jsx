@@ -12,6 +12,8 @@ background:white;
 border: 6px solid black;
 box-shadow: 4px 4px 0px black;
 border-radius: 10px;
+width: 410px;
+height: 410px;
 
 text {
   font-family: 'Lato', sans-serif;
@@ -170,12 +172,14 @@ const Graph = ({
   ]);
 
   return (
-    <div>
-      <GraphStyle ref={graph} width={width} height={height}>
+    <GraphStyle>
+      <svg ref={graph} width={400} height={400} viewBox={`0 0 ${width} ${height}`}>
         <rect onClick={handleCanvasClicked} width={width} height={height} fill="#F1F1F1F1" />
         <defs>
-          {edges.map((e) => (
+          {edges.map((e, idx) => (
             <marker
+              // eslint-disable-next-line react/no-array-index-key
+              key={idx}
               id={`graphDirMarker-${graphId}-${e.id}`}
               viewBox="0 0 10 10"
               refX="1"
@@ -188,10 +192,9 @@ const Graph = ({
               <polyline points="0,0 10,5 0,10 1,5" fill={edgeColor(e).secondary} />
             </marker>
           ))}
-
         </defs>
-      </GraphStyle>
-    </div>
+      </svg>
+    </GraphStyle>
   );
 };
 

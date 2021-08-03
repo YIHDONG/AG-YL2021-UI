@@ -11,7 +11,7 @@ const Button = styled.button`
   box-sizing: border-box;
   box-shadow: 2px 4px 0px #000000;
   border-radius: 4px;
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
   color: white;

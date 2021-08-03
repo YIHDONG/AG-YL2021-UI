@@ -1,24 +1,22 @@
 .ProblemPage {
   text-align: center;
+  align-items: row;
+  justify-content: space-between;
   display: flex;
   margin-top: 100px;
-  margin-left: 100px;
+  margin-left: 20px;
   height: 600px;
   font-family: Lato;
   color:#2B1953;
   font-style: normal;
   font-weight: 500;
+  min-width: 1000px
 }
 
 .LeftContent {
-  width: 50%;
+  min-width: 500px;
+  padding: 40px;
   border: none;
-}
-
-.Left1 {
-  width: 24%;
-  height: 100%;
-  background: #999;
 }
 
 .RightContent {
@@ -29,7 +27,8 @@
 .PromptBox {
   padding: 8px;
   padding-left: 15px;
-  height: 400px;
+  padding-bottom: 30px;
+  min-height: 400px;
   background: #09F;
   margin: 0 auto;
   position: relative;
@@ -53,6 +52,10 @@
 }
 
 .ButtonPanel {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
   height: 200px;
   border: 1px solid #e0e0e0;
   background-color: #e0e0e0;

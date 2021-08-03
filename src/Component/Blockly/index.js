@@ -1,5 +1,6 @@
 import React from 'react';
 import BlocklyComponent from './BlocklyComponent';
+import './customBlocks';
 
 export default BlocklyComponent;
 
