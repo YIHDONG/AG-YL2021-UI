@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import GraphComponent from '../Graph';
-import Graph from '../../graph/graph';
 import constants from '../../constants';
 import ButtonQuiet from '../Buttons/ButtonQuiet';
+import * as Graph from '../../graph/graph';
 
 const GraphAnimatorComponent = ({ initialGraph, events }) => {
   const buildInitialGraph = ({ nodes, edges }) => {
