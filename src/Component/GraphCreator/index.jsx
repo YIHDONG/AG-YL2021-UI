@@ -37,6 +37,40 @@ const Edge = styled.strong`
   color: #1ABA00;
 `;
 
+const NamerInput = styled.div`
+  position: relative;
+  background-color: #C900CD;
+  width: 58px;
+  border: 4px solid white;
+  border-radius: 6px;
+
+  input {
+    border: none;
+    background-color: #C900CD;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    width: 50px;
+    border-radius: 6px;
+  }
+
+  ::before {
+    position: absolute;
+    content: '';
+    width: 0px;
+    height: 0px;
+    border-top: 10px solid white;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid transparent;
+    top: 27px;
+    right: 10px;
+  }
+`;
+
 const GraphCreator = ({ width, height, onGraphChanged }) => {
   const [graph, setGraph] = useState(new Graph());
 
@@ -90,6 +124,7 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
       if (lastNodeSelected) {
         setNodeIdToRename(lastNodeSelected.id);
         renameNodeRef.current.focus();
+        renameNodeRef.current.select();
       }
     }
 
@@ -191,12 +226,14 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
   };
 
   const nodeNamer = nodeIdToRename && (
-    <input
-      ref={renameNodeRef}
-      type="text"
-      onChange={changeNodeName}
-      value={graph.getNodeById(nodeIdToRename).name}
-    />
+    <NamerInput>
+      <input
+        ref={renameNodeRef}
+        type="text"
+        onChange={changeNodeName}
+        value={graph.getNodeById(nodeIdToRename).name}
+      />
+    </NamerInput>
   );
 
   return (

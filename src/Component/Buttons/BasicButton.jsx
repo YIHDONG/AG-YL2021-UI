@@ -10,7 +10,7 @@ const Button = styled.button`
   border: 4px solid #000000;
   box-sizing: border-box;
   box-shadow: 2px 4px 0px #000000;
-  border-radius: 4px;
+  border-radius: 6px;
   display: block;
   justify-content: center;
   align-items: center;
