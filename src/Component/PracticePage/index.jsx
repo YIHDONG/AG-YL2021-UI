@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -28,6 +28,11 @@ const PracticePage = ({
   const [submitting, setSubmitting] = useState(false);
   const [hintVisible, setHintVisible] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setSubmissionData({});
+    setCanSubmit(false);
+  }, [pageId]);
 
   const submit = async () => {
     try {
