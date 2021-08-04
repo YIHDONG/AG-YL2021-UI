@@ -1,9 +1,9 @@
-const Node = require('./node');
-const Event = require('./event');
+import Node from './node';
+import Event from './event';
 
-const TYPE = 'addNode';
+export const TYPE = 'addNode';
 
-class AddNodeEvent extends Event {
+export class AddNodeEvent extends Event {
   constructor(data, time) {
     super(TYPE, data, time);
   }
@@ -16,8 +16,3 @@ class AddNodeEvent extends Event {
     node.focus();
   }
 }
-
-module.exports = {
-  AddNodeEvent,
-  TYPE,
-};

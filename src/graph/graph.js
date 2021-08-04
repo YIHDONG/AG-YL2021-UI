@@ -1,10 +1,10 @@
-const eventFactory = require('./eventFactory');
-const Subscription = require('./subscription');
-const Node = require('./node');
-const Edge = require('./edge');
+import makeEvent from './eventFactory';
+import Subscription from './subscription';
+import Node from './node';
+import Edge from './edge';
 
 const makeAndApplyEvent = (eventData, graph) => {
-  const event = eventFactory.make({
+  const event = makeEvent({
     type: eventData.type,
     data: eventData.data,
   });
@@ -82,7 +82,7 @@ class Graph {
   }
 
   visitNode(nodeId) {
-    const event = eventFactory.make({
+    const event = makeEvent({
       type: 'visitNode',
       data: {
         nodeId,
@@ -92,7 +92,7 @@ class Graph {
   }
 
   traverseEdge(edgeId) {
-    const event = eventFactory.make({
+    const event = makeEvent({
       type: 'traverseEdge',
       data: {
         edgeId,
@@ -164,4 +164,4 @@ class Graph {
   }
 }
 
-module.exports = Graph;
+export default Graph;

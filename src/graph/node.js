@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+import * as uuid from 'uuid';
 
 class Node {
   constructor(name, x, y, graph) {
@@ -42,4 +42,4 @@ class Node {
   }
 }
 
-module.exports = Node;
+export default Node;

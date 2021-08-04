@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import GraphComponent from '../Graph';
 import constants from '../../constants';
-import * as Graph from '../../graph/graph';
+import Graph from '../../graph/graph';
 
 const Editor = styled.div`
   margin: 20px;

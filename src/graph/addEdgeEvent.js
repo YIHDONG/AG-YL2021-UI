@@ -1,9 +1,9 @@
-const Edge = require('./edge');
-const Event = require('./event');
+import Edge from './edge';
+import Event from './event';
 
-const TYPE = 'addEdge';
+export const TYPE = 'addEdge';
 
-class AddEdgeEvent extends Event {
+export class AddEdgeEvent extends Event {
   constructor(data, time) {
     super(TYPE, data, time);
   }
@@ -23,8 +23,3 @@ class AddEdgeEvent extends Event {
     edge.focus();
   }
 }
-
-module.exports = {
-  AddEdgeEvent,
-  TYPE,
-};

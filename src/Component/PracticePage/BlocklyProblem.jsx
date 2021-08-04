@@ -7,7 +7,7 @@ import ButtonLoud from '../Buttons/ButtonLoud';
 import BlocklyComponent, { Block } from '../Blockly';
 import Modal from '../Modal';
 import GraphAnimator from '../GraphAnimator';
-import * as Graph from '../../graph/graph';
+import Graph from '../../graph/graph';
 
 const Workspace = styled.div`
   color: white;

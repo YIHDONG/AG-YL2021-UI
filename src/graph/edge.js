@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+import * as uuid from 'uuid';
 
 class Edge {
   constructor(fromNode, toNode, weight, name, graph) {
@@ -30,4 +30,4 @@ class Edge {
   }
 }
 
-module.exports = Edge;
+export default Edge;

@@ -1,8 +1,8 @@
-const Event = require('./event');
+import Event from './event';
 
-const TYPE = 'visitNode';
+export const TYPE = 'visitNode';
 
-class VisitNodeEvent extends Event {
+export class VisitNodeEvent extends Event {
   constructor(data, time) {
     super(TYPE, data, time);
   }
@@ -15,8 +15,3 @@ class VisitNodeEvent extends Event {
     node.focus();
   }
 }
-
-module.exports = {
-  VisitNodeEvent,
-  TYPE,
-};

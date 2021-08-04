@@ -1,8 +1,8 @@
-const Event = require('./event');
+import Event from './event';
 
-const TYPE = 'removeNode';
+export const TYPE = 'removeNode';
 
-class RemoveNodeEvent extends Event {
+export class RemoveNodeEvent extends Event {
   constructor(data, time) {
     super(TYPE, data, time);
   }
@@ -18,8 +18,3 @@ class RemoveNodeEvent extends Event {
     graph.nodes = graph.nodes.filter((n) => n.id !== this.data.nodeId);
   }
 }
-
-module.exports = {
-  RemoveNodeEvent,
-  TYPE,
-};

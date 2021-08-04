@@ -1,8 +1,8 @@
-const Event = require('./event');
+import Event from './event';
 
-const TYPE = 'removeEdge';
+export const TYPE = 'removeEdge';
 
-class RemoveEdgeEvent extends Event {
+export class RemoveEdgeEvent extends Event {
   constructor(data, time) {
     super(TYPE, data, time);
   }
@@ -15,8 +15,3 @@ class RemoveEdgeEvent extends Event {
     edge.toNode.removeEdge(edge.id);
   }
 }
-
-module.exports = {
-  RemoveEdgeEvent,
-  TYPE,
-};

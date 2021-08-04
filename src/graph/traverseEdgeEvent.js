@@ -1,8 +1,8 @@
-const Event = require('./event');
+import Event from './event';
 
-const TYPE = 'traverseEdge';
+export const TYPE = 'traverseEdge';
 
-class TraverseEdgeEvent extends Event {
+export class TraverseEdgeEvent extends Event {
   constructor(data, time) {
     super(TYPE, data, time);
   }
@@ -13,8 +13,3 @@ class TraverseEdgeEvent extends Event {
     edge.focus();
   }
 }
-
-module.exports = {
-  TraverseEdgeEvent,
-  TYPE,
-};

@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+import * as uuid from 'uuid';
 
 class Subscription {
   constructor(event, graph) {
@@ -12,4 +12,4 @@ class Subscription {
   }
 }
 
-module.exports = Subscription;
+export default Subscription;

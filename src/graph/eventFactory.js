@@ -1,9 +1,9 @@
-const addEdgeEvent = require('./addEdgeEvent');
-const addNodeEvent = require('./addNodeEvent');
-const removeEdgeEvent = require('./removeEdgeEvent');
-const removeNodeEvent = require('./removeNodeEvent');
-const visitNodeEvent = require('./visitNodeEvent');
-const traverseEdgeEvent = require('./traverseEdgeEvent');
+import * as addEdgeEvent from './addEdgeEvent';
+import * as addNodeEvent from './addNodeEvent';
+import * as removeEdgeEvent from './removeEdgeEvent';
+import * as removeNodeEvent from './removeNodeEvent';
+import * as visitNodeEvent from './visitNodeEvent';
+import * as traverseEdgeEvent from './traverseEdgeEvent';
 
 const make = (event) => {
   const time = event.time || new Date();
@@ -25,6 +25,4 @@ const make = (event) => {
   }
 };
 
-module.exports = {
-  make,
-};
+export default make;
