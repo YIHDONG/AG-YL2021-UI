@@ -301,6 +301,17 @@ const GraphCreator = ({ width, height, onGraphChanged }) => {
           {' '}
           <em>d</em>
         </Instructions>
+        <Instructions>
+          To rename a
+          {' '}
+          <Node>node</Node>
+          {' '}
+          select the element and press
+          {' '}
+          <em>r</em>
+          {' '}
+          and type the new name in the popup text box
+        </Instructions>
       </ul>
     </Editor>
   );
