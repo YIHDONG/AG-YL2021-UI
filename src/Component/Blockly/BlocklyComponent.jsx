@@ -19,7 +19,7 @@ const Section = styled.section`
   position: relative;
   width: 100%;
   min-width: 550px;
-  height: 500px;
+  height: ${({ height }) => `${height || 500}px`};
   border: 6px solid #000000;
   box-shadow: 2px 4px 0px #000000;
   border-radius: 10px;
@@ -66,10 +66,10 @@ class BlocklyComponent extends React.Component {
 
   render() {
     // eslint-disable-next-line react/prop-types
-    const { children } = this.props;
+    const { children, height } = this.props;
 
     return (
-      <Section>
+      <Section height={height}>
         <BlocklyStyle ref={this.blockly} />
         <xml xmlns="https://developers.google.com/blockly/xml" is="blockly" style={{ display: 'none' }} ref={this.toolbox}>
           {children}

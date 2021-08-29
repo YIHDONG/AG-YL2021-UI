@@ -10,7 +10,7 @@ import GraphCreatorProblem from './GraphCreatorProblem';
 import GraphSelectorProblem from './GraphSelectorProblem';
 import ButtonLoud from '../Buttons/ButtonLoud';
 import ButtonQuiet from '../Buttons/ButtonQuiet';
-import BlocklyProblem from './BlocklyProblem';
+import BlocklyGraphProblem from './BlocklyGraphProblem';
 import PageSection from '../PageSection';
 
 const ModalContainer = styled.div`
@@ -85,7 +85,7 @@ const PracticePage = ({
       break;
     case 'graphBlockly':
       problemJsx = (
-        <BlocklyProblem
+        <BlocklyGraphProblem
           initialGraph={data.initialGraph}
           blocks={data.blocks}
           onSubmissionDataChange={onSubmissionChange}
