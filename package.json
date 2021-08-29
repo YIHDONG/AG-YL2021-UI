@@ -22,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll=false --coverage",
+    "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{jsx,js}\"",
     "start:dev": "set NODE_ENV=development && yarn start"
