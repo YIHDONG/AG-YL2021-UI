@@ -103,3 +103,59 @@ registerCustom({
     return `execution.console.push(${value})`;
   },
 });
+
+registerCustom({
+  id: 'less_than',
+  definition: {
+    message0: '%1 is less than %2',
+    args0: [
+      { type: 'input_value', name: 'ELEM_1', check: 'Number' },
+      { type: 'input_value', name: 'ELEM_2', check: 'Number' },
+    ],
+    inputsInline: true,
+    output: 'Boolean',
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const firstVar = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
+    const secondVar = Blockly.JavaScript.statementToCode(block, 'ELEM_2') || null;
+    return `${firstVar} < ${secondVar}`;
+  },
+});
+
+registerCustom({
+  id: 'math_number',
+  definition: {
+    message0: '%1',
+    args0: [
+      { type: 'field_number', name: 'NUM', value: 0 },
+    ],
+    inputsInline: true,
+    output: 'Number',
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const number = block.getFieldValue('NUM') || '';
+    return `${number}`;
+  },
+});
+
+registerCustom({
+  id: 'if_do',
+  definition: {
+    message0: 'if %1 do %2',
+    args0: [
+      { type: 'input_value', name: 'CONDITION', check: 'Boolean' },
+      { type: 'input_statement', name: 'STATEMENT' },
+    ],
+    inputsInline: false,
+    previousStatement: null,
+    nextStatement: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const condition = Blockly.JavaScript.statementToCode(block, 'CONDITION') || null;
+    const statement = Blockly.JavaScript.statementToCode(block, 'STATEMENT') || null;
+    return `if (${condition}) {${statement}};\n`;
+  },
+});
