@@ -103,3 +103,76 @@ registerCustom({
     return `execution.console.push(${value})`;
   },
 });
+
+registerCustom({
+  id: 'while_do',
+  definition: {
+    message0: 'while %1',
+    args0: [
+      { type: 'input_value', name: 'WHILE_STATEMENT' },
+    ],
+    message1: 'do %1',
+    args1: [
+      { type: 'input_statement', name: 'DO' },
+    ],
+    previousStatement: null,
+    nextStatement: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const statement = Blockly.JavaScript.statementToCode(block, 'DO') || '';
+    const condition = Blockly.JavaScript.statementToCode(block, 'WHILE_STATEMENT') || 'false';
+    return `while (${condition}) {${statement}};\n`;
+  },
+});
+
+registerCustom({
+  id: 'number_of',
+  definition: {
+    message0: 'number of %1',
+    args0: [
+      { type: 'input_value', name: 'SET' },
+    ],
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const set = Blockly.JavaScript.statementToCode(block, 'SET') || [];
+    return `${set}.size\n`;
+  },
+});
+
+registerCustom({
+  id: 'is_block',
+  definition: {
+    message0: '%1 is %2',
+    args0: [
+      { type: 'input_value', name: 'ELEM_1' },
+      { type: 'field_input', name: 'ELEM_2' },
+    ],
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const elem1 = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
+    const elem2 = block.getFieldValue('ELEM_2') || null;
+    return `${elem1}===(${elem2})`;
+  },
+});
+
+registerCustom({
+  id: 'is_not_block',
+  definition: {
+    message0: '%1 is not %2',
+    args0: [
+      { type: 'input_value', name: 'ELEM_1' },
+      { type: 'input_value', name: 'ELEM_2' },
+    ],
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const elem1 = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
+    const elem2 = block.getFieldValue('ELEM_2') || null;
+    return `!${elem1}===(${elem2})`;
+  },
+});
