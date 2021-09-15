@@ -124,6 +124,25 @@ registerCustom({
 });
 
 registerCustom({
+  id: 'greater_than',
+  definition: {
+    message0: '%1 is greater than %2',
+    args0: [
+      { type: 'input_value', name: 'ELEM_1', check: 'Number' },
+      { type: 'input_value', name: 'ELEM_2', check: 'Number' },
+    ],
+    inputsInline: true,
+    output: 'Boolean',
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const firstVar = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
+    const secondVar = Blockly.JavaScript.statementToCode(block, 'ELEM_2') || null;
+    return `${firstVar} > ${secondVar}`;
+  },
+});
+
+registerCustom({
   id: 'math_number',
   definition: {
     message0: '%1',
