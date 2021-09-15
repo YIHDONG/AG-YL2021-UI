@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Graph from '../Graph';
 import constants from '../../constants';
@@ -8,6 +8,14 @@ const GraphSelectorProblem = ({
 }) => {
   const [nodesSelected, setNodesSelected] = useState([...nodes]);
   const [edgesSelected, setEdgesSelected] = useState([...edges]);
+
+  useEffect(() => {
+    setNodesSelected(nodes);
+  }, [nodes]);
+
+  useEffect(() => {
+    setEdgesSelected(edges);
+  }, [edges]);
 
   const sendSubmissionData = (nodeData, edgeData) => {
     const selectedNodeIds = nodeData.filter((n) => n.selected).map((n) => n.id);
