@@ -64,6 +64,27 @@ registerCustom({
 });
 
 registerCustom({
+  id: 'item_in_collection_with_property',
+  definition: {
+    message0: '%1 in %2 with %3',
+    args0: [
+      { type: 'input_value', name: 'NODE' },
+      { type: 'input_value', name: 'COLLECTION' },
+      { type: 'input_value', name: 'PROPERTY' },
+    ],
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const value_node = Blockly.JavaScript.valueToCode(block, 'NODE', Blockly.JavaScript.ORDER_ATOMIC);
+    const value_collection = Blockly.JavaScript.valueToCode(block, 'COLLECTION', Blockly.JavaScript.ORDER_ATOMIC);
+    const value_property = Blockly.JavaScript.valueToCode(block, 'PROPERTY', Blockly.JavaScript.ORDER_ATOMIC);
+    //TODO: this should return only one node in the collection with the given property
+    return ``;
+  },
+});
+
+registerCustom({
   id: 'visit_node',
   definition: {
     message0: 'visit node %1',
