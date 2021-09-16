@@ -138,7 +138,7 @@ registerCustom({
   style: 'loop_blocks',
   generator: (block) => {
     const set = Blockly.JavaScript.statementToCode(block, 'SET') || [];
-    return `${set}.size\n`;
+    return `Arrays.isArray(${set})?${set}.length:${set}.size`;
   },
 });
 
