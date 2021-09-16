@@ -54,6 +54,16 @@ registerCustom({
 });
 
 registerCustom({
+  id: 'source_node',
+  definition: {
+    message0: 'source node',
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: () => 'execution.variables.source_node',
+});
+
+registerCustom({
   id: 'visit_node',
   definition: {
     message0: 'visit node %1',
