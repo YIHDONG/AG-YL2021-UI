@@ -115,7 +115,7 @@ registerCustom({
     inputsInline: true,
     output: 'Boolean',
   },
-  style: 'loop_blocks',
+  style: 'logic_blocks',
   generator: (block) => {
     const firstVar = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
     const secondVar = Blockly.JavaScript.statementToCode(block, 'ELEM_2') || null;
@@ -134,11 +134,99 @@ registerCustom({
     inputsInline: true,
     output: 'Boolean',
   },
-  style: 'loop_blocks',
+  style: 'logic_blocks',
   generator: (block) => {
     const firstVar = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
     const secondVar = Blockly.JavaScript.statementToCode(block, 'ELEM_2') || null;
     return `${firstVar} > ${secondVar}`;
+  },
+});
+
+registerCustom({
+  id: 'set_to',
+  definition: {
+    message0: 'set %1 to %2',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'default' },
+      { type: 'input_value', name: 'VALUE' },
+    ],
+    inputsInline: true,
+    previousStatement: null,
+    nextStatement: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const variable = block.getFieldValue('VAR') || null;
+    const value = Blockly.JavaScript.statementToCode(block, 'VALUE') || null;
+    return `${variable} = ${value}`;
+  },
+});
+
+registerCustom({
+  id: 'print_var',
+  definition: {
+    message0: 'print %1',
+    args0: [
+      { type: 'input_value', name: 'VARIABLE' },
+    ],
+    inputsInline: true,
+    previousStatement: null,
+    nextStatement: null,
+  },
+  style: 'text_blocks',
+  generator: (block) => {
+    const variable = Blockly.JavaScript.statementToCode(block, 'VARIABLE') || null;
+    return `execution.console.push('${variable}')`;
+  },
+});
+
+registerCustom({
+  id: 'edge_weight',
+  definition: {
+    message0: 'edge weight of %1',
+    args0: [
+      { type: 'input_value', name: 'EDGE' },
+    ],
+    inputsInline: true,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const edgeVar = Blockly.JavaScript.statementToCode(block, 'EDGE') || 'edge';
+    return `${edgeVar}.getWeight();\n`;
+  },
+});
+
+registerCustom({
+  id: 'variable',
+  definition: {
+    message0: '%1',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'default' },
+    ],
+    inputsInline: true,
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const variable = block.getField('VAR').getValue() || '';
+    return `${variable}`;
+  },
+});
+
+registerCustom({
+  id: 'text',
+  definition: {
+    message0: '%1',
+    args0: [
+      { type: 'field_input', name: 'TEXT', value: '' },
+    ],
+    inputsInline: true,
+    output: 'String',
+  },
+  style: 'text_blocks',
+  generator: (block) => {
+    const text = block.getFieldValue('TEXT') || '';
+    return `${text}`;
   },
 });
 
@@ -152,10 +240,27 @@ registerCustom({
     inputsInline: true,
     output: 'Number',
   },
-  style: 'loop_blocks',
+  style: 'math_blocks',
   generator: (block) => {
     const number = block.getFieldValue('NUM') || '';
     return `${number}`;
+  },
+});
+
+registerCustom({
+  id: 'math_constant',
+  definition: {
+    message0: '%1',
+    args0: [
+      { type: 'field_label_serializable', name: 'CONSTANT', text: 'infinity' },
+    ],
+    inputsInline: true,
+    output: 'String',
+  },
+  style: 'math_blocks',
+  generator: (block) => {
+    const constant = block.getFieldValue('CONSTANT') || '';
+    return `${constant}`;
   },
 });
 
