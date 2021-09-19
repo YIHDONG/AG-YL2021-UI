@@ -188,11 +188,31 @@ registerCustom({
       { type: 'input_value', name: 'EDGE' },
     ],
     inputsInline: true,
+    output: null,
   },
   style: 'loop_blocks',
   generator: (block) => {
     const edgeVar = Blockly.JavaScript.statementToCode(block, 'EDGE') || 'edge';
     return `${edgeVar}.getWeight();\n`;
+  },
+});
+
+registerCustom({
+  id: 'distance_from_to',
+  definition: {
+    message0: 'distance from %1 to %2',
+    args0: [
+      { type: 'input_value', name: 'NODE_1' },
+      { type: 'input_value', name: 'NODE_2' },
+    ],
+    inputsInline: true,
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const srcNodeVar = Blockly.JavaScript.statementToCode(block, 'NODE_1') || 'node';
+    const destNodeVar = Blockly.JavaScript.statementToCode(block, 'NODE_2') || 'node';
+    return `${srcNodeVar}.getDistance(${destNodeVar});\n`;
   },
 });
 
