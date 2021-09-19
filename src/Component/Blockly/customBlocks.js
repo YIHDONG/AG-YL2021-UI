@@ -217,40 +217,6 @@ registerCustom({
 });
 
 registerCustom({
-  id: 'variable',
-  definition: {
-    message0: '%1',
-    args0: [
-      { type: 'field_variable', name: 'VAR', variable: 'default' },
-    ],
-    inputsInline: true,
-    output: null,
-  },
-  style: 'loop_blocks',
-  generator: (block) => {
-    const variable = block.getField('VAR').getValue() || '';
-    return `${variable}`;
-  },
-});
-
-registerCustom({
-  id: 'text',
-  definition: {
-    message0: '%1',
-    args0: [
-      { type: 'field_input', name: 'TEXT', value: '' },
-    ],
-    inputsInline: true,
-    output: 'String',
-  },
-  style: 'text_blocks',
-  generator: (block) => {
-    const text = block.getFieldValue('TEXT') || '';
-    return `${text}`;
-  },
-});
-
-registerCustom({
   id: 'math_number',
   definition: {
     message0: '%1',
@@ -264,42 +230,5 @@ registerCustom({
   generator: (block) => {
     const number = block.getFieldValue('NUM') || '';
     return `${number}`;
-  },
-});
-
-registerCustom({
-  id: 'math_constant',
-  definition: {
-    message0: '%1',
-    args0: [
-      { type: 'field_label_serializable', name: 'CONSTANT', text: 'infinity' },
-    ],
-    inputsInline: true,
-    output: 'String',
-  },
-  style: 'math_blocks',
-  generator: (block) => {
-    const constant = block.getFieldValue('CONSTANT') || '';
-    return `${constant}`;
-  },
-});
-
-registerCustom({
-  id: 'if_do',
-  definition: {
-    message0: 'if %1 do %2',
-    args0: [
-      { type: 'input_value', name: 'CONDITION', check: 'Boolean' },
-      { type: 'input_statement', name: 'STATEMENT' },
-    ],
-    inputsInline: false,
-    previousStatement: null,
-    nextStatement: null,
-  },
-  style: 'loop_blocks',
-  generator: (block) => {
-    const condition = Blockly.JavaScript.statementToCode(block, 'CONDITION') || null;
-    const statement = Blockly.JavaScript.statementToCode(block, 'STATEMENT') || null;
-    return `if (${condition}) {${statement}};\n`;
   },
 });
