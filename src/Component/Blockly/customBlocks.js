@@ -147,7 +147,7 @@ registerCustom({
   definition: {
     message0: 'set %1 to %2',
     args0: [
-      { type: 'field_variable', name: 'VAR', variable: 'default' },
+      { type: 'input_value', name: 'VAR' },
       { type: 'input_value', name: 'VALUE' },
     ],
     inputsInline: true,
@@ -156,7 +156,7 @@ registerCustom({
   },
   style: 'loop_blocks',
   generator: (block) => {
-    const variable = block.getFieldValue('VAR') || null;
+    const variable = Blockly.JavaScript.statementToCode(block, 'VAR') || null;
     const value = Blockly.JavaScript.statementToCode(block, 'VALUE') || null;
     return `${variable} = ${value}`;
   },
