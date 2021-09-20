@@ -212,7 +212,7 @@ registerCustom({
   generator: (block) => {
     const srcNodeVar = Blockly.JavaScript.statementToCode(block, 'NODE_1') || 'node';
     const destNodeVar = Blockly.JavaScript.statementToCode(block, 'NODE_2') || 'node';
-    return `${srcNodeVar}.getDistance(${destNodeVar});\n`;
+    return `${srcNodeVar}.getDistance()[${destNodeVar}.getId()];\n`;
   },
 });
 

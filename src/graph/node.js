@@ -10,6 +10,17 @@ class Node {
     this.visited = false;
     this.graph = graph;
     this.focused = false;
+    this.distance = new Proxy({}, {
+      get(target, distName, receiver) {
+        if (!Reflect.has(target, distName)) {
+          return -1;
+        }
+        return Reflect.get(target, distName, receiver);
+      },
+      set(target, distName, value, receiver) {
+        return Reflect.set(target, distName, value, receiver);
+      },
+    });
   }
 
   visit() {
@@ -39,6 +50,14 @@ class Node {
 
   getPathsTo() {
     return this.edges.filter((e) => e.toNode.id === this.id);
+  }
+
+  getDistance() {
+    return this.distance;
+  }
+
+  getId() {
+    return this.id;
   }
 }
 
