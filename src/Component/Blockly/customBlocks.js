@@ -305,4 +305,3 @@ registerCustom({
     return `${number}`;
   },
 });
-
