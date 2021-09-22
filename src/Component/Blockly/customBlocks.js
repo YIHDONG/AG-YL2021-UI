@@ -176,3 +176,132 @@ registerCustom({
     return `!${elem1}===(${elem2})`;
   },
 });
+
+registerCustom({
+  id: 'less_than',
+  definition: {
+    message0: '%1 is less than %2',
+    args0: [
+      { type: 'input_value', name: 'ELEM_1', check: 'Number' },
+      { type: 'input_value', name: 'ELEM_2', check: 'Number' },
+    ],
+    inputsInline: true,
+    output: 'Boolean',
+  },
+  style: 'logic_blocks',
+  generator: (block) => {
+    const firstVar = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
+    const secondVar = Blockly.JavaScript.statementToCode(block, 'ELEM_2') || null;
+    return `${firstVar} < ${secondVar}`;
+  },
+});
+
+registerCustom({
+  id: 'greater_than',
+  definition: {
+    message0: '%1 is greater than %2',
+    args0: [
+      { type: 'input_value', name: 'ELEM_1', check: 'Number' },
+      { type: 'input_value', name: 'ELEM_2', check: 'Number' },
+    ],
+    inputsInline: true,
+    output: 'Boolean',
+  },
+  style: 'logic_blocks',
+  generator: (block) => {
+    const firstVar = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
+    const secondVar = Blockly.JavaScript.statementToCode(block, 'ELEM_2') || null;
+    return `${firstVar} > ${secondVar}`;
+  },
+});
+
+registerCustom({
+  id: 'set_to',
+  definition: {
+    message0: 'set %1 to %2',
+    args0: [
+      { type: 'input_value', name: 'VAR' },
+      { type: 'input_value', name: 'VALUE' },
+    ],
+    inputsInline: true,
+    previousStatement: null,
+    nextStatement: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const variable = Blockly.JavaScript.statementToCode(block, 'VAR') || null;
+    const value = Blockly.JavaScript.statementToCode(block, 'VALUE') || null;
+    return `${variable} = ${value}`;
+  },
+});
+
+registerCustom({
+  id: 'print_var',
+  definition: {
+    message0: 'print %1',
+    args0: [
+      { type: 'input_value', name: 'VARIABLE' },
+    ],
+    inputsInline: true,
+    previousStatement: null,
+    nextStatement: null,
+  },
+  style: 'text_blocks',
+  generator: (block) => {
+    const variable = Blockly.JavaScript.statementToCode(block, 'VARIABLE') || null;
+    return `execution.console.push('${variable}')`;
+  },
+});
+
+registerCustom({
+  id: 'edge_weight',
+  definition: {
+    message0: 'edge weight of %1',
+    args0: [
+      { type: 'input_value', name: 'EDGE' },
+    ],
+    inputsInline: true,
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const edgeVar = Blockly.JavaScript.statementToCode(block, 'EDGE') || 'edge';
+    return `${edgeVar}.getWeight();\n`;
+  },
+});
+
+registerCustom({
+  id: 'distance_from_to',
+  definition: {
+    message0: 'distance from %1 to %2',
+    args0: [
+      { type: 'input_value', name: 'NODE_1' },
+      { type: 'input_value', name: 'NODE_2' },
+    ],
+    inputsInline: true,
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const srcNodeVar = Blockly.JavaScript.statementToCode(block, 'NODE_1') || 'node';
+    const destNodeVar = Blockly.JavaScript.statementToCode(block, 'NODE_2') || 'node';
+    return `${srcNodeVar}.getDistance()[${destNodeVar}.getId()];\n`;
+  },
+});
+
+registerCustom({
+  id: 'math_number',
+  definition: {
+    message0: '%1',
+    args0: [
+      { type: 'field_number', name: 'NUM', value: 0 },
+    ],
+    inputsInline: true,
+    output: 'Number',
+  },
+  style: 'math_blocks',
+  generator: (block) => {
+    const number = block.getFieldValue('NUM') || '';
+    return `${number}`;
+  },
+});
