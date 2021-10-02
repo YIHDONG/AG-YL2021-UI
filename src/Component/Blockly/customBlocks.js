@@ -60,7 +60,44 @@ registerCustom({
     output: null,
   },
   style: 'loop_blocks',
-  generator: () => 'execution.variables.source_node',
+  generator: () => 'execution.variables.sourceNode',
+});
+
+  //this is different from "distance  from node to node",
+  //this is distance from one node to collection of nodes, the one node is fixed to be sourceNode in this case
+  //TODO: do we need to rewrite this?
+  registerCustom({
+  id: 'distance_from_sourceNode_to_unvisitedNodes',
+  definition: {
+    message0: 'distance from sourceNode to unvisitedNodes',
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: () => {
+    //TODO: implement the function, it should return an array of distance from the
+    // sourceNode to the unvisitedNodes like: [4,2,8]
+    return `execution.variables.graph.getDistanceFromSourceNodeToUnvisitedNodes();\n`;
+  },
+});
+
+registerCustom({
+  id: 'get_MIN_in_collection',
+  definition: {
+    message0: 'MIN %1',
+    args0: [
+      { type: 'input_value', name: 'COLLECTION' },
+    ],
+    inputsInline: true,
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    //In this case, the collection is an array of distance
+    const collection = Blockly.JavaScript.statementToCode(block, 'COLLECTION') || null;
+
+    //TODO: this should return the MIN value
+    return `Math.min.apply(null, ${collection});`;
+  },
 });
 
 registerCustom({
@@ -72,15 +109,18 @@ registerCustom({
       { type: 'input_value', name: 'COLLECTION' },
       { type: 'input_value', name: 'PROPERTY' },
     ],
+    inputsInline: true,
     output: null,
   },
   style: 'loop_blocks',
   generator: (block) => {
-    const value_node = Blockly.JavaScript.valueToCode(block, 'NODE', Blockly.JavaScript.ORDER_ATOMIC);
-    const value_collection = Blockly.JavaScript.valueToCode(block, 'COLLECTION', Blockly.JavaScript.ORDER_ATOMIC);
-    const value_property = Blockly.JavaScript.valueToCode(block, 'PROPERTY', Blockly.JavaScript.ORDER_ATOMIC);
-    //TODO: this should return only one node in the collection with the given property
-    return ``;
+    const value_node = Blockly.JavaScript.statementToCode(block, 'NODE') || null;
+    //The collection is the unvisitedNodes in this case, for example: {A:15, C:20}
+    const value_collection = Blockly.JavaScript.statementToCode(block, 'COLLECTION') || null;
+    const value_property = Blockly.JavaScript.statementToCode(block, 'PROPERTY') || null;
+
+    //Return the name of the node with the desired property in the collection
+    return `Object.keys(${value_collection}).find(key => ${value_collection}[key] === ${value_property});`;
   },
 });
 
