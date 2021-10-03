@@ -44,6 +44,28 @@ registerCustom({
 });
 
 registerCustom({
+  id: 'x_in_xs',
+  definition: {
+    message0: 'for each %1 in %2',
+    args0: [
+      { type: 'field_input', name: 'X' },
+      { type: 'input_value', name: 'XS' },
+    ],
+    message1: 'do %1',
+    args1: [
+      { type: 'input_statement', name: 'DO' },
+    ],
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const xs = Blockly.JavaScript.statementToCode(block, 'XS') || 'graph';
+    const x = block.getFieldValue('X') || 'node';
+    const statement = Blockly.JavaScript.statementToCode(block, 'DO') || '';
+    return `${xs}.forEach((${x}) => {\n${statement}\n});\n`;
+  },
+});
+
+registerCustom({
   id: 'graph',
   definition: {
     message0: 'graph',
@@ -63,27 +85,29 @@ registerCustom({
   generator: () => 'execution.variables.sourceNode',
 });
 
-  //this is different from "distance  from node to node",
-  //this is distance from one node to collection of nodes, the one node is fixed to be sourceNode in this case
-  //TODO: do we need to rewrite this?
-  registerCustom({
+// this is different from "distance  from node to node",
+// this is distance from one node to collection of nodes, the one node is fixed to
+// be sourceNode in this case
+// TODO: do we need to rewrite this?
+registerCustom({
   id: 'distance_from_sourceNode_to_unvisitedNodes',
   definition: {
-    message0: 'distance from sourceNode to unvisitedNodes',
+    message0: 'distance from %1 to %2',
+    args0: [
+      { type: 'input_value', name: 'COLLECTION' },
+      { type: 'input_value', name: 'PROPERTY' },
+    ],
+    inputsInline: true,
     output: null,
   },
   style: 'loop_blocks',
-  generator: () => {
-    //TODO: implement the function, it should return an array of distance from the
-    // sourceNode to the unvisitedNodes like: [4,2,8]
-    return `execution.variables.graph.getDistanceFromSourceNodeToUnvisitedNodes();\n`;
-  },
+  generator: () => 'execution.variables.graph.getDistanceFromSourceNodeToUnvisitedNodes();\n',
 });
 
 registerCustom({
   id: 'get_MIN_in_collection',
   definition: {
-    message0: 'MIN %1',
+    message0: 'minimum of %1',
     args0: [
       { type: 'input_value', name: 'COLLECTION' },
     ],
@@ -92,10 +116,10 @@ registerCustom({
   },
   style: 'loop_blocks',
   generator: (block) => {
-    //In this case, the collection is an array of distance
+    // In this case, the collection is an array of distance
     const collection = Blockly.JavaScript.statementToCode(block, 'COLLECTION') || null;
 
-    //TODO: this should return the MIN value
+    // TODO: this should return the MIN value
     return `Math.min.apply(null, ${collection});`;
   },
 });
@@ -103,9 +127,8 @@ registerCustom({
 registerCustom({
   id: 'item_in_collection_with_property',
   definition: {
-    message0: '%1 in %2 with %3',
+    message0: 'node in %1 with %2',
     args0: [
-      { type: 'input_value', name: 'NODE' },
       { type: 'input_value', name: 'COLLECTION' },
       { type: 'input_value', name: 'PROPERTY' },
     ],
@@ -114,13 +137,11 @@ registerCustom({
   },
   style: 'loop_blocks',
   generator: (block) => {
-    const value_node = Blockly.JavaScript.statementToCode(block, 'NODE') || null;
-    //The collection is the unvisitedNodes in this case, for example: {A:15, C:20}
-    const value_collection = Blockly.JavaScript.statementToCode(block, 'COLLECTION') || null;
-    const value_property = Blockly.JavaScript.statementToCode(block, 'PROPERTY') || null;
+    const valueCollection = Blockly.JavaScript.statementToCode(block, 'COLLECTION') || null;
+    const valueProperty = Blockly.JavaScript.statementToCode(block, 'PROPERTY') || null;
 
-    //Return the name of the node with the desired property in the collection
-    return `Object.keys(${value_collection}).find(key => ${value_collection}[key] === ${value_property});`;
+    // Return the name of the node with the desired property in the collection
+    return `Object.keys(${valueCollection}).find(key => ${valueCollection}[key] === ${valueProperty});`;
   },
 });
 
@@ -222,7 +243,8 @@ registerCustom({
     args0: [
       { type: 'field_input', name: 'ONE' },
       { type: 'field_input', name: 'OTHER' },
-	],
+    ],
+    inputsInline: true,
   },
   style: 'loop_blocks',
   generator: (block) => {
@@ -255,7 +277,8 @@ registerCustom({
     args0: [
       { type: 'field_input', name: 'NODE' },
     ],
-  }
+  },
+  style: 'loop_blocks',
   generator: (block) => {
     const one = Blockly.JavaScript.statementToCode(block, 'NODE') || '';
     return `${one}.edges.map((e) => e.toNode).filter((e) => e === ${one})`;
@@ -309,6 +332,7 @@ registerCustom({
       { type: 'input_value', name: 'FROM' },
       { type: 'input_value', name: 'TO' },
     ],
+    inputsInline: true,
   },
   style: 'loop_blocks',
   generator: (block) => {
@@ -326,6 +350,7 @@ registerCustom({
       { type: 'input_value', name: 'ELEM_1' },
       { type: 'input_value', name: 'ELEM_2' },
     ],
+    inputsInline: true,
   },
   style: 'loop_blocks',
   generator: (block) => {
@@ -394,24 +419,6 @@ registerCustom({
 });
 
 registerCustom({
-  id: 'print_var',
-  definition: {
-    message0: 'print %1',
-    args0: [
-      { type: 'input_value', name: 'VARIABLE' },
-    ],
-    inputsInline: true,
-    previousStatement: null,
-    nextStatement: null,
-  },
-  style: 'text_blocks',
-  generator: (block) => {
-    const variable = Blockly.JavaScript.statementToCode(block, 'VARIABLE') || null;
-    return `execution.console.push('${variable}')`;
-  },
-});
-
-registerCustom({
   id: 'edge_weight',
   definition: {
     message0: 'edge weight of %1',
@@ -443,7 +450,7 @@ registerCustom({
   generator: (block) => {
     const srcNodeVar = Blockly.JavaScript.statementToCode(block, 'NODE_1') || 'node';
     const destNodeVar = Blockly.JavaScript.statementToCode(block, 'NODE_2') || 'node';
-    return `${srcNodeVar}.getDistance()[${destNodeVar}.getId()];\n`;
+    return `${srcNodeVar}.getDistance()[${destNodeVar}.getId()]`;
   },
 });
 
@@ -462,4 +469,30 @@ registerCustom({
     const number = block.getFieldValue('NUM') || '';
     return `${number}`;
   },
+});
+
+registerCustom({
+  id: 'var_name',
+  definition: {
+    message0: '%1',
+    args0: [
+      { type: 'field_input', name: 'VAR_NAME', value: 'x' },
+    ],
+    output: 'String',
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const varName = block.getFieldValue('VAR_NAME') || '';
+    return `${varName}`;
+  },
+});
+
+registerCustom({
+  id: 'infinity',
+  definition: {
+    message0: 'infinity',
+    output: 'Number',
+  },
+  style: 'math_blocks',
+  generator: () => 'Infinity',
 });

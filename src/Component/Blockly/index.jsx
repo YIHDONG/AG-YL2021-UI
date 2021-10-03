@@ -120,6 +120,7 @@ const BlocklyRunner = ({
     const code = BlocklyJS.workspaceToCode(
       workspaceRef.current.workspace,
     );
+    console.log(code);
     onCodeGenerated(code);
 
     let results;
