@@ -176,6 +176,24 @@ registerCustom({
 });
 
 registerCustom({
+  id: 'x_is_in_xs',
+  definition: {
+    message0: '%1 is in %2',
+    args0: [
+      { type: 'field_input', name: 'ITEM' },
+      { type: 'field_input', name: 'ITEMS' },
+    ],
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const item = Blockly.JavaScript.statementToCode(block, 'ITEM') || '';
+    const items = Blockly.JavaScript.statementToCode(block, 'ITEMS') || [];
+    return `${items}.filter((i) => i == ${item}).length != 0`;
+  },
+});
+
+registerCustom({
   id: 'while_do',
   definition: {
     message0: 'while %1',
@@ -198,6 +216,23 @@ registerCustom({
 });
 
 registerCustom({
+  id: 'x_is_y',
+  definition: {
+    message0: '%1 is %2',
+    args0: [
+      { type: 'field_input', name: 'ONE' },
+      { type: 'field_input', name: 'OTHER' },
+	],
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const one = Blockly.JavaScript.statementToCode(block, 'ONE') || '';
+    const other = Blockly.JavaScript.statementToCode(block, 'OTHER') || '';
+    return `${one} === ${other}`;
+  },
+});
+
+registerCustom({
   id: 'number_of',
   definition: {
     message0: 'number of %1',
@@ -214,20 +249,72 @@ registerCustom({
 });
 
 registerCustom({
-  id: 'is_block',
+  id: 'neighbors_of_x',
   definition: {
-    message0: '%1 is %2',
+    message0: 'neighbors of %1',
     args0: [
-      { type: 'input_value', name: 'ELEM_1' },
-      { type: 'field_input', name: 'ELEM_2' },
+      { type: 'field_input', name: 'NODE' },
     ],
+  }
+  generator: (block) => {
+    const one = Blockly.JavaScript.statementToCode(block, 'NODE') || '';
+    return `${one}.edges.map((e) => e.toNode).filter((e) => e === ${one})`;
+  },
+});
+
+registerCustom({
+  id: 'visited_nodes',
+  definition: {
+    message0: 'visited nodes',
     output: null,
   },
   style: 'loop_blocks',
+  generator: () => 'execution.variables.graph.nodes.filter((n) => n.visited)',
+});
+
+registerCustom({
+  id: 'unvisited_nodes',
+  definition: {
+    message0: 'unvisited nodes',
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: () => 'execution.variables.graph.nodes.filter((n) => !n.visited)',
+});
+
+registerCustom({
+  id: 'nodes',
+  definition: {
+    message0: 'nodes',
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: () => 'execution.variables.graph.nodes',
+});
+
+registerCustom({
+  id: 'edges',
+  definition: {
+    message0: 'edges',
+  },
+  style: 'loop_blocks',
+  generator: () => 'execution.variables.graph.edges',
+});
+
+registerCustom({
+  id: 'edge_from_x_to_y',
+  definition: {
+    message0: 'edge from %1 to %2',
+    args0: [
+      { type: 'input_value', name: 'FROM' },
+      { type: 'input_value', name: 'TO' },
+    ],
+  },
+  style: 'loop_blocks',
   generator: (block) => {
-    const elem1 = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
-    const elem2 = block.getFieldValue('ELEM_2') || null;
-    return `${elem1}===(${elem2})`;
+    const from = Blockly.JavaScript.statementToCode(block, 'FROM') || null;
+    const to = Blockly.JavaScript.statementToCode(block, 'TO') || null;
+    return `execution.variables.graph.edges.find((e) -> e.fromNode === ${from} && e.toNode === ${to}`;
   },
 });
 
@@ -244,7 +331,7 @@ registerCustom({
   generator: (block) => {
     const elem1 = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
     const elem2 = block.getFieldValue('ELEM_2') || null;
-    return `!${elem1}===(${elem2})`;
+    return `${elem1}!==(${elem2})`;
   },
 });
 
