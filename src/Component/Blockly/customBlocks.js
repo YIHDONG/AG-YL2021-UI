@@ -123,14 +123,35 @@ registerCustom({
 });
 
 registerCustom({
+  id: 'while_do',
+  definition: {
+    message0: 'while %1',
+    args0: [
+      { type: 'input_value', name: 'WHILE_STATEMENT' },
+    ],
+    message1: 'do %1',
+    args1: [
+      { type: 'input_statement', name: 'DO' },
+    ],
+    previousStatement: null,
+    nextStatement: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const statement = Blockly.JavaScript.statementToCode(block, 'DO') || '';
+    const condition = Blockly.JavaScript.statementToCode(block, 'WHILE_STATEMENT') || 'false';
+    return `while (${condition}) {${statement}};\n`;
+  },
+});
+
+registerCustom({
   id: 'x_is_y',
   definition: {
     message0: '%1 is %2',
     args0: [
       { type: 'field_input', name: 'ONE' },
       { type: 'field_input', name: 'OTHER' },
-    ],
-    output: null,
+	],
   },
   style: 'loop_blocks',
   generator: (block) => {
@@ -141,15 +162,29 @@ registerCustom({
 });
 
 registerCustom({
+  id: 'number_of',
+  definition: {
+    message0: 'number of %1',
+    args0: [
+      { type: 'input_value', name: 'SET' },
+    ],
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const set = Blockly.JavaScript.statementToCode(block, 'SET') || [];
+    return `Arrays.isArray(${set})?${set}.length:${set}.size`;
+  },
+});
+
+registerCustom({
   id: 'neighbors_of_x',
   definition: {
     message0: 'neighbors of %1',
     args0: [
       { type: 'field_input', name: 'NODE' },
     ],
-    output: null,
-  },
-  style: 'loop_blocks',
+  }
   generator: (block) => {
     const one = Blockly.JavaScript.statementToCode(block, 'NODE') || '';
     return `${one}.edges.map((e) => e.toNode).filter((e) => e === ${one})`;
@@ -203,13 +238,157 @@ registerCustom({
       { type: 'input_value', name: 'FROM' },
       { type: 'input_value', name: 'TO' },
     ],
-    inputsInline: true,
-    output: null,
   },
   style: 'loop_blocks',
   generator: (block) => {
     const from = Blockly.JavaScript.statementToCode(block, 'FROM') || null;
     const to = Blockly.JavaScript.statementToCode(block, 'TO') || null;
     return `execution.variables.graph.edges.find((e) -> e.fromNode === ${from} && e.toNode === ${to}`;
+  },
+});
+
+registerCustom({
+  id: 'is_not_block',
+  definition: {
+    message0: '%1 is not %2',
+    args0: [
+      { type: 'input_value', name: 'ELEM_1' },
+      { type: 'input_value', name: 'ELEM_2' },
+    ],
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const elem1 = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
+    const elem2 = block.getFieldValue('ELEM_2') || null;
+    return `${elem1}!==(${elem2})`;
+  },
+});
+
+registerCustom({
+  id: 'less_than',
+  definition: {
+    message0: '%1 is less than %2',
+    args0: [
+      { type: 'input_value', name: 'ELEM_1', check: 'Number' },
+      { type: 'input_value', name: 'ELEM_2', check: 'Number' },
+    ],
+    inputsInline: true,
+    output: 'Boolean',
+  },
+  style: 'logic_blocks',
+  generator: (block) => {
+    const firstVar = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
+    const secondVar = Blockly.JavaScript.statementToCode(block, 'ELEM_2') || null;
+    return `${firstVar} < ${secondVar}`;
+  },
+});
+
+registerCustom({
+  id: 'greater_than',
+  definition: {
+    message0: '%1 is greater than %2',
+    args0: [
+      { type: 'input_value', name: 'ELEM_1', check: 'Number' },
+      { type: 'input_value', name: 'ELEM_2', check: 'Number' },
+    ],
+    inputsInline: true,
+    output: 'Boolean',
+  },
+  style: 'logic_blocks',
+  generator: (block) => {
+    const firstVar = Blockly.JavaScript.statementToCode(block, 'ELEM_1') || null;
+    const secondVar = Blockly.JavaScript.statementToCode(block, 'ELEM_2') || null;
+    return `${firstVar} > ${secondVar}`;
+  },
+});
+
+registerCustom({
+  id: 'set_to',
+  definition: {
+    message0: 'set %1 to %2',
+    args0: [
+      { type: 'input_value', name: 'VAR' },
+      { type: 'input_value', name: 'VALUE' },
+    ],
+    inputsInline: true,
+    previousStatement: null,
+    nextStatement: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const variable = Blockly.JavaScript.statementToCode(block, 'VAR') || null;
+    const value = Blockly.JavaScript.statementToCode(block, 'VALUE') || null;
+    return `${variable} = ${value}`;
+  },
+});
+
+registerCustom({
+  id: 'print_var',
+  definition: {
+    message0: 'print %1',
+    args0: [
+      { type: 'input_value', name: 'VARIABLE' },
+    ],
+    inputsInline: true,
+    previousStatement: null,
+    nextStatement: null,
+  },
+  style: 'text_blocks',
+  generator: (block) => {
+    const variable = Blockly.JavaScript.statementToCode(block, 'VARIABLE') || null;
+    return `execution.console.push('${variable}')`;
+  },
+});
+
+registerCustom({
+  id: 'edge_weight',
+  definition: {
+    message0: 'edge weight of %1',
+    args0: [
+      { type: 'input_value', name: 'EDGE' },
+    ],
+    inputsInline: true,
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const edgeVar = Blockly.JavaScript.statementToCode(block, 'EDGE') || 'edge';
+    return `${edgeVar}.getWeight();\n`;
+  },
+});
+
+registerCustom({
+  id: 'distance_from_to',
+  definition: {
+    message0: 'distance from %1 to %2',
+    args0: [
+      { type: 'input_value', name: 'NODE_1' },
+      { type: 'input_value', name: 'NODE_2' },
+    ],
+    inputsInline: true,
+    output: null,
+  },
+  style: 'loop_blocks',
+  generator: (block) => {
+    const srcNodeVar = Blockly.JavaScript.statementToCode(block, 'NODE_1') || 'node';
+    const destNodeVar = Blockly.JavaScript.statementToCode(block, 'NODE_2') || 'node';
+    return `${srcNodeVar}.getDistance()[${destNodeVar}.getId()];\n`;
+  },
+});
+
+registerCustom({
+  id: 'math_number',
+  definition: {
+    message0: '%1',
+    args0: [
+      { type: 'field_number', name: 'NUM', value: 0 },
+    ],
+    inputsInline: true,
+    output: 'Number',
+  },
+  style: 'math_blocks',
+  generator: (block) => {
+    const number = block.getFieldValue('NUM') || '';
+    return `${number}`;
   },
 });
