@@ -24,6 +24,7 @@ class Graph {
     this.edges = [];
     this.events = [];
     this.subscriptions = {};
+    // TODO: add this.sourceNode = ''
   }
 
   on(event, fn) {

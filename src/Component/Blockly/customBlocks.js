@@ -82,7 +82,8 @@ registerCustom({
     output: null,
   },
   style: 'loop_blocks',
-  generator: () => 'execution.variables.sourceNode',
+  // TODO: write js in graph.js
+  generator: () => 'execution.variables.graph.sourceNode',
 });
 
 // this is different from "distance  from node to node",
@@ -101,6 +102,7 @@ registerCustom({
     output: null,
   },
   style: 'loop_blocks',
+  // TODO: We already have an almost identical block. Is it possible to also implement this block?
   generator: () => 'execution.variables.graph.getDistanceFromSourceNodeToUnvisitedNodes();\n',
 });
 
@@ -119,8 +121,8 @@ registerCustom({
     // In this case, the collection is an array of distance
     const collection = Blockly.JavaScript.statementToCode(block, 'COLLECTION') || null;
 
-    // TODO: this should return the MIN value
-    return `Math.min.apply(null, ${collection});`;
+    //  this return the MIN value in an array
+    return `Math.min(...${collection})`;
   },
 });
 
@@ -140,8 +142,9 @@ registerCustom({
     const valueCollection = Blockly.JavaScript.statementToCode(block, 'COLLECTION') || null;
     const valueProperty = Blockly.JavaScript.statementToCode(block, 'PROPERTY') || null;
 
-    // Return the name of the node with the desired property in the collection
-    return `Object.keys(${valueCollection}).find(key => ${valueCollection}[key] === ${valueProperty});`;
+    // Return a node with the desired property in the collection (array of nodes)
+    // TODO: check with Leelee if the expression is correct
+    return `${valueCollection}.filter(node => node.distance[execution.variables.graph.sourceNode.getId()] == ${valueProperty})[0]`;
   },
 });
 
