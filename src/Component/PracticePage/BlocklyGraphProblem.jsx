@@ -10,6 +10,10 @@ const BlocklyGraphProblem = ({ initialGraph, blocks, onSubmissionDataChange }) =
         type: 'graph',
         value: initialGraph,
       },
+      sourceNodeId: {
+        type: 'simple',
+        value: initialGraph.sourceNodeId,
+      },
     }}
     blocks={blocks}
     onCodeGenerated={(code) => onSubmissionDataChange({ type: 'code', data: { code } })}
@@ -26,6 +30,7 @@ BlocklyGraphProblem.propTypes = {
   initialGraph: PropTypes.shape({
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
+    sourceNodeId: PropTypes.string,
     nodes: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
