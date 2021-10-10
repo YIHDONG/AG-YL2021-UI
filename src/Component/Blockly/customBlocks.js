@@ -161,7 +161,7 @@ registerCustom({
   },
   style: 'loop_blocks',
   generator: (block) => {
-    const nodeVar = block.getFieldValue('VAR_NAME') || 'node';
+    const nodeVar = Blockly.JavaScript.statementToCode(block, 'VAR_NAME') || 'node';
     return `${nodeVar}.visit();\n`;
   },
 });
@@ -178,7 +178,7 @@ registerCustom({
   },
   style: 'loop_blocks',
   generator: (block) => {
-    const edgeVar = block.getFieldValue('VAR_NAME') || 'edge';
+    const edgeVar = Blockly.JavaScript.statementToCode(block, 'VAR_NAME') || 'edge';
     return `${edgeVar}.traverse();\n`;
   },
 });
