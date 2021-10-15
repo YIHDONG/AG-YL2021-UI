@@ -63,7 +63,8 @@ registerCustom({
     const xs = Blockly.JavaScript.statementToCode(block, 'XS') || 'graph';
     const x = block.getFieldValue('X') || 'node';
     const statement = Blockly.JavaScript.statementToCode(block, 'DO') || '';
-    return `${xs}.forEach((${x}) => {\n${statement}\n});\n`;
+    return `${xs}.forEach((${x}) => {\nexecution.variables['${x}'] = ${x};\n
+      ${statement}\n});\n`;
   },
 });
 
@@ -123,7 +124,7 @@ registerCustom({
   generator: (block) => {
     const nodes = Blockly.JavaScript.statementToCode(block, 'NODES') || [];
     const node = Blockly.JavaScript.statementToCode(block, 'OTHER_NODE') || null;
-    return `${nodes}.map(n => ({dist: ${node}.getDistance()[n.getId()], n})).sorted((a, b) => a.dist - b.dist)[0].n`;
+    return `${nodes}.map(n => ({dist: ${node}.getDistance()[n.getId()], n})).sort((a, b) => a.dist - b.dist)[0].n`;
   },
 });
 
@@ -314,7 +315,7 @@ registerCustom({
   style: 'loop_blocks',
   generator: (block) => {
     const set = Blockly.JavaScript.statementToCode(block, 'SET') || [];
-    return `Arrays.isArray(${set})?${set}.length:${set}.size`;
+    return `Array.isArray(${set})?${set}.length:${set}.size`;
   },
 });
 
@@ -466,7 +467,7 @@ registerCustom({
   generator: (block) => {
     const variable = Blockly.JavaScript.statementToCode(block, 'VAR') || null;
     const value = Blockly.JavaScript.statementToCode(block, 'VALUE') || null;
-    return `${variable} = ${value}`;
+    return `${variable} = ${value};\n`;
   },
 });
 
@@ -519,8 +520,6 @@ registerCustom({
   style: 'math_blocks',
   generator: (block) => {
     const number = +block.getFieldValue('NUM') || 0;
-    // eslint-disable-next-line no-debugger
-    debugger;
     return `${number}`;
   },
 });
@@ -537,7 +536,7 @@ registerCustom({
   style: 'loop_blocks',
   generator: (block) => {
     const varName = block.getFieldValue('VAR_NAME') || '';
-    return `${varName}`;
+    return `execution.variables['${varName}']`;
   },
 });
 
