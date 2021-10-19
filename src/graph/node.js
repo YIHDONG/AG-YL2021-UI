@@ -42,6 +42,22 @@ class Node {
     return this.edges.filter((e) => e.toNode.id === this.id);
   }
 
+  getNeighbors() {
+    return this.edges.reduce((acc, e) => {
+      let neighbor;
+      if (e.toNode.id !== this.id) {
+        neighbor = e.toNode;
+      } else {
+        return acc;
+      }
+      const inList = acc.find((a) => a.id === neighbor.id);
+      if (!inList) {
+        acc.push(neighbor);
+      }
+      return acc;
+    }, []);
+  }
+
   getDistance() {
     return this.distance;
   }

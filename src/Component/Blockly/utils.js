@@ -30,6 +30,7 @@ const execute = (initialVars, code) => {
   const execution = generateVars(initialVars);
   // eslint-disable-next-line no-eval
   eval(code);
+  console.log(execution);
   return { initial: generateVars(initialVars), executed: execution };
 };
 

@@ -197,7 +197,7 @@ registerCustom({
   },
   style: 'loop_blocks',
   generator: (block) => {
-    const value = block.getFieldValue('VAR_NAME') || '';
+    const value = Blockly.JavaScript.statementToCode(block, 'VAR_NAME') || '';
     return `execution.console.push(${value})`;
   },
 });
@@ -330,8 +330,8 @@ registerCustom({
   },
   style: 'loop_blocks',
   generator: (block) => {
-    const one = Blockly.JavaScript.statementToCode(block, 'NODE') || '';
-    return `${one}.edges.map((e) => e.toNode).filter((e) => e === ${one})`;
+    const node = Blockly.JavaScript.statementToCode(block, 'NODE') || '';
+    return `${node}.getNeighbors()`;
   },
 });
 
@@ -390,7 +390,7 @@ registerCustom({
   generator: (block) => {
     const from = Blockly.JavaScript.statementToCode(block, 'FROM') || null;
     const to = Blockly.JavaScript.statementToCode(block, 'TO') || null;
-    return `execution.variables.graph.edges.find((e) -> e.fromNode === ${from} && e.toNode === ${to}`;
+    return `execution.variables.graph.edges.filter((e) => e.fromNode.id === ${from}.id && e.toNode.id === ${to}.id)[0]`;
   },
 });
 
@@ -418,8 +418,8 @@ registerCustom({
   definition: {
     message0: '%1 is less than %2',
     args0: [
-      { type: 'input_value', name: 'ELEM_1', check: 'Number' },
-      { type: 'input_value', name: 'ELEM_2', check: 'Number' },
+      { type: 'input_value', name: 'ELEM_1' },
+      { type: 'input_value', name: 'ELEM_2' },
     ],
     inputsInline: true,
     output: 'Boolean',
@@ -437,8 +437,8 @@ registerCustom({
   definition: {
     message0: '%1 is greater than %2',
     args0: [
-      { type: 'input_value', name: 'ELEM_1', check: 'Number' },
-      { type: 'input_value', name: 'ELEM_2', check: 'Number' },
+      { type: 'input_value', name: 'ELEM_1' },
+      { type: 'input_value', name: 'ELEM_2' },
     ],
     inputsInline: true,
     output: 'Boolean',
