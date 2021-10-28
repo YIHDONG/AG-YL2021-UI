@@ -12,6 +12,7 @@ import ButtonLoud from '../Buttons/ButtonLoud';
 import ButtonQuiet from '../Buttons/ButtonQuiet';
 import BlocklyGraphProblem from './BlocklyGraphProblem';
 import PageSection from '../PageSection';
+import DijkstraProblem from './DijkstraProblem';
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -75,6 +76,17 @@ const PracticePage = ({
     case 'graphSelector':
       problemJsx = (
         <GraphSelectorProblem
+          onSubmissionDataChange={onSubmissionChange}
+          width={data.width}
+          height={data.height}
+          nodes={data.nodes}
+          edges={data.edges}
+        />
+      );
+      break;
+    case 'DijkstraProblem':
+      problemJsx = (
+        <DijkstraProblem
           onSubmissionDataChange={onSubmissionChange}
           width={data.width}
           height={data.height}
