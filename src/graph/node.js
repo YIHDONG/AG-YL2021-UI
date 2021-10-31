@@ -1,6 +1,6 @@
 import * as uuid from 'uuid';
 
-class Node {
+export default class Node {
   constructor(name, x, y, graph) {
     this.name = name;
     this.x = x;
@@ -11,6 +11,12 @@ class Node {
     this.graph = graph;
     this.focused = false;
     this.distance = {};
+    this.distanceProxy = new Proxy(this.distance, {
+      get: (target, prop) => target[prop],
+      set: (target, prop, value) => {
+        graph.setDistance(this.id, prop, value);
+      },
+    });
   }
 
   visit() {
@@ -24,22 +30,6 @@ class Node {
 
   clearFocus() {
     this.focused = false;
-  }
-
-  addEdge(edge) {
-    this.edges.push(edge);
-  }
-
-  removeEdge(edgeId) {
-    this.edges = this.edges.filter((e) => e.id !== edgeId);
-  }
-
-  getPathsFrom() {
-    return this.edges.filter((e) => e.fromNode.id === this.id);
-  }
-
-  getPathsTo() {
-    return this.edges.filter((e) => e.toNode.id === this.id);
   }
 
   getNeighbors() {
@@ -58,13 +48,27 @@ class Node {
     }, []);
   }
 
+  addEdge(edge) {
+    this.edges.push(edge);
+  }
+
+  removeEdge(edgeId) {
+    this.edges = this.edges.filter((e) => e.id !== edgeId);
+  }
+
+  getPathsFrom() {
+    return this.edges.filter((e) => e.fromNode.id === this.id);
+  }
+
+  getPathsTo() {
+    return this.edges.filter((e) => e.toNode.id === this.id);
+  }
+
   getDistance() {
-    return this.distance;
+    return this.distanceProxy;
   }
 
   getId() {
     return this.id;
   }
 }
-
-export default Node;

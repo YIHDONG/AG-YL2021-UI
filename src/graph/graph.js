@@ -119,6 +119,18 @@ class Graph {
     return node;
   }
 
+  setDistance(fromNodeId, toNodeId, distance) {
+    const event = makeEvent({
+      type: 'setDistance',
+      data: {
+        fromNodeId,
+        toNodeId,
+        distance,
+      },
+    });
+    this.apply(event);
+  }
+
   clearFocus() {
     this.nodes.forEach((n) => {
       n.clearFocus();
