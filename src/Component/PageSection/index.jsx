@@ -4,9 +4,10 @@ import styled from 'styled-components';
 
 import { host } from '../../api';
 import GraphCreator from '../GraphCreator';
-import Graph from '../Graph';
+import StaticGraphGraphic from '../Graph/StaticGraphGraphic';
 import GraphAnimatorComponent from '../GraphAnimator';
 import constants from '../../constants';
+import BlocklyExample from './BlocklyExample';
 
 const SectionText = styled.p`
   font-family: Lato;
@@ -40,7 +41,11 @@ const SectionComponent = ({ type, content }) => {
     case 'image':
       return <SectionImg src={`${host}/${content}`} alt="logo" />;
     case 'text':
-      return <SectionText>{content}</SectionText>;
+      return (
+        <>
+          <SectionText>{content}</SectionText>
+        </>
+      );
     case 'graphCreator':
       return (
         <SectionGraph>
@@ -55,22 +60,11 @@ const SectionComponent = ({ type, content }) => {
     case 'graph':
       return (
         <SectionGraph>
-          <Graph
+          <StaticGraphGraphic
             width={content.width}
             height={content.height}
             nodes={content.nodes}
             edges={content.edges}
-            onNodeClicked={() => {}}
-            onEdgeClicked={() => {}}
-            onCanvasClicked={() => {}}
-            edgeColor={() => ({
-              primary: constants.color.edgeGreen,
-              secondary: constants.color.edgeAccentGreen,
-            })}
-            nodeColor={() => ({
-              primary: constants.color.nodePink,
-              secondary: '#FFFFFF',
-            })}
           />
         </SectionGraph>
       );
@@ -82,6 +76,14 @@ const SectionComponent = ({ type, content }) => {
             events={content.events}
           />
         </SectionGraph>
+      );
+    case 'blocklyExample':
+      return (
+        <BlocklyExample
+          initialVars={content.variables}
+          output={content.output}
+          blocks={content.blocks}
+        />
       );
     default:
       throw new Error(`invalid section type ${type}`);

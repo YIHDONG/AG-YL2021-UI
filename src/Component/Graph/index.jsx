@@ -34,6 +34,7 @@ const Graph = ({
   onNodeClicked,
   onEdgeClicked,
   onCanvasClicked,
+  onMouseMove,
   edgeColor,
   nodeColor,
   selectable,
@@ -173,7 +174,7 @@ const Graph = ({
 
   return (
     <GraphStyle>
-      <svg ref={graph} width={400} height={400} viewBox={`0 0 ${width} ${height}`}>
+      <svg ref={graph} width={400} height={400} viewBox={`0 0 ${width} ${height}`} onMouseMove={onMouseMove}>
         <rect onClick={handleCanvasClicked} width={width} height={height} fill="#F1F1F1F1" />
         <defs>
           {edges.map((e, idx) => (
@@ -221,6 +222,7 @@ Graph.propTypes = {
   edgeColor: PropTypes.func.isRequired,
   nodeColor: PropTypes.func.isRequired,
   selectable: PropTypes.bool,
+  onMouseMove: PropTypes.func.isRequired,
 };
 
 Graph.defaultProps = {

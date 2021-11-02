@@ -24,6 +24,7 @@ class Graph {
     this.edges = [];
     this.events = [];
     this.subscriptions = {};
+    // TODO: add this.sourceNode = ''
   }
 
   on(event, fn) {
@@ -116,6 +117,18 @@ class Graph {
     const node = this.nodes.find((n) => n.id === nodeId);
     if (!node) throw new Error(`node with id ${nodeId} not found`);
     return node;
+  }
+
+  setDistance(fromNodeId, toNodeId, distance) {
+    const event = makeEvent({
+      type: 'setDistance',
+      data: {
+        fromNodeId,
+        toNodeId,
+        distance,
+      },
+    });
+    this.apply(event);
   }
 
   clearFocus() {
