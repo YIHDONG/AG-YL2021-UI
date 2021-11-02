@@ -4,6 +4,7 @@ import Heading from './Component/Heading';
 import LearnPage from './Component/LearnPage';
 import PracticePage from './Component/PracticePage';
 import CourseNavigation from './Component/CourseNavigation';
+import LoadingIcon from './Component/LoadingIcon';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -76,6 +77,14 @@ function App() {
         onResults={setPageStatus}
         sections={currentPage.problem.sections}
       />
+    );
+  }
+
+  if (loading || !course) {
+    return (
+      <div style={{ height: '95vh' }}>
+        <LoadingIcon />
+      </div>
     );
   }
 

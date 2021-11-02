@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import Graph from '../Graph';
 import constants from '../../constants';
 
-const GraphSelectorProblem = ({
+const DijkstraProblem = ({
   width, height, nodes, edges, onSubmissionDataChange,
 }) => {
   const [nodesSelected, setNodesSelected] = useState([...nodes]);
   const [edgesSelected, setEdgesSelected] = useState([...edges]);
+  const [newSelectedNodeIds, setNewSelectedNodeIds] = useState([]);
+  const [newSelectedEdgesIds, setNewSelectedEdgesIds] = useState([]);
 
   useEffect(() => {
     setNodesSelected(nodes);
@@ -16,12 +18,6 @@ const GraphSelectorProblem = ({
   useEffect(() => {
     setEdgesSelected(edges);
   }, [edges]);
-
-  const sendSubmissionData = (nodeData, edgeData) => {
-    const selectedNodeIds = nodeData.filter((n) => n.selected).map((n) => n.id);
-    const selectedEdgeIds = edgeData.filter((n) => n.selected).map((n) => n.id);
-    onSubmissionDataChange({ type: 'graph', data: { nodes: selectedNodeIds, edges: selectedEdgeIds } });
-  };
 
   const handleNodeClicked = ({ id }) => {
     const newSelected = nodesSelected.map((n) => {
@@ -32,7 +28,16 @@ const GraphSelectorProblem = ({
     });
 
     setNodesSelected(newSelected);
-    sendSubmissionData(newSelected, edgesSelected);
+    if (!newSelectedNodeIds.includes(id)) {
+      newSelectedNodeIds.push(id);
+    } else {
+      newSelectedNodeIds.splice(newSelectedNodeIds.indexOf(id), 1);
+    }
+    setNewSelectedNodeIds(newSelectedNodeIds);
+    // eslint-disable-next-line no-console
+    console.log(newSelectedNodeIds);
+    onSubmissionDataChange({ type: 'graph', data: { nodes: newSelectedNodeIds, edges: newSelectedEdgesIds } });
+    // sendSubmissionData(newSelected, edgesSelected);
   };
 
   const handleEdgeClicked = ({ id }) => {
@@ -44,7 +49,13 @@ const GraphSelectorProblem = ({
     });
 
     setEdgesSelected(newSelected);
-    sendSubmissionData(nodesSelected, newSelected);
+    if (!newSelectedEdgesIds.includes(id)) {
+      newSelectedEdgesIds.push(id);
+    } else {
+      newSelectedEdgesIds.splice(newSelectedEdgesIds.indexOf(id), 1);
+    }
+    setNewSelectedEdgesIds(newSelectedEdgesIds);
+    onSubmissionDataChange({ type: 'graph', data: { nodes: newSelectedNodeIds, edges: newSelectedEdgesIds } });
   };
 
   return (
@@ -69,7 +80,7 @@ const GraphSelectorProblem = ({
   );
 };
 
-GraphSelectorProblem.propTypes = {
+DijkstraProblem.propTypes = {
   onSubmissionDataChange: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
@@ -89,4 +100,4 @@ GraphSelectorProblem.propTypes = {
   })).isRequired,
 };
 
-export default GraphSelectorProblem;
+export default DijkstraProblem;

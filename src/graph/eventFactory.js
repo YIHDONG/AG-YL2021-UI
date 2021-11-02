@@ -4,8 +4,9 @@ import * as removeEdgeEvent from './removeEdgeEvent';
 import * as removeNodeEvent from './removeNodeEvent';
 import * as visitNodeEvent from './visitNodeEvent';
 import * as traverseEdgeEvent from './traverseEdgeEvent';
+import * as setDistanceEvent from './setDistanceEvent';
 
-const make = (event) => {
+export default (event) => {
   const time = event.time || new Date();
   switch (event.type) {
     case addNodeEvent.TYPE:
@@ -20,9 +21,9 @@ const make = (event) => {
       return new removeEdgeEvent.RemoveEdgeEvent(event.data, time);
     case removeNodeEvent.TYPE:
       return new removeNodeEvent.RemoveNodeEvent(event.data, time);
+    case setDistanceEvent.TYPE:
+      return new setDistanceEvent.SetDistanceEvent(event.data, time);
     default:
       throw new Error(`unknown event type ${event.type}`);
   }
 };
-
-export default make;

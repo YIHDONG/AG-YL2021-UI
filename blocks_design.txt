@@ -1,0 +1,162 @@
+
+ for each node 'x' in graph
+
+ node 'x' is visited
+
+ node 'x' is not visited 
+
+distance from node x to node y
+
+previous node 
+
+neighbors of node 'x'
+
+closest node to node 'x'
+
+for each edge 'x' in graph
+
+for each 'x' in 'nodes'
+do 
+  set 'distance from 'source node' to 'x'' to infinity
+
+set 'distance from 'source node' to 'source node'' to 0
+while number of 'unvisited nodes' is not 0
+do 
+  
+  set 'current' to distance from 'source node' to 'x'
+
+  set 'current' to closest node to 'source node'
+  visit node 'current'
+  for each 'neighbor' in 'neighbors of 'current''
+  do 
+    set 'new distance' to distance from source node to 'current' + edge weight of 'neighbor' to 'current'
+
+
+definition: {
+  message0: 'for each node %1 in graph do',
+  args0: [
+    { type: 'field_input', name: 'NODE' },
+  ],
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition: {
+  message0: 'node %1 is visited',
+  args0: [
+    { type: 'field_input', name: 'NODE' },
+  ],
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition: {
+  message0: 'while %1',
+  args0: [
+    { type: 'field_input', name: 'NODE' },
+  ],
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition {
+  message0: 'number of %1 is %2',
+  args0: [
+    { type: 'field_input', name: 'NODE' },
+  ],
+  args0: [
+    { type: 'field_input', name: 'NODE' },
+  ],
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition {
+  message0: 'set %1 to %2',
+  args0: [
+    { type: 'field_input', name: 'VARIABLE' },
+  ],
+  args0: [
+    { type: 'field_input', name: 'VALUE' },
+  ],
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition {
+  message0: 'distance from %1 to %2',
+  args0: [
+    { type: 'field_input', name: 'FROM_NODE' },
+  ],
+  args0: [
+    { type: 'field_input', name: 'TO_NODE' },
+  ],
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition {
+  message0: 'closest node to 1%',
+  args0: [
+    { type: 'field_input', name: 'NODE' },
+  ],
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition {
+  message0: 'not %1',
+  args0: [
+    { type: 'field_input', name: 'NODE' },
+  ],
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition: {
+  message0: 'neighbors of %1',
+  args0: [
+    { type: 'field_input', name: 'NODE' },
+  ],
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition {
+  message0: 'source node',
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition {
+  message0: 'graph',
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition {
+  message0: 'visited nodes',
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition {
+  message0: 'unvisited nodes',
+  previousStatement: null,
+  nextStatement: null,
+}
+
+definition: {
+    message0: 'set distance from %1 to %2 to %3',
+    args0: [
+      { type: 'field_input', name: 'FROM_NODE' },
+    ],
+    args1: [
+      { type: 'field_input', name: 'TO_NODE' },
+    ],
+    args2: [
+      { type: 'field_input', name: 'DISTANCE_VALUE' },
+    ],
+    previousStatement: null,
+    nextStatement: null,
+  },
